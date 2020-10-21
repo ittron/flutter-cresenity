@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/bloc/bloc.dart';
 import 'package:flutter_cresenity/cf.dart';
+import 'package:flutter_cresenity/http/response.dart';
 import 'package:flutter_cresenity/support/caster.dart';
+import 'package:flutter_cresenity/support/collection.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,9 +45,28 @@ class MyHomePage extends StatelessWidget {
 
   Bloc counterBloc = CF.bloc.createBloc();
 
+
+  void mockApi() async {
+    Collection files = Collection();
+    Collection params = Collection();
+    String url = 'https://5e9180702810f4001648b99f.mockapi.io/v1/users';
+    Response response = await CF.http.waitRequest(
+      url: url,
+      method: 'post',
+      data: params,
+      files: files,
+    );
+
+    print(response.body);
+
+
+  }
+
   void _incrementCounter() {
     counterBloc.dispatch((result) async* {
       _counter++;
+      print(_counter);
+      await mockApi();
       yield "counterAdded";
     });
   }
