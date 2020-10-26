@@ -11,7 +11,7 @@ class Http {
   static final Http _instance = new Http._();
 
   String _adapterType = ADAPTER_HTTP;
-  factory Http() {
+  factory Http.instance() {
     return _instance;
   }
 

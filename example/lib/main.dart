@@ -9,6 +9,8 @@ void main() {
   runApp(MyApp());
 }
 
+
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -32,9 +34,30 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: <String, WidgetBuilder>{
+        '/newScreen': (context) => NewScreen(),
+      },
+      navigatorKey: CF.navigator.navigatorKey,
     );
   }
 }
+
+class NewScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Text("New Screen"),
+        ),
+        body: Center(
+          child: Text("New Screen"),
+        )
+    );
+  }
+}
+
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -115,6 +138,14 @@ class MyHomePage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline4,
               );
             }),
+            RaisedButton(
+              onPressed: () {
+                CF.navigator.navigateTo("/newScreen");
+                //NavigationService nav = new NavigationService();
+                //nav.navigateTo("newScreen");
+              },
+              child: Text("New Screen"),
+            )
 
 
           ],

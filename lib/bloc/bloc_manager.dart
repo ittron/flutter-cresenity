@@ -7,7 +7,7 @@ class BlocManager {
 
   static final BlocManager _instance = new BlocManager._();
 
-  factory BlocManager() {
+  factory BlocManager.instance() {
     return _instance;
   }
 
