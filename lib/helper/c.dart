@@ -1,12 +1,19 @@
 
 import 'dart:math';
 
+import 'package:flutter/material.dart';
+
 class C {
 
   static T tap<T>(T value, Function(T) callback) {
     callback(value);
     return value;
   }
+
+  static dynamic using<T>(T value, Function(T) callback) {
+    return callback == null ? value : callback(value);
+  }
+
 
   static bool isScalar(Object value) {
     if(value==null) {

@@ -22,4 +22,12 @@ void main() {
     }).getCounter();
     expect(value,2);
   });
+
+  test("Test C.using", () {
+    int value = C.using(DummyObject(), (item) {
+      item.setCounter(3);
+      return item.getCounter();
+    });
+    expect(value,3);
+  });
 }
