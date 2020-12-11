@@ -74,7 +74,7 @@ class Arr {
         return array[keyInt];
       }
     }
-    if(key.indexOf('.')>0) {
+    if(key is String && key.indexOf('.')>0) {
 
       for(var segment in key.split(".")) {
 
