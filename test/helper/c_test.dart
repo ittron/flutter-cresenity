@@ -16,6 +16,9 @@ class DummyObject {
 }
 
 void main() {
+
+
+
   test("Test C.tap", () {
     int value = C.tap(DummyObject(), (item) {
       item.setCounter(2);
