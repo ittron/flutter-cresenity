@@ -3,6 +3,10 @@ import 'dart:math';
 
 class C {
 
+  static T tap<T>(T value, Function(T) callback) {
+    callback(value);
+    return value;
+  }
 
   static bool isScalar(Object value) {
     if(value==null) {
