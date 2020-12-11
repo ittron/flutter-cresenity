@@ -117,11 +117,11 @@ class Arr {
     return value;
   }
 
-  static Array getArray(map, key,[Array defaultValue]) {
+  static Array getArray<T>(map, key,[Array defaultValue]) {
     var value = get(map,key,defaultValue);
 
     if(value!=null && (!(value is Array))) {
-      return Array(value);
+      return Array<T>(value);
     }
     return value;
   }
