@@ -4,6 +4,7 @@ import 'package:flutter_cresenity/app/model/response_pagination_model.dart';
 import 'package:flutter_cresenity/app/model/pagination_data_model.dart';
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
 import 'package:flutter_cresenity/helper/arr.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 
 
@@ -44,20 +45,29 @@ void main() {
     }
   }; //from api
 
-  /*
-  ResponseModel<PaginationDataModel<PostModel>> response =ResponseModel<PaginationDataModel<PostModel>>.fromJson(data, (item) {
-    return PaginationDataModel<PostModel>.fromJson(item, (postItem) {
-      return PostModel.fromJson(postItem);
-    });
+  test("Response Model", () {
+    ResponseModel<PaginationDataModel<PostModel>> response =ResponseModel<PaginationDataModel<PostModel>>.fromJson(data, (item) {
+      return PaginationDataModel<PostModel>.fromJson(item, (postItem) {
+        return PostModel.fromJson(postItem);
+      });
 
+    });
+    expect(response.data.items[1].postId,2);
   });
-  */
-  ResponsePaginationModel<PostModel> response =ResponsePaginationModel<PostModel>.fromJson(data, (item) {
+
+  test("Response Pagination Model", () {
+    ResponsePaginationModel<PostModel> response =ResponsePaginationModel<PostModel>.fromJson(data, (item) {
       return PostModel.fromJson(item);
 
-  });
+    });
 
-  response.data.items.forEach((element) {
-    print(element.postId);
+    expect(response.data.items[1].postId,2);
+    expect(response.data.items[5]?.postId,null);
+
   });
+  /*
+
+  */
+
+
 }

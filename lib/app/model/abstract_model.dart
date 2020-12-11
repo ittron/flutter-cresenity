@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 
-abstract class AbstractModel {
+import 'package:flutter_cresenity/interface/jsonable.dart';
+
+abstract class AbstractModel implements Jsonable{
   AbstractModel();
 
   AbstractModel.fromJson(Map map);

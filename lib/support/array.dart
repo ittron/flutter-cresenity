@@ -64,7 +64,7 @@ class Array<E> {
     return collection.toArray();
   }
 
-  operator [](int key)  {
+  E operator [](int key)  {
     return get(key);
   }
 
