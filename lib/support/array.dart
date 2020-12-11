@@ -298,4 +298,8 @@ class Array<E> {
     return _items.whereType<T>();
   }
 
+  String toString() {
+    return _items.toString();
+  }
+
 }
