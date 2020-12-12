@@ -30,6 +30,8 @@ class Array<E> {
     }
     if (items is Array) {
       return items.all();
+    } else if(items is Iterable) {
+      return items.toList();
     } else if(items is List) {
       return items;
     } else if(items is Map) {
