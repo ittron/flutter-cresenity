@@ -30,6 +30,8 @@ class Array<E> {
     }
     if (items is Array) {
       return items.all();
+    } else if(items is Set) {
+      return items.toList();
     } else if(items is Iterable) {
       return items.toList();
     } else if(items is List) {
@@ -110,6 +112,10 @@ class Array<E> {
 
   Map<int, dynamic> asMap() {
     return _items.asMap();
+  }
+
+  Collection<dynamic> asCollection() {
+    return Collection(_items.asMap());
   }
 
 
@@ -199,8 +205,8 @@ class Array<E> {
     _items.length = newLength;
   }
 
-  Iterable<T> map<T>(T Function(E e) f) {
-    return _items.map<T>(f);
+  Array map<T>(T Function(E e) f) {
+    return Array(_items.map<T>(f));
   }
 
   reduce(Function(E value, E element) combine) {
