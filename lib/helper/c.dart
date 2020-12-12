@@ -1,7 +1,8 @@
 
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:flutter_cresenity/support/array.dart';
+
 
 class C {
 
@@ -34,6 +35,12 @@ class C {
     return ((to - from) * Random().nextDouble()).toInt() + from;
 
 
+  }
+
+
+  static bool isArray(value) {
+
+    return (value is Array) || (value is List);
   }
 
 }
