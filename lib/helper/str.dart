@@ -58,8 +58,6 @@ class Str {
     Array r = Arr.wrap(replace);
 
     int tempCount = 0;
-    print("debug");
-    print(search);
 
 
     if (C.isArray(search) && replace is String) {
@@ -80,17 +78,13 @@ class Str {
         continue;
       }
       j = 0;
-      print(f);
       for (fl = f.length; j < fl; j++) {
         temp = s[i] + '';
         repl =  r[j];
-        print("j:$j");
-        print("f:$f");
-        print(f.all());
-        print("f:${f[0]}");
+
 
         s[i] = temp.split(f[j]).join(repl);
-        print(s);
+
       }
 
       //tempCount += ((temp.split(f[j])).length - 1);
@@ -217,7 +211,7 @@ class Str {
   }
 
   ///Determine if a given string matches a given pattern.
-  static match(pattern, value) {
+  static bool match(pattern, value) {
     if(pattern==null || pattern=='') {
       return false;
     }
@@ -233,5 +227,17 @@ class Str {
       }
     }
     return false;
+  }
+
+  static String upper(String str) {
+    return str.toUpperCase();
+  }
+
+  static String lower(String str) {
+    return str.toLowerCase();
+  }
+
+  static String ucfirst(String str) {
+    return "${str[0].toUpperCase()}${str.substring(1)}";
   }
 }

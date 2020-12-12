@@ -3,6 +3,8 @@ import 'dart:math';
 
 import 'package:flutter_cresenity/support/array.dart';
 
+import '../support/collection.dart';
+
 
 class C {
 
@@ -43,4 +45,12 @@ class C {
     return (value is Array) || (value is List);
   }
 
+  static bool isCollection(value) {
+
+    return (value is Collection) || (value is Map);
+  }
+
+  static value(v) {
+    return v is Function ? v() : v;
+  }
 }
