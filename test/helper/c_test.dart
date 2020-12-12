@@ -2,6 +2,9 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_cresenity/helper/c.dart';
+
+import 'package:flutter_cresenity/support/array.dart';
+
 class DummyObject {
   int _counter;
 
@@ -32,5 +35,14 @@ void main() {
       return item.getCounter();
     });
     expect(value,3);
+  });
+
+  test("Test C.isArray", () {
+
+    expect(C.isArray([]),true);
+    expect(C.isArray(List()),true);
+
+    expect(C.isArray(Array()),true);
+
   });
 }
