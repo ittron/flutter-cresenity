@@ -14,7 +14,7 @@ import 'collection.dart';
 class MessageBag {
 
   ///All of the registered messages.
-  Collection<Array> _messages = Collection();
+  Collection<Array<String>> _messages = Collection();
 
   ///Default format for message output.
   String _format = ':message';

@@ -21,14 +21,22 @@ class Translator  {
   Repository get fallbackRepository => TranslationManager.instance().fallbackRepository;
 
 
-  String get(key , [replace]) {
+  get(key , [replace]) {
     Collection replacement = Collection(replace);
+    var a = repository.data[key];
 
-    String line = repository.data[key];
+    var line = repository.data[key];
+
     if(line==null) {
       line = fallbackRepository.data[key];
     }
 
+    if(line!=null) {
+      return line;
+    }
+    // If the line doesn't exist, we will return back the key which was requested as
+    // that will be quick to spot in the UI if language keys are wrong or missing
+    // from the application's language files. Otherwise we can return the line.
     if(line==null) {
       line = key;
     }

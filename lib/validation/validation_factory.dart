@@ -5,6 +5,9 @@
 
 
 import 'package:flutter_cresenity/validation/validator.dart';
+import 'package:flutter_cresenity/support/collection.dart';
+
+
 
 class ValidationFactory {
 
@@ -17,8 +20,8 @@ class ValidationFactory {
     return _instance;
   }
 
-  Validator make(Map data, Map rules, [Map messages = const {},]) {
-    return new Validator(data, rules, messages);
+  Validator make(data, rules, [messages]) {
+    return new Validator(Collection(data), Collection(rules), Collection(messages));
   }
 
 

@@ -2,9 +2,11 @@ library flutter_cresenity;
 
 import 'package:flutter_cresenity/bloc/bloc_manager.dart';
 import 'package:flutter_cresenity/http/http.dart';
+import 'package:flutter_cresenity/interface/bootable.dart';
 import 'package:flutter_cresenity/router/navigator.dart';
 import 'package:flutter_cresenity/translation/translation_manager.dart';
 import 'package:flutter_cresenity/translation/translator.dart';
+import 'package:flutter_cresenity/validation/validator_bootstrap.dart';
 
 class CF {
 
@@ -17,4 +19,16 @@ class CF {
   static TranslationManager get translation => TranslationManager.instance();
 
 
+  static init() {
+    List<Bootable> bootstrapper= List();
+
+    bootstrapper.add(ValidatorBootstrap());
+
+
+    bootstrapper.forEach((element) {
+      element.boot();
+    });
+
+  }
 }
+

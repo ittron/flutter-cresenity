@@ -33,4 +33,37 @@ void main() {
 
   });
 
+  test("Test Str.getcsv",(){
+    List actual;
+    List expected;
+
+
+    actual = Str.getcsv('"abc","def","ghi"');
+    expected = ['abc', 'def', 'ghi'];
+    expect(actual,expected);
+    actual = Str.getcsv('"row2""cell1","row2cell2","row2cell3"', null, null, '"');
+    expected = ['row2"cell1', 'row2cell2', 'row2cell3'];
+    expect(actual,expected);
+
+/*
+
+    ///not supported
+
+    actual = Str.getcsv('"row2""cell1",row2cell2,row2cell3', null, null, '"');
+    expected = ['row2"cell1', 'row2cell2', 'row2cell3'];
+
+    expect(actual,expected);
+
+    actual = Str.getcsv('row1cell1,"row1,cell2",row1cell3', null, null, '"');
+    expected = ['row1cell1', 'row1,cell2', 'row1cell3'];
+    expect(actual,expected);
+    actual = Str.getcsv('"row2""cell1",row2cell2,"row2""""cell3"');
+    expected = ['row2"cell1', 'row2cell2', 'row2""cell3'];
+    expect(actual,expected);
+    actual = Str.getcsv('row1cell1,"row1,cell2","row1"",""cell3"', null, null, '"');
+    expected = ['row1cell1', 'row1,cell2', 'row1","cell3'];
+    expect(actual,expected);
+*/
+  });
+
 }

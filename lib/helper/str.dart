@@ -10,8 +10,11 @@ import 'package:flutter_cresenity/helper/c.dart';
 
 class Str {
 
+  //make private constructor
+  Str._();
 
-  static Map<String,String> studlyCache = {};
+  static Map<String,String> _studlyCache = {};
+  static Map<String,Map<String,String>> _snakeCache = {};
   /// Return the remainder of a string after the first occurrence of a given value.
   ///
   /// @param subject
@@ -30,20 +33,44 @@ class Str {
   }
 
 
+  ///Convert a string to snake case.
+
+  static snake(String value, [String delimiter = '_']) {
+    String key = value;
+
+    if(_snakeCache.containsKey(key) && _snakeCache[key].containsKey(delimiter)) {
+      return _snakeCache[key][delimiter];
+    }
+
+    value = Str.ucwords(value).replaceAll(RegExp(r'\s+',caseSensitive: false), '');
+    value = Str.lower(value.replaceAllMapped(RegExp(r'(.)(?=[A-Z])',caseSensitive: true),(match){
+      return match.group(1)+delimiter;
+    }));
+
+    if(!_snakeCache.containsKey(key)) {
+      _snakeCache[key] = Map<String,String>();
+    }
+
+    _snakeCache[key][delimiter] = value;
+
+    return (_snakeCache[key][delimiter]);
+  }
+
+
   ///Convert a value to studly caps case.
   static String studly(String value) {
 
 
     String key = value;
-    if(studlyCache.containsKey(key)) {
-      return studlyCache[key];
+    if(_studlyCache.containsKey(key)) {
+      return _studlyCache[key];
     }
 
     value = value.replaceAll('-', ' ');
     value = value.replaceAll('_', ' ');
     value = ucwords(value);
 
-    return studlyCache[key] = value.replaceAll(' ','');
+    return _studlyCache[key] = value.replaceAll(' ','');
     
   }
 
@@ -94,7 +121,7 @@ class Str {
   }
 
   static String ucwords(String value) {
-    return value.split(" ").map((e) => "${e[0].toUpperCase()}${e.substring(1)}").join(" ");
+    return value.split(" ").map((e) => e.length>0 ? "${e[0].toUpperCase()}${e.substring(1)}" : "").join(" ");
   }
 
   static String trim(String value) {
@@ -132,42 +159,35 @@ class Str {
     return s;
   }
 
-  static List getcsv(String input, [String delimiter, String enclosure, String escape]) {
+  static String pregQuote(String str) {
+    return str.replaceAllMapped(RegExp(r'([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!<\>\|\:])'), (match) {
+      return "\\${match.group(0)}";
+    });
+  }
+
+  static List getcsv(String input, [String delimiter = ",", String enclosure = '"', String escape = "\\"]) {
 
     //   example 1: Str,getcsv('"abc","def","ghi"');
     //   returns 1: ['abc', 'def', 'ghi']
     //   example 2: Str.getcsv('"row2""cell1","row2cell2","row2cell3"', null, null, '"');
     //   returns 2: ['row2"cell1', 'row2cell2', 'row2cell3']
 
-    // These test cases allowing for missing delimiters are not currently supported
-    /*
-    Str.getcsv('"row2""cell1",row2cell2,row2cell3', null, null, '"');
-    ['row2"cell1', 'row2cell2', 'row2cell3']
-    Str.getcsv('row1cell1,"row1,cell2",row1cell3', null, null, '"');
-    ['row1cell1', 'row1,cell2', 'row1cell3']
-    Str.getcsv('"row2""cell1",row2cell2,"row2""""cell3"');
-    ['row2"cell1', 'row2cell2', 'row2""cell3']
-    Str.getcsv('row1cell1,"row1,cell2","row1"",""cell3"', null, null, '"');
-    ['row1cell1', 'row1,cell2', 'row1","cell3'];
-    Should also test newlines within
-    */
     List output = [];
     String inpLen = '';
-    Function(String) backwards = (String str) {
+    String Function(String) backwards = (String str) {
       // We need to go backwards to simulate negative look-behind (don't split on
       //an escaped enclosure even if followed by the delimiter and another enclosure mark)
       return str.split('').reversed.join('');
     };
-    Function(String) pq = (String str) {
+    String Function(String) pq = (String str) {
       // preg_quote()
-      return str.replaceAllMapped(r'/([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!<\>\|\:])/g', (match) {
-        return '"${match.group(0)}"';
-      });
+      return Str.pregQuote(str);
     };
+
 
     delimiter = delimiter ?? ',';
     enclosure = enclosure ?? '"';
-    escape = escape ?? '\\';
+    escape = escape ?? "\\";
     var pqEnc = pq(enclosure);
     var pqEsc = pq(escape);
 
@@ -175,10 +195,12 @@ class Str {
         .replaceAll(new RegExp(pqEnc + r'\s*$'), '');
 
     // PHP behavior may differ by including whitespace even outside of the enclosure
-    input = backwards(input).split(new RegExp(pqEnc + '\\s*' + pq(delimiter) + '\\s*' + pqEnc + '(?!' + pqEsc + ')')).reversed;
+    List inputArray = backwards(input).split(RegExp(pqEnc + r'\s*' + pq(delimiter) + r'\s*' + pqEnc + r'(?!' + pqEsc + r')')).reversed.toList();
 
-    for (int i = 0, inpLen = input.length; i < inpLen; i++) {
-      output.add(backwards(input[i]).replace(new RegExp(pqEsc + pqEnc), enclosure));
+
+
+    for (int i = 0, inpLen = inputArray.length; i < inpLen; i++) {
+      output.add(backwards(inputArray[i]).replaceAll(RegExp(pqEsc + pqEnc), enclosure));
     }
 
     return output;
@@ -240,4 +262,5 @@ class Str {
   static String ucfirst(String str) {
     return "${str[0].toUpperCase()}${str.substring(1)}";
   }
+
 }

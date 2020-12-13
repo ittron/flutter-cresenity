@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/support/tuple.dart';
 
 import '../support/array.dart';
-import '../support/caster.dart';
-import '../support/caster.dart';
-import '../support/collection.dart';
 import '../support/array.dart';
+import '../support/caster.dart';
+import '../support/caster.dart';
 import '../support/collection.dart';
-import '../support/collection.dart';
+
 import 'c.dart';
 class Arr {
   static bool accessible(array) {
-    return array!=null && (array is Map || array is List);
+    return array!=null && (array is Map || array is List || array is Collection || array is Array);
   }
 
   static bool exists(array,key) {
@@ -77,11 +76,13 @@ class Arr {
       return defaultValue;
     }
 
-
     if(array is Map) {
-
       if(array.containsKey(key)) {
-
+        return array[key];
+      }
+    }
+    if(array is Collection) {
+      if(array.containsKey(key)) {
         return array[key];
       }
     }

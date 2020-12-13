@@ -1,0 +1,6 @@
+
+
+
+class Bootable {
+  void boot(){}
+}

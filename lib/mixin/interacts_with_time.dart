@@ -1,7 +1,8 @@
 
 import 'dart:math';
 
-import '../extension/datetime_extension.dart';
+import 'package:flutter_cresenity/extension/datetime_extension.dart';
+
 
 mixin InteractsWithTime {
 

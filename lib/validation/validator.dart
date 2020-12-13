@@ -5,62 +5,71 @@
 import 'dart:convert';
 
 import 'package:flutter_cresenity/helper/str.dart';
+import 'package:flutter_cresenity/helper/arr.dart';
 import 'package:flutter_cresenity/support/message_bag.dart';
 import 'package:flutter_cresenity/support/tuple.dart';
+import 'package:flutter_cresenity/support/collection.dart';
+import 'package:flutter_cresenity/support/array.dart';
+import 'package:flutter_cresenity/translation/translation_manager.dart';
+import 'package:flutter_cresenity/validation/mixin/format_message.dart';
+import 'package:flutter_cresenity/validation/mixin/validate_attribute.dart';
 import 'package:flutter_cresenity/validation/validation_rule_parser.dart';
+import 'package:flutter_cresenity/validation/validator_abstract.dart';
 
-import '../helper/arr.dart';
-import '../support/array.dart';
-import '../support/collection.dart';
-import '../support/collection.dart';
-import '../support/collection.dart';
-import '../support/collection.dart';
 
-class Validator {
 
-  Map customMessages;
-  Map data;
-  Map initialRules;
-  Collection<Array> rules;
+
+class Validator extends ValidatorAbstract with ValidateAttribute,FormatMessage {
+
+
+
+  Collection initialRules;
+
 
   MessageBag _messages;
 
-  Map _failedRules;
+  Collection<Collection> _failedRules;
   Map _distinctValues;
 
   String dotPlaceholder;
 
   String _currentRule;
 
-  Validator(Map data, Map rules, [Map messages = const {}]) {
+
+
+  Validator(Collection data, Collection rules, [Collection messages]) {
+    if(messages==null) {
+      messages = Collection();
+    }
     this.customMessages = messages;
     this.data = data;
     this.initialRules = rules;
     this.dotPlaceholder = Str.random();
+    this.fallbackMessages = Collection();
 
+    this.translator = TranslationManager.instance().translator;
     setRules(rules);
   }
 
 
-  Validator setRules(Map rules) {
+  Validator setRules(Collection rules) {
     rules = rules.map((key, value) => MapEntry(key.replaceAll(".",dotPlaceholder), value));
 
     this.initialRules = rules;
 
-    this.rules = Collection();
+    this.rules = Collection<Array>();
 
 
     this.addRules(rules);
   }
 
-  void addRules(rules) {
-    rules = Collection(rules);
+  void addRules(Collection rules) {
     // The primary purpose of this parser is to expand any "*" rules to the all
     // of the explicit rules needed for the given data. For example the rule
     // names.* would get expanded to names.0, names.1, etc. for this data.
-    Tuple response = (new ValidationRuleParser(this.data)).explode(rules);
+    rules = ValidationRuleParser(this.data).explode(rules);
 
-    this.rules = Collection(response.item1);
+    this.rules  = rules;
 
 
   }
@@ -79,14 +88,14 @@ class Validator {
     return this._messages;
   }
 
-  Map failed() {
+  Collection failed() {
     return this._failedRules;
   }
 
   bool passes() {
     this._messages = new MessageBag();
     this._distinctValues = {};
-    this._failedRules = {};
+    this._failedRules = Collection();
 
     this.rules.forEach((attribute, rules) {
         rules.forEach((rule) {
@@ -99,21 +108,36 @@ class Validator {
     return (rule,attribute, value, parameters) {
 
       switch(rule) {
-        case '':
+        case 'Required':
+
+          return this.validateRequired(attribute, value);
+          break;
+
+        case 'Email':
+
+          return this.validateEmail(attribute, value,parameters);
+          break;
+        case 'Max':
+
+          return this.validateMax(attribute, value,parameters);
           break;
       }
+      return false;
     };
+
   }
 
-  _validateAttribute(String attribute, String rule) {
+  _validateAttribute(String attribute, rule) {
     this._currentRule = rule;
-    Tuple tuple = ValidationRuleParser.parse(rule);
-    if(tuple.item1=='') {
+
+    List tuple = ValidationRuleParser.parse(rule);
+    if(tuple[0]=='') {
       return;
     }
-    rule = tuple.item1;
-    var parameters = tuple.item2;
-    var value = _getValue(attribute);
+    rule = tuple[0];
+    var parameters = tuple[1];
+    var value = getValue(attribute);
+
 
     bool validatable = _isValidatable(rule, attribute, value);
 
@@ -128,11 +152,7 @@ class Validator {
 
 
 
-  ///Get the value of a given attribute.
-  _getValue(attribute)
-  {
-    return Arr.get(this.data, attribute);
-  }
+
 
   ///Determine if the attribute is validatable.
 
@@ -148,16 +168,21 @@ class Validator {
       this.passes();
     }
 
-    attribute = Str.replace([this,dotPlaceholder, '__asterisk__'], ['.', '*'], attribute);
+    attribute = Str.replace([this.dotPlaceholder, '__asterisk__'], ['.', '*'], attribute);
     
     
-    this._messages.add(attribute, 'error');
+    this._messages.add(attribute, this.makeReplacements( this.getMessage(attribute, rule), attribute,rule,parameters));
 
 
-    this._failedRules[attribute][rule] = parameters;
+    this.setFailedRule(attribute, rule, parameters);
   }
 
 
-
+  setFailedRule(attribute,rule,parameters) {
+    if(!this._failedRules.containsKey(attribute)) {
+      this._failedRules[attribute] = Collection();
+    }
+    this._failedRules[attribute][rule] = parameters;
+  }
 
 }

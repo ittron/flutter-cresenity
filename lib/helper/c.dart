@@ -45,6 +45,10 @@ class C {
     return (value is Array) || (value is List);
   }
 
+  static bool isNumeric(value) {
+    return value is int || value is double || value is num;
+  }
+
   static bool isCollection(value) {
 
     return (value is Collection) || (value is Map);
