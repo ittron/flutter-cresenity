@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'array.dart';
@@ -5,7 +6,7 @@ import 'caster.dart';
 import '../helper/c.dart';
 import '../helper/arr.dart';
 
-class Collection<T> implements Map<String,T>{
+class Collection<T> {
 
   Map<String,T> _items;
 
@@ -42,6 +43,8 @@ class Collection<T> implements Map<String,T>{
   Collection.fromJson(String json) {
     _items = jsonDecode(json);
   }
+
+
 
   _getMapableItems(Object items) {
     if(items==null) {
@@ -82,9 +85,43 @@ class Collection<T> implements Map<String,T>{
     return toArray().first();
   }
 
+
+  Collection sortBy(Function callback, [bool descending=false]) {
+    Collection results = Collection();
+    // First we will loop through the items and get the comparator from a callback
+    // function which we were given. Then, we will sort the returned values and
+    // and grab the corresponding values for the sorted keys from this array.
+    _items.forEach((key, value) {
+      results[key] = callback(key,value);
+    });
+
+    var sortedKeys = results.keys.toList(growable:false)
+      ..sort((k1, k2) => results[k1].compareTo(results[k2]));
+
+    LinkedHashMap sortedMap = new LinkedHashMap
+        .fromIterable(sortedKeys, key: (k) => k, value: (k) => results[k]);
+
+    // Once we have sorted all of the keys in the array, we will loop through them
+    // and grab the corresponding model so we can set the underlying items list
+    // to the sorted version. Then we'll just return the collection instance.
+    results.keys.forEach((key) {
+       results[key]=_items[key];
+    });
+
+    return results;
+
+  }
+
+
+
+
   dynamic get(String key,[defaultValue]) {
     return Arr.get(_items,key,defaultValue);
 
+  }
+
+  Map<String, T> toMap() {
+    return _items;
   }
 
   Collection set(String key, value) {
@@ -111,20 +148,40 @@ class Collection<T> implements Map<String,T>{
   }
 
 
+
+
   Collection merge(Collection other) {
     _items.addAll(other.all());
     return this;
   }
 
+  Collection mapWithKeys(Function callback) {
+    Collection result = Collection();
+    _items.forEach((key, value) {
+      Map assoc = callback(key,value);
+      assoc.forEach((key, value) {
+        result[key] = value;
+      });
+    });
 
-  /**
-   * alias of length
-   */
+    return result;
+  }
+  
+  Collection filter([Function(String,T) f]) {
+    if(f!=null) {
+      return new Collection(Arr.where(_items,f));
+    }
+    return new Collection(Arr.filter(_items));
+  }
+
+
+
+  ///alias of length
   int count() {
     return length;
   }
 
-  @override
+
   Collection clear() {
     _items.clear();
     return this;
@@ -135,89 +192,88 @@ class Collection<T> implements Map<String,T>{
     _items.addAll(other);
   }
 
-  @override
+
   void addEntries(Iterable<MapEntry<String, T>> newEntries) {
     _items.addEntries(newEntries);
   }
 
-  @override
+
   Map<RK, RV> cast<RK, RV>() {
     _items.cast<RK, RV>();
   }
 
 
-  @override
   bool containsKey(Object key) {
     return _items.containsKey(key);
   }
 
-  @override
+
   bool containsValue(Object value) {
     return _items.containsValue(value);
   }
 
-  @override
+
   Iterable<MapEntry<String, T>> get entries => _items.entries;
 
-  @override
+
   void forEach(void Function(String key, T value) f) {
     _items.forEach(f);
   }
 
-  @override
+
   bool get isEmpty => _items.isEmpty;
 
-  @override
+
   bool get isNotEmpty =>  _items.isNotEmpty;
 
-  @override
+
   Iterable<String> get keys => _items.keys;
 
-  @override
+
   Iterable<T> get values => _items.values;
 
-  @override
   int get length => _items.length;
 
-  @override
-  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(String key, T value) f) {
-    return _items.map(f);
+
+  Collection<V2> map<V2>(MapEntry<String, V2> Function(String key, T value) f) {
+    return Collection(_items.map<String,V2>(f));
   }
 
-  @override
+
   T putIfAbsent(String key, T Function() ifAbsent) {
     return _items.putIfAbsent(key, ifAbsent);
   }
 
-  @override
+
   T remove(Object key) {
     return _items.remove(key);
   }
 
-  @override
+
   void removeWhere(bool Function(String key, T value) predicate) {
     _items.removeWhere(predicate);
   }
 
-  @override
   T update(String key, T Function(T value) update, {T Function() ifAbsent}) {
     return _items.update(key, update);
   }
 
-  @override
   void updateAll(T Function(String key, T value) update) {
     _items.updateAll(update);
   }
 
-  @override
   T operator [](Object key) {
     String keyString = Caster(key).toString();
     return _items[keyString];
   }
 
-  @override
+
   void operator []=(dynamic key, T value) {
     String keyString = Caster(key).toString();
     _items[keyString] = value;
   }
+
+
+
+
 }

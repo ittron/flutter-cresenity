@@ -1,7 +1,21 @@
 
 import 'dart:math';
 
+import 'package:flutter_cresenity/support/array.dart';
+
+import '../support/collection.dart';
+
+
 class C {
+
+  static T tap<T>(T value, Function(T) callback) {
+    callback(value);
+    return value;
+  }
+
+  static dynamic using<T>(T value, Function(T) callback) {
+    return callback == null ? value : callback(value);
+  }
 
 
   static bool isScalar(Object value) {
@@ -25,4 +39,22 @@ class C {
 
   }
 
+
+  static bool isArray(value) {
+
+    return (value is Array) || (value is List);
+  }
+
+  static bool isNumeric(value) {
+    return value is int || value is double || value is num;
+  }
+
+  static bool isCollection(value) {
+
+    return (value is Collection) || (value is Map);
+  }
+
+  static value(v) {
+    return v is Function ? v() : v;
+  }
 }
