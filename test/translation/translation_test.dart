@@ -10,7 +10,6 @@ import 'package:flutter_cresenity/cf.dart';
 void main() {
 
 
-
   test("Test basic", (){
     expect(CF.translation != null, true);
     expect(CF.translator!=null, true);
