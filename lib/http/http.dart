@@ -29,8 +29,8 @@ class Http {
 
   Future<Response> waitRequest({
     String url,
-    Collection data,
-    Collection files,
+    dynamic data,
+    dynamic files,
     String method = 'GET',
     String dataType = 'text',
   }) {
@@ -46,7 +46,8 @@ class Http {
 
   void request({
     String url,
-    Collection data,
+    dynamic data,
+    dynamic files,
     String method = 'GET',
     String dataType = 'text',
     Function onSuccess,
@@ -55,7 +56,7 @@ class Http {
   }) async {
 
 
-    Response response = await this.waitRequest(url:url,method: method,data:data,dataType: dataType);
+    Response response = await this.waitRequest(url:url,method: method,data:data,files:files,dataType: dataType);
 
     if(response.statusCode==200) {
       if(onSuccess!=null) {

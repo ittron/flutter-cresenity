@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter_cresenity/app/model/collection_data_model.dart';
 import 'package:flutter_cresenity/app/model/pagination_data_model.dart';
 import 'package:flutter_cresenity/helper/arr.dart';
 
@@ -19,12 +20,18 @@ class ResponsePaginationModel<T extends AbstractDataModel> implements AbstractMo
 
 
 
-  ResponsePaginationModel.fromJson(Map<String,dynamic> json, Function(Map) factoryBuilder) {
+  ResponsePaginationModel.fromJson(Map<String,dynamic> json, [Function(Map) factoryBuilder]) {
     errCode = Arr.getInt(json,'errCode');
     errMessage = Arr.getString(json,'errMessage');
-    data = PaginationDataModel<T>.fromJson(Arr.getMap(json, 'data'), factoryBuilder);
-    //}
-    //}
+    if(factoryBuilder!=null) {
+      data = PaginationDataModel<T>.fromJson(Arr.getMap(json, 'data'), factoryBuilder);
+
+    } else {
+      data = PaginationDataModel<T>.fromJson(Arr.getMap(json, 'data'), (item){
+        return CollectionDataModel.fromJson(item);
+      });
+
+    }
 
 
   }
