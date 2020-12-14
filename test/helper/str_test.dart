@@ -6,10 +6,21 @@
 import 'package:flutter_cresenity/helper/str.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_cresenity/support/array.dart';
+import 'package:flutter_cresenity/extension/string_extension.dart';
+
 
 void main() {
+  test("test Str.after", () {
+    String str = "Hello world";
+    expect(Str.after("Hello world", " "),"world");
 
+    expect(Str.after("Hello world is awesome", " "),"world is awesome");
 
+    //test extension
+    String str4word = "Hello world is awesome";
+    expect(str4word.after(" "),"world is awesome");
+
+  });
 
   test("Test Str.ucwords", () {
     String value = "hello World";
@@ -23,20 +34,21 @@ void main() {
     expect(value,"HelloWorld");
   });
 
+  test("Test Str.snake", () {
+    expect(Str.snake("hello world"),"hello_world");
+    expect(Str.snake("Hello World"),"hello_world");
+  });
 
   test("Test Str.replace", () {
-
     expect(Str.replace(' ', '.', 'Kevin van Zonneveld'),'Kevin.van.Zonneveld');
     expect(Str.replace(['{name}', 'l'], ['hello', 'm'], '{name}, lars'),'hemmo, mars');
     expect(Str.replace(Array(['S','F']),'x','ASDFASDF'),'AxDxAxDx');
     expect(Str.replace(['A','D'], ['x','y'] , 'ASDFASDF'),'xSyFxSyF');
-
   });
 
   test("Test Str.getcsv",(){
     List actual;
     List expected;
-
 
     actual = Str.getcsv('"abc","def","ghi"');
     expected = ['abc', 'def', 'ghi'];
