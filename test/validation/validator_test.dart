@@ -11,6 +11,8 @@ import '../../lib/cf.dart';
 
 void main() {
   CF.init();
+
+
   test("simple validation", () {
 
 
@@ -28,8 +30,14 @@ void main() {
 
     var errors = validator.errors();
 
+    expect(errors.get("name").all(),[]);
 
-    print(errors.get("name"));
-
+    expect(ValidationFactory.instance().make( {
+      "email":"john@example.com",
+      "name":"John Doe",
+    }, {
+      "email":  ['required','email'],
+      "name": "required|max:5"
+    }).errors().get("name").all(),[]);
   });
 }

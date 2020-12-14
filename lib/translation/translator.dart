@@ -24,10 +24,9 @@ class Translator  {
   get(key , [replace]) {
     Collection replacement = Collection(replace);
 
-    var line = repository.data[key];
-
+    var line = repository.data.get(key);
     if(line==null) {
-      line = fallbackRepository.data[key];
+      line = fallbackRepository.data.get(key);
     }
 
     // If the line doesn't exist, we will return back the key which was requested as

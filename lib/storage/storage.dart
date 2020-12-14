@@ -51,16 +51,12 @@ class Storage {
     return _adapter.get(key,defaultValue: defaultValue);
   }
 
-  void put(String key,String value) async {
-    await _adapter.put(key,value);
+  Future<bool> put(String key,String value) async {
+    return await _adapter.put(key,value);
   }
 
   void unset(String key) async {
     await _adapter.unset(key);
-  }
-
-  Future<bool> putWait(String key,String value) {
-    return _adapter.put(key,value);
   }
 
 }

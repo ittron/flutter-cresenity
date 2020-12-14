@@ -109,16 +109,12 @@ class Validator extends ValidatorAbstract with ValidateAttribute,FormatMessage {
 
       switch(rule) {
         case 'Required':
-
           return this.validateRequired(attribute, value);
           break;
-
         case 'Email':
-
           return this.validateEmail(attribute, value,parameters);
           break;
         case 'Max':
-
           return this.validateMax(attribute, value,parameters);
           break;
       }
