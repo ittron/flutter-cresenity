@@ -1,5 +1,6 @@
 library flutter_cresenity;
 
+import 'package:flutter_cresenity/app/model/model_bootstrap.dart';
 import 'package:flutter_cresenity/bloc/bloc_manager.dart';
 import 'package:flutter_cresenity/http/http.dart';
 import 'package:flutter_cresenity/interface/bootable.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_cresenity/storage/storage_bootstrap.dart';
 import 'package:flutter_cresenity/translation/translation_manager.dart';
 import 'package:flutter_cresenity/translation/translator.dart';
 import 'package:flutter_cresenity/validation/validator_bootstrap.dart';
+import 'package:flutter_cresenity/app/model/model_factory.dart';
 
 class CF {
 
@@ -21,12 +23,15 @@ class CF {
   static Translator get translator => TranslationManager.instance().translator;
   static TranslationManager get translation => TranslationManager.instance();
 
+  static ModelFactory get model => ModelFactory.instance();
 
   static Future<void> init()  async {
     List<Bootable> bootstrapper= List();
 
     bootstrapper.add(ValidatorBootstrap());
     bootstrapper.add(StorageBootstrap());
+    bootstrapper.add(ModelBootstrap());
+
 
     for(int i=0; i<bootstrapper.length ;i ++) {
       await bootstrapper[i].boot();

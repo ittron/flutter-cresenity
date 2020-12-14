@@ -2,6 +2,7 @@
 
 
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
+import 'package:flutter_cresenity/app/model/model_factory.dart';
 import 'package:flutter_cresenity/helper/arr.dart';
 import 'package:flutter_cresenity/support/array.dart';
 import 'package:flutter_cresenity/support/collection.dart';
@@ -17,13 +18,14 @@ class PaginationDataModel<T extends AbstractDataModel> extends AbstractDataModel
     reset();
   }
 
-  PaginationDataModel.fromJson(Map map, Function(Map) factoryBuilder) {
+  PaginationDataModel.fromJson(Map map, [Function(Map) factoryBuilder]) {
     total = Arr.getInt(map, "total");
     lastPage = Arr.getInt(map, "lastPage");
     perPage = Arr.getInt(map, "perPage");
     currentPage = Arr.getInt(map, "currentPage");
 
     items = new Array<T>();
+    factoryBuilder = ModelFactory.instance().resolveBuilder(T,factoryBuilder);
     Arr.getArray<Map>(map, "items").forEach((element) {
       items.add(factoryBuilder(element));
     });
