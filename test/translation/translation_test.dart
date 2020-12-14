@@ -20,6 +20,7 @@ void main() {
     CF.translation.loadRepository("en_US", {
       'accepted' : 'The :attribute must be accepted.',
       'active_url' : 'The :attribute is not a valid URL.',
+      'testdd' : 'The :attribute is not a valid :url.',
       'after' : 'The :attribute must be a date after :date.',
       'after_or_equal' : 'The :attribute must be a date after or equal to :date.',
       'alpha' : 'The :attribute may only contain letters.',
@@ -30,5 +31,6 @@ void main() {
       'before_or_equal' : 'The :attribute must be a date before or equal to :date.',
     });
     expect(CF.translator.get('accepted',{'attribute':'terms'}), 'The terms must be accepted.');
+    //expect(CF.translator.get('testdd',{'attribute':'terms','url':'http://example.com'}), 'The terms is not a valid http://example.com.');
   });
 }
