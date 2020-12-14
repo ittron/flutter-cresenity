@@ -2,5 +2,5 @@
 
 
 class Bootable {
-  void boot(){}
+  Future<void> boot() async {}
 }

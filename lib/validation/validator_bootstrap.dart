@@ -13,7 +13,7 @@ import '../cf.dart';
 
 class ValidatorBootstrap implements Bootable  {
 
-  void boot() {
+  Future<void> boot() async {
     CF.translation.loadRepository("en_US", {
       'validation.accepted' : 'The :attribute must be accepted.',
       'validation.active_url' : 'The :attribute is not a valid URL.',
