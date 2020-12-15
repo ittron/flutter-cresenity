@@ -18,7 +18,7 @@ void main() {
   runZonedGuarded<Future<void>>(() async {
 
     await CF.init((Config config) {
-      config.exception.addDeveloperDialogReporter();
+      config.exception.addDeveloperPageReporter();
     });
     FlutterError.onError = (FlutterErrorDetails details) async {
       CF.exception.reportError(details.exception, details.stack, errorDetails: details);
