@@ -1,9 +1,6 @@
+import 'package:flutter_cresenity/helper/c.dart';
 
-import '../helper/c.dart';
-
-/**
- * this function to cast variable in dart like php
- */
+///this function to cast variable in dart like php
 
 class Caster {
   Object value;
@@ -17,68 +14,65 @@ class Caster {
 
   @override
   String toString() {
-    if(value ==null) {
+    if (value == null) {
       return "";
     }
-    if(value is String) {
+    if (value is String) {
       return value;
     }
-    if(value is bool) {
-      return value ? "1":"";
+    if (value is bool) {
+      return value ? "1" : "";
     }
-    if(value is int) {
+    if (value is int) {
       return value.toString();
     }
 
-    value.toString();
+    return value.toString();
   }
 
-
   bool toBool() {
-    if(value==null) {
+    if (value == null) {
       return false;
     }
-    if(value is int) {
-      return (int.parse(value)) > 0 ? true:false;
+    if (value is int) {
+      return (int.parse(value)) > 0 ? true : false;
     }
-    if(value is String) {
-      return value.toString().length>0;
+    if (value is String) {
+      return value.toString().length > 0;
     }
 
     return true;
   }
 
   int toInt() {
-    if(value==null) {
+    if (value == null) {
       return 0;
     }
-    if(value is int) {
+    if (value is int) {
       return value;
     }
-    if(value is bool) {
-      return value? 1:0;
+    if (value is bool) {
+      return value ? 1 : 0;
     }
-    if(value is String) {
+    if (value is String) {
       return int.parse(value);
     }
     return int.parse(value);
   }
 
   double toDouble() {
-    if(value==null) {
+    if (value == null) {
       return 0;
     }
-    if(value is double) {
+    if (value is double) {
       return value;
     }
-    if(value is bool) {
-      return value? 1:0;
+    if (value is bool) {
+      return value ? 1 : 0;
     }
-    if(value is String) {
+    if (value is String) {
       return double.parse(value);
     }
     return double.parse(value);
   }
-
-
 }

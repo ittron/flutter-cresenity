@@ -1,9 +1,5 @@
+abstract class RuleInterface {
+  bool passes(String attribute, value);
 
-
-
-
-class RuleInterface {
-  bool passes(String attribute,value){}
-
-  String message(){}
+  String message();
 }

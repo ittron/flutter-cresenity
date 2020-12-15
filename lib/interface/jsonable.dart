@@ -1,6 +1,3 @@
-
-
-
-class Jsonable {
-  Map<String,dynamic> toJson(){}
+abstract class Jsonable {
+  Map<String, dynamic> toJson();
 }

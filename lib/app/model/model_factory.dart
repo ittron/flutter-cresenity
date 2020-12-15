@@ -1,15 +1,4 @@
-
-
-
-
-
-import 'package:flutter/material.dart';
-import 'package:flutter_cresenity/app/model/collection_data_model.dart';
-import 'package:flutter_cresenity/app/model/pagination_data_model.dart';
-import 'package:flutter_cresenity/helper/str.dart';
-
 class ModelFactory {
-
   Map<Type, Function> _factories = {};
 
   ModelFactory._();
@@ -19,40 +8,32 @@ class ModelFactory {
     return _instance;
   }
 
-  ModelFactory registerBuilderMany(Map<Type,Function> map) {
+  ModelFactory registerBuilderMany(Map<Type, Function> map) {
     map.forEach((key, value) {
       registerBuilder(key, value);
     });
     return this;
   }
 
-
   ModelFactory registerBuilder(Type t, Function f) {
-
-    if(!_factories.containsKey(t)) {
+    if (!_factories.containsKey(t)) {
       _factories[t] = f;
     }
 
     return this;
   }
 
-
   Function resolveBuilder(Type t, [f]) {
     Function builder = f;
-    if(builder!=null) {
+    if (builder != null) {
       return builder;
     }
 
-
-
     builder = _factories[t];
 
-
-    if(builder==null) {
-        throw ArgumentError(t.toString() + " builder is not registered");
-
+    if (builder == null) {
+      throw ArgumentError(t.toString() + " builder is not registered");
     }
     return builder;
   }
-
 }

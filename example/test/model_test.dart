@@ -1,46 +1,32 @@
-
-import 'package:flutter_cresenity/app/model/response_model.dart';
 import 'package:flutter_cresenity/app/model/response_pagination_model.dart';
-import 'package:flutter_cresenity/app/model/pagination_data_model.dart';
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
-import 'package:flutter_cresenity/helper/arr.dart';
-
-
-
 
 class PostModel extends AbstractDataModel {
-
   int postId;
   @override
-  Map<String, dynamic > toJson() {
-    return {'postId':postId};
+  Map<String, dynamic> toJson() {
+    return {'postId': postId};
   }
 
   PostModel.fromJson(Map map) {
     postId = map['postId'];
   }
-
 }
 
-
 void main() {
-  Map<String,dynamic> data = {
-    'errCode':0,
-    'errMessage':'',
+  Map<String, dynamic> data = {
+    'errCode': 0,
+    'errMessage': '',
     'data': {
-      'total':3,
-      'lastPage':1,
-      'perPage':10,
-      'currentPage':1,
-      'items': [{
-        'postId':1
-      },
-        {
-          'postId':2
-        },
-        {
-          'postId':3
-        }]
+      'total': 3,
+      'lastPage': 1,
+      'perPage': 10,
+      'currentPage': 1,
+      'items': [
+        {'postId': 1},
+        {'postId': 2},
+        {'postId': 3}
+      ]
     }
   }; //from api
 
@@ -52,9 +38,9 @@ void main() {
 
   });
   */
-  ResponsePaginationModel<PostModel> response =ResponsePaginationModel<PostModel>.fromJson(data, (item) {
-      return PostModel.fromJson(item);
-
+  ResponsePaginationModel<PostModel> response =
+      ResponsePaginationModel<PostModel>.fromJson(data, (item) {
+    return PostModel.fromJson(item);
   });
 
   response.data.items.forEach((element) {

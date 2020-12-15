@@ -46,7 +46,6 @@ class CF {
     bootstrapper.add(ModelBootstrap());
     bootstrapper.add(ExceptionBootstrap());
 
-
     for(int i=0; i<bootstrapper.length ;i ++) {
 
         await bootstrapper[i].boot();

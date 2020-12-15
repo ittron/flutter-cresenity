@@ -1,19 +1,10 @@
 import 'package:flutter_cresenity/helper/str.dart';
-import 'package:flutter_cresenity/support/tuple.dart';
+import 'package:flutter_cresenity/helper/c.dart';
+import 'package:flutter_cresenity/helper/arr.dart';
 import 'package:flutter_cresenity/validation/closure_rule.dart';
 import 'package:flutter_cresenity/validation/rule_interface.dart';
-
-import '../helper/arr.dart';
-import '../helper/c.dart';
-import '../support/array.dart';
-import '../support/array.dart';
-import '../support/array.dart';
-import '../support/array.dart';
-import '../support/caster.dart';
-import '../support/collection.dart';
-import '../support/collection.dart';
-import '../support/collection.dart';
-import '../support/collection.dart';
+import 'package:flutter_cresenity/support/array.dart';
+import 'package:flutter_cresenity/support/collection.dart';
 
 class ValidationRuleParser {
   ///The data being validated.

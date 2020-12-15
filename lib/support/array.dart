@@ -11,55 +11,47 @@ class Array<E> {
     return _items;
   }
 
-  Array( [Object items]) {
+  Array([Object items]) {
     _items = _getListableItems(items);
-    if(_items==null) {
+    if (_items == null) {
       clear();
     }
   }
 
-
   Array clear() {
     _items = List<E>();
+    return this;
   }
 
-
   _getListableItems(Object items) {
-    if(items==null) {
+    if (items == null) {
       return List<E>();
     }
     if (items is Array) {
       return items.all();
-    } else if(items is Set) {
+    } else if (items is Set) {
       return items.toList();
-    } else if(items is Iterable) {
+    } else if (items is Iterable) {
       return items.toList();
-    } else if(items is List) {
+    } else if (items is List) {
       return items;
-    } else if(items is Map) {
+    } else if (items is Map) {
       return items.values;
-
-    } else if(C.isScalar(items)) {
-
-
+    } else if (C.isScalar(items)) {
       List<E> newItems = [];
       newItems.add(items);
       return newItems;
     }
 
     return List<E>();
-
-
-
   }
 
   first() {
-    if(length>0) {
+    if (length > 0) {
       return _items[0];
     }
     return null;
   }
-
 
   factory Array.fromList(List list) {
     return Array(list);
@@ -68,14 +60,13 @@ class Array<E> {
     return collection.toArray();
   }
 
-  E operator [](int key)  {
+  E operator [](int key) {
     return get(key);
   }
 
-  dynamic get(int key,[defaultValue]) {
-    return Arr.get(_items,key,defaultValue);
+  dynamic get(int key, [defaultValue]) {
+    return Arr.get(_items, key, defaultValue);
   }
-
 
   int count() {
     return _items.length;
@@ -86,9 +77,7 @@ class Array<E> {
   Array merge(Array<E> other) {
     _items.addAll(other.all());
     return this;
-
   }
-
 
   Array operator +(Array other) {
     return merge(other);
@@ -118,7 +107,6 @@ class Array<E> {
     return Collection(_items.asMap());
   }
 
-
   bool contains(Object element) {
     return _items.contains(element);
   }
@@ -127,23 +115,20 @@ class Array<E> {
     return _items.elementAt(index);
   }
 
-
   bool every(bool Function(E) test) {
     return _items.every(test);
   }
 
   Iterable<T> expand<T>(Iterable<T> Function(E) f) {
     return _items.expand(f);
-
   }
 
   void fillRange(int start, int end, [fillValue]) {
     _items.fillRange(start, end, fillValue);
   }
 
-
   firstWhere(bool Function(E element) test, {Function() orElse}) {
-    _items.firstWhere(test,orElse: orElse);
+    _items.firstWhere(test, orElse: orElse);
   }
 
   T fold<T>(T initialValue, T Function(T previousValue, E element) combine) {
@@ -158,9 +143,8 @@ class Array<E> {
     _items.forEach(f);
   }
 
-
   Iterable getRange(int start, int end) {
-    _items.getRange(start, end);
+    return _items.getRange(start, end);
   }
 
   int indexOf(element, [int start = 0]) {
@@ -190,18 +174,18 @@ class Array<E> {
   }
 
   int lastIndexOf(element, [int start]) {
-    return _items.lastIndexOf(element,start);
+    return _items.lastIndexOf(element, start);
   }
 
   int lastIndexWhere(bool Function(E element) test, [int start]) {
-    return _items.lastIndexWhere(test,start);
+    return _items.lastIndexWhere(test, start);
   }
 
   lastWhere(bool Function(E element) test, {Function() orElse}) {
-    _items.lastWhere(test,orElse: orElse);
+    _items.lastWhere(test, orElse: orElse);
   }
 
-  void set length(int newLength) {
+  set length(int newLength) {
     _items.length = newLength;
   }
 
@@ -274,11 +258,11 @@ class Array<E> {
   }
 
   List sublist(int start, [int end]) {
-    return _items.sublist(start,end);
+    return _items.sublist(start, end);
   }
 
   Array subarray(int start, [int end]) {
-    List newList = sublist(start,end);
+    List newList = sublist(start, end);
     return Array.fromList(newList);
   }
 
@@ -309,5 +293,4 @@ class Array<E> {
   String toString() {
     return _items.toString();
   }
-
 }

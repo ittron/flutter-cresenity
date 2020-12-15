@@ -1,4 +1,3 @@
-import '../support/collection.dart';
 import 'adapter.dart';
 import 'factory.dart';
 import 'request.dart';
@@ -23,9 +22,7 @@ class Http {
 
   Adapter _adapter() {
     return Factory.createAdapter(adapterType);
-
   }
-
 
   Future<Response> waitRequest({
     String url,
@@ -34,12 +31,8 @@ class Http {
     String method = 'GET',
     String dataType = 'text',
   }) {
-
-
-
-    Request request = Request(url:url, method:method,data:data,files:files,dataType: dataType);
-
-
+    Request request = Request(
+        url: url, method: method, data: data, files: files, dataType: dataType);
 
     return this._adapter().request(request);
   }
@@ -54,26 +47,21 @@ class Http {
     Function onError,
     Function onCompleted,
   }) async {
+    Response response = await this.waitRequest(
+        url: url, method: method, data: data, files: files, dataType: dataType);
 
-
-    Response response = await this.waitRequest(url:url,method: method,data:data,files:files,dataType: dataType);
-
-    if(response.statusCode==200) {
-      if(onSuccess!=null) {
+    if (response.statusCode == 200) {
+      if (onSuccess != null) {
         onSuccess(response);
       }
     } else {
-      if(onError!=null) {
+      if (onError != null) {
         onError(response);
       }
     }
 
-    if(onCompleted!=null) {
+    if (onCompleted != null) {
       onCompleted(response);
     }
-
-
   }
-
-
 }

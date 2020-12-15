@@ -7,33 +7,24 @@ import 'package:flutter_cresenity/config/config.dart';
 import 'package:flutter_cresenity/http/response.dart';
 import 'package:flutter_cresenity/support/caster.dart';
 import 'package:flutter_cresenity/support/collection.dart';
-import 'package:flutter_cresenity/app/model/response_model.dart';
-import 'package:flutter_cresenity/app/model/pagination_data_model.dart';
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
 
 void main() {
-
-
-
   runZonedGuarded<Future<void>>(() async {
-
     await CF.init((Config config) {
       config.exception.addDeveloperPageReporter();
     });
     FlutterError.onError = (FlutterErrorDetails details) async {
-      CF.exception.reportError(details.exception, details.stack, errorDetails: details);
+      CF.exception
+          .reportError(details.exception, details.stack, errorDetails: details);
     };
     WidgetsFlutterBinding.ensureInitialized();
     runApp(MyApp());
   }, (dynamic error, StackTrace stackTrace) {
-
     print("ERRRORRRRR");
     CF.exception.reportError(error, stackTrace);
   });
-
 }
-
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -77,12 +68,11 @@ class NewScreen extends StatelessWidget {
         ),
         body: Center(
           child: Text("New Screen"),
-        )
-    );
+        ));
   }
 }
 
-
+// ignore: must_be_immutable
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -92,9 +82,7 @@ class MyHomePage extends StatelessWidget {
 
   Bloc counterBloc = CF.bloc.createBloc();
 
-
-
-  void mockApi() async {
+  Future<void> mockApi() async {
     Collection files = Collection();
     Collection params = Collection();
     String url = 'https://5e9180702810f4001648b99f.mockapi.io/v1/users';
@@ -106,8 +94,6 @@ class MyHomePage extends StatelessWidget {
     );
 
     print(response.body);
-
-
   }
 
   void _incrementCounter() {
@@ -156,8 +142,7 @@ class MyHomePage extends StatelessWidget {
             Text(
               'You have pushed the button this many times:',
             ),
-            counterBloc.createBuilder((builder){
-
+            counterBloc.createBuilder((builder) {
               return Text(
                 Caster(_counter).toString(),
                 style: Theme.of(context).textTheme.headline4,
@@ -165,16 +150,12 @@ class MyHomePage extends StatelessWidget {
             }),
             RaisedButton(
               onPressed: () {
-
-                throw "asd";
                 CF.navigator.navigateTo("/newScreen");
                 //NavigationService nav = new NavigationService();
                 //nav.navigateTo("newScreen");
               },
               child: Text("New Screen"),
             )
-
-
           ],
         ),
       ),
@@ -187,18 +168,14 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-
-
 class PostModel extends AbstractDataModel {
-
   int postId;
   @override
-  Map<String, dynamic > toJson() {
-    return {'postId':postId};
+  Map<String, dynamic> toJson() {
+    return {'postId': postId};
   }
 
   PostModel.fromJson(Map map) {
     postId = 1;
   }
-
 }

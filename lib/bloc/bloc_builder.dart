@@ -5,23 +5,18 @@ import 'bloc_builder_result.dart';
 import 'bloc_state.dart';
 
 class BlocBuilder extends StatefulWidget {
-  Function builder;
-  Stream stream;
-  Function init;
-  Bloc bloc;
+  final Function builder;
+  final Stream stream;
+  final Function init;
+  final Bloc bloc;
 
   BlocBuilder({
     Key key,
-    Function builder,
-    Stream stream,
-    Function init,
-    Bloc bloc,
-  }) : super(key: key) {
-    this.builder = builder;
-    this.init = init;
-    this.stream = stream;
-    this.bloc = bloc;
-  }
+    this.builder,
+    this.stream,
+    this.init,
+    this.bloc,
+  }) : super(key: key);
 
   @override
   _BlocBuilderState createState() => _BlocBuilderState();
@@ -43,7 +38,8 @@ class _BlocBuilderState extends State<BlocBuilder> {
             blocState = snapshot.data;
           }
 
-          BlocBuilderResult builderResult = BlocBuilderResult(context, blocState);
+          BlocBuilderResult builderResult =
+              BlocBuilderResult(context, blocState);
           return widget.builder(builderResult);
         });
   }

@@ -1,27 +1,23 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'array.dart';
 import 'caster.dart';
-import '../helper/c.dart';
-import '../helper/arr.dart';
+import 'package:flutter_cresenity/helper/c.dart';
+import 'package:flutter_cresenity/helper/arr.dart';
 
 class Collection<T> {
+  Map<String, T> _items;
 
-  Map<String,T> _items;
-
-  Map<String,T> all() {
+  Map<String, T> all() {
     return _items;
   }
 
-
   Collection([Object items]) {
     _items = _getMapableItems(items);
-    if(_items==null) {
+    if (_items == null) {
       clear();
     }
   }
-
 
   factory Collection.from(Collection other) {
     Collection<T> result = Collection<T>();
@@ -44,80 +40,69 @@ class Collection<T> {
     _items = jsonDecode(json);
   }
 
-
-
   _getMapableItems(Object items) {
-    if(items==null) {
-      return Map<String,T>();
+    if (items == null) {
+      return Map<String, T>();
     }
     if (items is Collection) {
       return items.all();
-    } else if(items is Map<String,T>) {
+    } else if (items is Map<String, T>) {
       return items;
-    } else if(items is Map<dynamic,dynamic>) {
-
-      Map<String,T> newItems = {};
+    } else if (items is Map<dynamic, dynamic>) {
+      Map<String, T> newItems = {};
       items.forEach((i, value) {
         Caster cast = Caster(i);
         newItems[cast.toString()] = value;
       });
       return newItems;
-    } else if(items is List) {
-      Map<String,T> newItems = {};
+    } else if (items is List) {
+      Map<String, T> newItems = {};
       items.asMap().forEach((i, value) {
         newItems[i.toString()] = value;
       });
       return newItems;
-    } else if(C.isScalar(items)) {
-
-
-      Map<String,T> newItems = {};
+    } else if (C.isScalar(items)) {
+      Map<String, T> newItems = {};
       newItems["0"] = items;
       return newItems;
     }
 
-    return Map<String,dynamic>();
+    return Map<String, dynamic>();
   }
-
-
 
   first() {
     return toArray().first();
   }
 
-
-  Collection sortBy(Function callback, [bool descending=false]) {
+  Collection sortBy(Function callback, [bool descending = false]) {
     Collection results = Collection();
     // First we will loop through the items and get the comparator from a callback
     // function which we were given. Then, we will sort the returned values and
     // and grab the corresponding values for the sorted keys from this array.
     _items.forEach((key, value) {
-      results[key] = callback(key,value);
+      results[key] = callback(key, value);
     });
 
-    var sortedKeys = results.keys.toList(growable:false)
+/*
+    var sortedKeys = results.keys.toList(growable: false)
       ..sort((k1, k2) => results[k1].compareTo(results[k2]));
+
 
     LinkedHashMap sortedMap = new LinkedHashMap
         .fromIterable(sortedKeys, key: (k) => k, value: (k) => results[k]);
-
+*/
     // Once we have sorted all of the keys in the array, we will loop through them
     // and grab the corresponding model so we can set the underlying items list
     // to the sorted version. Then we'll just return the collection instance.
     results.keys.forEach((key) {
-       results[key]=_items[key];
+      results[key] = _items[key];
     });
 
     return results;
-
   }
 
-
-
-
-  dynamic get(String key,[defaultValue]) {
-    return Arr.get(_items,key,defaultValue);
-
+  dynamic get(String key, [defaultValue]) {
+    return Arr.get(_items, key, defaultValue);
   }
 
   Map<String, T> toMap() {
@@ -125,7 +110,7 @@ class Collection<T> {
   }
 
   Collection set(String key, value) {
-    Arr.set(_items,key,value);
+    Arr.set(_items, key, value);
     return this;
   }
 
@@ -136,7 +121,7 @@ class Collection<T> {
 
   Array toArray() {
     Array arr = Array();
-    _items.forEach((key,value){
+    _items.forEach((key, value) {
       arr[Caster(key).toInt()] = value;
     });
     return arr;
@@ -147,9 +132,6 @@ class Collection<T> {
     return jsonEncode(_items);
   }
 
-
-
-
   Collection merge(Collection other) {
     _items.addAll(other.all());
     return this;
@@ -158,7 +140,7 @@ class Collection<T> {
   Collection mapWithKeys(Function callback) {
     Collection result = Collection();
     _items.forEach((key, value) {
-      Map assoc = callback(key,value);
+      Map assoc = callback(key, value);
       assoc.forEach((key, value) {
         result[key] = value;
       });
@@ -166,89 +148,71 @@ class Collection<T> {
 
     return result;
   }
-  
-  Collection filter([Function(String,T) f]) {
-    if(f!=null) {
-      return new Collection(Arr.where(_items,f));
+
+  Collection filter([Function(String, T) f]) {
+    if (f != null) {
+      return new Collection(Arr.where(_items, f));
     }
     return new Collection(Arr.filter(_items));
   }
-
-
 
   ///alias of length
   int count() {
     return length;
   }
 
-
   Collection clear() {
     _items.clear();
     return this;
   }
 
-  @override
   void addAll(Map<String, T> other) {
     _items.addAll(other);
   }
-
 
   void addEntries(Iterable<MapEntry<String, T>> newEntries) {
     _items.addEntries(newEntries);
   }
 
-
   Map<RK, RV> cast<RK, RV>() {
-    _items.cast<RK, RV>();
+    return _items.cast<RK, RV>();
   }
-
 
   bool containsKey(Object key) {
     return _items.containsKey(key);
   }
 
-
   bool containsValue(Object value) {
     return _items.containsValue(value);
   }
 
-
   Iterable<MapEntry<String, T>> get entries => _items.entries;
-
 
   void forEach(void Function(String key, T value) f) {
     _items.forEach(f);
   }
 
-
   bool get isEmpty => _items.isEmpty;
 
-
-  bool get isNotEmpty =>  _items.isNotEmpty;
-
+  bool get isNotEmpty => _items.isNotEmpty;
 
   Iterable<String> get keys => _items.keys;
-
 
   Iterable<T> get values => _items.values;
 
   int get length => _items.length;
 
-
   Collection<V2> map<V2>(MapEntry<String, V2> Function(String key, T value) f) {
-    return Collection(_items.map<String,V2>(f));
+    return Collection(_items.map<String, V2>(f));
   }
-
 
   T putIfAbsent(String key, T Function() ifAbsent) {
     return _items.putIfAbsent(key, ifAbsent);
   }
 
-
   T remove(Object key) {
     return _items.remove(key);
   }
-
 
   void removeWhere(bool Function(String key, T value) predicate) {
     _items.removeWhere(predicate);
@@ -267,13 +231,8 @@ class Collection<T> {
     return _items[keyString];
   }
 
-
   void operator []=(dynamic key, T value) {
     String keyString = Caster(key).toString();
     _items[keyString] = value;
   }
-
-
-
-
 }
