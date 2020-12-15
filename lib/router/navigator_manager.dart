@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 
-class Navigator {
-  Navigator._();
-  static final Navigator _instance = new Navigator._();
+class NavigatorManager {
+  NavigatorManager._();
+  static final NavigatorManager _instance = new NavigatorManager._();
   final GlobalKey<NavigatorState> _navigatorKey =
       new GlobalKey<NavigatorState>();
 
-  factory Navigator.instance() {
+  factory NavigatorManager.instance() {
     return _instance;
   }
 

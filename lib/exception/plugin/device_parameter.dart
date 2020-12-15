@@ -1,21 +1,19 @@
-
-
-
 import 'dart:io';
 
+import 'package:flutter_cresenity/exception/exception_config.dart';
 import 'package:flutter_cresenity/interface/bootable.dart';
 import 'package:device_info/device_info.dart';
 
 class DeviceParameter implements Bootable {
-
   Map<String, dynamic> _deviceParameters = Map();
 
   Future<void> boot() async {
-    _loadDeviceInfo();
+    if (ExceptionConfig.instance().enableDeviceParameter) {
+      _loadDeviceInfo();
+    }
   }
 
   Map<String, dynamic> get data => _deviceParameters;
-
 
   void _loadDeviceInfo() {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -29,8 +27,6 @@ class DeviceParameter implements Bootable {
       });
     }
   }
-
-
 
   void _loadAndroidParameters(AndroidDeviceInfo androidDeviceInfo) {
     _deviceParameters["id"] = androidDeviceInfo.id;
@@ -51,11 +47,14 @@ class DeviceParameter implements Bootable {
     _deviceParameters["type"] = androidDeviceInfo.type;
     _deviceParameters["versionBaseOs"] = androidDeviceInfo.version.baseOS;
     _deviceParameters["versionCodename"] = androidDeviceInfo.version.codename;
-    _deviceParameters["versionIncremental"] = androidDeviceInfo.version.incremental;
-    _deviceParameters["versionPreviewSdk"] = androidDeviceInfo.version.previewSdkInt;
+    _deviceParameters["versionIncremental"] =
+        androidDeviceInfo.version.incremental;
+    _deviceParameters["versionPreviewSdk"] =
+        androidDeviceInfo.version.previewSdkInt;
     _deviceParameters["versionRelease"] = androidDeviceInfo.version.release;
     _deviceParameters["versionSdk"] = androidDeviceInfo.version.sdkInt;
-    _deviceParameters["versionSecurityPatch"] = androidDeviceInfo.version.securityPatch;
+    _deviceParameters["versionSecurityPatch"] =
+        androidDeviceInfo.version.securityPatch;
   }
 
   void _loadIosParameters(IosDeviceInfo iosInfo) {

@@ -1,7 +1,6 @@
 name: flutter_cresenity
 description: Cresenity Flutter package.
-version: 0.0.16
-author: Ittron Developer <development.ittron@gmail.com>
+version: 0.0.17
 homepage: https://github.com/ittron/flutter-cresenity
 
 environment:
