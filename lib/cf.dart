@@ -14,6 +14,8 @@ import 'package:flutter_cresenity/app/model/model_factory.dart';
 
 class CF {
 
+  static bool _inited;
+
   static BlocManager get bloc => BlocManager.instance();
   static Http get http => Http.instance();
   static Navigator get navigator => Navigator.instance();
@@ -26,6 +28,10 @@ class CF {
   static ModelFactory get model => ModelFactory.instance();
 
   static Future<void> init()  async {
+    if(_inited) {
+      return;
+    }
+    _inited = true;
     List<Bootable> bootstrapper= List();
 
     bootstrapper.add(ValidatorBootstrap());
@@ -34,12 +40,16 @@ class CF {
 
 
     for(int i=0; i<bootstrapper.length ;i ++) {
-      await bootstrapper[i].boot();
+
+        await bootstrapper[i].boot();
+
     }
 
 
 
 
   }
+
+
 }
 

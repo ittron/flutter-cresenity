@@ -25,7 +25,7 @@ class ResponseModel<T extends AbstractDataModel> extends AbstractModel {
     errMessage = Arr.getString(json,'errMessage');
     factoryBuilder = ModelFactory.instance().resolveBuilder(T,factoryBuilder);
 
-    data = factoryBuilder(Arr.getMap(json, 'data'));
+    data = Arr.getMap(json, 'data')!=null ? factoryBuilder(Arr.getMap(json, 'data')) : null;
 
 
   }
