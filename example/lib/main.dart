@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/bloc/bloc.dart';
 import 'package:flutter_cresenity/cf.dart';
+import 'package:flutter_cresenity/config/config.dart';
 import 'package:flutter_cresenity/http/response.dart';
 import 'package:flutter_cresenity/support/caster.dart';
 import 'package:flutter_cresenity/support/collection.dart';
@@ -9,7 +12,25 @@ import 'package:flutter_cresenity/app/model/pagination_data_model.dart';
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
 
 void main() {
-  runApp(MyApp());
+
+
+
+  runZonedGuarded<Future<void>>(() async {
+
+    await CF.init((Config config) {
+      config.exception.addDeveloperDialogReporter();
+    });
+    FlutterError.onError = (FlutterErrorDetails details) async {
+      CF.exception.reportError(details.exception, details.stack, errorDetails: details);
+    };
+    WidgetsFlutterBinding.ensureInitialized();
+    runApp(MyApp());
+  }, (dynamic error, StackTrace stackTrace) {
+
+    print("ERRRORRRRR");
+    CF.exception.reportError(error, stackTrace);
+  });
+
 }
 
 
@@ -72,34 +93,6 @@ class MyHomePage extends StatelessWidget {
   Bloc counterBloc = CF.bloc.createBloc();
 
 
-  void testing() {
-    Map data = {
-      'errCode':0,
-      'errMessage':'',
-      'data': {
-        'total':3,
-        'lastPage':1,
-        'perPage':10,
-        'currentPage':1,
-        'items': [{
-          'postId':1
-        },
-          {
-            'postId':2
-          },
-          {
-            'postId':3
-          }]
-      }
-    }; //from api
-    ResponseModel<PaginationDataModel<PostModel>> response =ResponseModel<PaginationDataModel<PostModel>>.fromJson(data, (item) {
-      return PostModel.fromJson(item);
-    });
-
-    response.data.items.forEach((element) {
-      print(element.postId);
-    });
-  }
 
   void mockApi() async {
     Collection files = Collection();
@@ -172,6 +165,8 @@ class MyHomePage extends StatelessWidget {
             }),
             RaisedButton(
               onPressed: () {
+
+                throw "asd";
                 CF.navigator.navigateTo("/newScreen");
                 //NavigationService nav = new NavigationService();
                 //nav.navigateTo("newScreen");

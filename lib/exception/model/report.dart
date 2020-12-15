@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cresenity/support/platform_type.dart';
+import 'package:flutter_cresenity/type.dart';
 
 class Report {
   /// Error that has been catched

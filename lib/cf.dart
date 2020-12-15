@@ -3,6 +3,8 @@ library flutter_cresenity;
 import 'package:flutter_cresenity/app/model/model_bootstrap.dart';
 import 'package:flutter_cresenity/bloc/bloc_manager.dart';
 import 'package:flutter_cresenity/config/config.dart';
+import 'package:flutter_cresenity/exception/exception_bootstrap.dart';
+import 'package:flutter_cresenity/exception/exception_manager.dart';
 import 'package:flutter_cresenity/http/http.dart';
 import 'package:flutter_cresenity/interface/bootable.dart';
 import 'package:flutter_cresenity/router/navigator.dart';
@@ -27,8 +29,9 @@ class CF {
   static TranslationManager get translation => TranslationManager.instance();
 
   static ModelFactory get model => ModelFactory.instance();
+  static ExceptionManager get exception => ExceptionManager.instance();
 
-  static Future<void> init([Future<void> Function(Config) setupCallback])  async {
+  static Future<void> init([Function(Config) setupCallback])  async {
     if(_inited) {
       return;
     }
@@ -41,6 +44,7 @@ class CF {
     bootstrapper.add(ValidatorBootstrap());
     bootstrapper.add(StorageBootstrap());
     bootstrapper.add(ModelBootstrap());
+    bootstrapper.add(ExceptionBootstrap());
 
 
     for(int i=0; i<bootstrapper.length ;i ++) {
