@@ -1,6 +1,7 @@
 library flutter_cresenity;
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_cresenity/app/api/api_manager.dart';
 import 'package:flutter_cresenity/app/model/model_bootstrap.dart';
 import 'package:flutter_cresenity/bloc/bloc_manager.dart';
 import 'package:flutter_cresenity/config/config.dart';
@@ -30,6 +31,8 @@ class CF {
 
   static ModelFactory get model => ModelFactory.instance();
   static ExceptionManager get exception => ExceptionManager.instance();
+
+  static ApiManager get api => ApiManager.instance();
 
   static Future<void> init([Function(Config) setupCallback]) async {
     if (_inited) {
