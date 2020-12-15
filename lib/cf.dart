@@ -2,6 +2,7 @@ library flutter_cresenity;
 
 import 'package:flutter_cresenity/app/model/model_bootstrap.dart';
 import 'package:flutter_cresenity/bloc/bloc_manager.dart';
+import 'package:flutter_cresenity/config/config.dart';
 import 'package:flutter_cresenity/http/http.dart';
 import 'package:flutter_cresenity/interface/bootable.dart';
 import 'package:flutter_cresenity/router/navigator.dart';
@@ -14,7 +15,7 @@ import 'package:flutter_cresenity/app/model/model_factory.dart';
 
 class CF {
 
-  static bool _inited;
+  static bool _inited = false;
 
   static BlocManager get bloc => BlocManager.instance();
   static Http get http => Http.instance();
@@ -27,9 +28,12 @@ class CF {
 
   static ModelFactory get model => ModelFactory.instance();
 
-  static Future<void> init()  async {
+  static Future<void> init([Future<void> Function(Config) setupCallback])  async {
     if(_inited) {
       return;
+    }
+    if(setupCallback!=null) {
+      setupCallback(Config.instance());
     }
     _inited = true;
     List<Bootable> bootstrapper= List();
@@ -49,6 +53,9 @@ class CF {
 
 
   }
+
+
+
 
 
 }

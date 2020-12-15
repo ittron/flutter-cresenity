@@ -2,6 +2,7 @@
 
 
 import 'package:flutter_cresenity/storage/storage_adapter.dart';
+import 'package:flutter_cresenity/storage/storage_config.dart';
 import 'package:flutter_cresenity/storage/storage_factory.dart';
 
 class Storage {
@@ -41,8 +42,9 @@ class Storage {
   }
 
   Future<void> setup() async {
-
-    await _adapter.setup();
+    if(StorageConfig.instance().enable) {
+      await _adapter.setup();
+    }
   }
 
 
