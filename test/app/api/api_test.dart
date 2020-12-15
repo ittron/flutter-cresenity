@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_cresenity/app/api/api_request.dart';
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
 import 'package:flutter_cresenity/app/model/response_model.dart';
@@ -36,6 +37,7 @@ void main() async {
   Map params = {'authId': authId};
   ApiRequest sessionRequest = CF.api.createRequest(url, params);
 
+/*
   test('Test response', () async {
     Response response = await sessionRequest.getResponse();
     expect(response != null, true);
@@ -52,6 +54,20 @@ void main() async {
   test('Test data model', () async {
     SessionModel sessionModel =
         await sessionRequest.getDataModel<SessionModel>();
+    expect(sessionModel != null, true);
+    expect(sessionModel.sessionId != null, true);
+  });
+*/
+  test('Test value notifier model', () async {
+    SessionModel sessionModel = SessionModel.fromJson({});
+
+    ValueNotifier<SessionModel> value = ValueNotifier(null);
+    value.addListener(() {
+      sessionModel = value.value;
+    });
+    await sessionRequest
+        .bindTo<SessionModel>(value)
+        .getDataModel<SessionModel>();
     expect(sessionModel != null, true);
     expect(sessionModel.sessionId != null, true);
   });

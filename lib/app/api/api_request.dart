@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
 import 'package:flutter_cresenity/app/model/response_model.dart';
 import 'package:flutter_cresenity/cf.dart';
@@ -10,6 +11,8 @@ class ApiRequest {
   String _url;
   Collection _params;
   //dynamic _errorHandler;
+  dynamic _value;
+  Type _valueType;
 
   ApiRequest(url, [params]) {
     this._url = url;
@@ -57,6 +60,20 @@ class ApiRequest {
   Future<T> getDataModel<T extends AbstractDataModel>() async {
     ResponseModel<T> responseModel = await getResponseModel<T>();
 
+    if (_value != null && _getType<T>() == _valueType) {
+      print("UPDATE VALUE");
+      _value.value = responseModel.data;
+    }
     return responseModel.data;
+  }
+
+  ApiRequest bindTo<T>(value) {
+    _value = value;
+    _valueType = _getType<T>();
+    return this;
+  }
+
+  _getType<T>() {
+    return T;
   }
 }
