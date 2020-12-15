@@ -37,6 +37,20 @@ void main() async {
     return PostModel.fromJson(map);
   });
 
+  test('BrokenModel', (){
+    Map<String,dynamic> json = {
+      'errCode':0,
+      'errMessage':'def',
+    };
+
+    ResponseModel<CollectionDataModel> responseModel = ResponseModel.fromJson(json);
+
+    expect(responseModel.errCode,0);
+    expect(responseModel.errMessage,'def');
+
+
+  });
+
   test('CollectionDataModel', (){
       Map<String,dynamic> json = {
         'errCode':0,

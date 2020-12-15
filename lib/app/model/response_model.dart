@@ -38,6 +38,6 @@ class ResponseModel<T extends AbstractDataModel> extends AbstractModel {
   Map<String, dynamic> toJson() => {
     'errCode':errCode,
     'errMessage':errMessage,
-    'data':data.toJson(),
+    'data': data!=null ? data.toJson() : {},
   };
 }
