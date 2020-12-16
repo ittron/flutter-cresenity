@@ -14,6 +14,7 @@ import 'package:flutter_cresenity/storage/storage.dart';
 import 'package:flutter_cresenity/storage/storage_bootstrap.dart';
 import 'package:flutter_cresenity/translation/translation_manager.dart';
 import 'package:flutter_cresenity/translation/translator.dart';
+import 'package:flutter_cresenity/ui/ui_manager.dart';
 import 'package:flutter_cresenity/validation/validator_bootstrap.dart';
 import 'package:flutter_cresenity/app/model/model_factory.dart';
 
@@ -33,6 +34,8 @@ class CF {
   static ExceptionManager get exception => ExceptionManager.instance();
 
   static ApiManager get api => ApiManager.instance();
+
+  static UIManager get ui => UIManager.instance();
 
   static Future<void> init([Function(Config) setupCallback]) async {
     if (_inited) {

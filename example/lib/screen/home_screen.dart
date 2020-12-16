@@ -95,6 +95,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 _doGetInfo();
               },
               child: Text("Get Ip Address"),
+            ),
+            RaisedButton(
+              onPressed: () async {
+                await Base.api.toDataModel<GetInfoModel>().run("NotFound");
+              },
+              child: Text("Api Error"),
             )
           ],
         ),

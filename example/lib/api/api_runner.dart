@@ -3,6 +3,8 @@ import 'package:example/api/api_options.dart';
 import 'package:example/api/api_service.dart';
 import 'package:example/api/exception/api_error_exception.dart';
 import 'package:example/api/exception/api_http_exception.dart';
+import 'package:example/api/runner/api_data_model_runner.dart';
+import 'package:example/api/runner/api_response_model_runner.dart';
 import 'package:example/model/session_model.dart';
 import 'package:example/module/disk.dart';
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
@@ -25,7 +27,7 @@ class ApiRunner {
     return this;
   }
 
-  toResponseModel<T extends AbstractDataModel>(Response response) {
+  convertToResponseModel<T extends AbstractDataModel>(Response response) {
     ResponseModel<T> model;
     try {
       model = response.toResponseModel<T>();
@@ -40,13 +42,18 @@ class ApiRunner {
     return model;
   }
 
+  convertToDataModel<T extends AbstractDataModel>(Response response) {
+    ResponseModel<T> responseModel = convertToResponseModel<T>(response);
+    return responseModel?.data;
+  }
+
   Future<SessionModel> _login() async {
     String url = ApiService.baseUrl + "Login";
     Map params = {'authId': ApiService.authId};
 
     Response response = await _getResponse(url, params, true);
     if (response != null) {
-      SessionModel sessionModel = response.toDataModel<SessionModel>();
+      SessionModel sessionModel = convertToDataModel<SessionModel>(response);
       if (sessionModel != null) {
         Disk.setSessionId(sessionModel.sessionId);
       }
@@ -114,5 +121,13 @@ class ApiRunner {
     } else {
       throw exception;
     }
+  }
+
+  ApiDataModelRunner toDataModel<T extends AbstractDataModel>() {
+    return ApiDataModelRunner<T>(this);
+  }
+
+  ApiResponseModelRunner toResponseModel<T extends AbstractDataModel>() {
+    return ApiResponseModelRunner<T>(this);
   }
 }

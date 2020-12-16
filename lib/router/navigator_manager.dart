@@ -10,6 +10,12 @@ class NavigatorManager {
     return _instance;
   }
 
+  BuildContext get context => _navigatorKey.currentState?.overlay?.context;
+
+  bool hasValidContext() {
+    return context != null;
+  }
+
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
   Future<dynamic> navigateTo(String routeName) {

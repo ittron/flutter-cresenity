@@ -2,7 +2,11 @@ import 'package:example/api/api_options.dart';
 import 'package:example/api/api_runner.dart';
 import 'package:example/api/exception/api_error_exception.dart';
 import 'package:example/api/exception/api_http_exception.dart';
+import 'package:example/api/runner/api_data_model_runner.dart';
+import 'package:example/api/runner/api_response_model_runner.dart';
+import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
 import 'package:flutter_cresenity/http/response.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ApiService {
   ApiService._();
@@ -18,8 +22,14 @@ class ApiService {
     print(e.toString());
   };
   Function _defaultOnError = (ApiErrorException error) {
-    print(error.toString());
+    _showToast(error.toString());
   };
+
+  static void _showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+    );
+  }
 
   ApiRunner withOptions(
       {Function(ApiHttpException) onException,
@@ -39,5 +49,13 @@ class ApiService {
 
   Future<Response> run(String method, [params]) async {
     return await withOptions().run(method, params);
+  }
+
+  ApiDataModelRunner toDataModel<T extends AbstractDataModel>() {
+    return ApiDataModelRunner<T>(withOptions());
+  }
+
+  ApiResponseModelRunner toResponseModel<T extends AbstractDataModel>() {
+    return ApiResponseModelRunner<T>(withOptions());
   }
 }
