@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
 import 'package:flutter_cresenity/app/model/response_model.dart';
 import 'package:flutter_cresenity/cf.dart';
@@ -61,7 +60,6 @@ class ApiRequest {
     ResponseModel<T> responseModel = await getResponseModel<T>();
 
     if (_value != null && _getType<T>() == _valueType) {
-      print("UPDATE VALUE");
       _value.value = responseModel.data;
     }
     return responseModel.data;

@@ -32,7 +32,6 @@ class PageReporter extends ReporterAbstract {
   bool isContextRequired() {
     return true;
   }
-
 }
 
 class PageWidget extends StatefulWidget {
@@ -58,8 +57,7 @@ class PageWidgetState extends State<PageWidget> {
   Widget _buildMaterialPage() {
     return Scaffold(
       appBar: AppBar(
-        title:
-        Text(CF.translator.get('exception.page_title')),
+        title: Text(CF.translator.get('exception.page_title')),
       ),
       body: _buildInnerWidget(),
     );
@@ -68,8 +66,7 @@ class PageWidgetState extends State<PageWidget> {
   Widget _buildCupertinoPage() {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle:
-        Text(CF.translator.get('exception.page_title')),
+        middle: Text(CF.translator.get('exception.page_title')),
       ),
       child: SafeArea(
         child: _buildInnerWidget(),
@@ -88,7 +85,19 @@ class PageWidgetState extends State<PageWidget> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(CF.translator.get('exception.page_description'),
+            child: Text(
+              CF.translator.get('exception.page_description'),
+              style: _getTextStyle(15),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              widget.report.error.toString(),
               style: _getTextStyle(15),
               textAlign: TextAlign.center,
             ),

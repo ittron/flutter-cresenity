@@ -1,12 +1,14 @@
 import 'package:flutter_cresenity/exception/reporter/developer_dialog_reporter.dart';
 import 'package:flutter_cresenity/exception/reporter/dialog_reporter.dart';
 import 'package:flutter_cresenity/exception/reporter/page_reporter.dart';
+import 'package:flutter_cresenity/exception/reporter/print_reporter.dart';
 import 'package:flutter_cresenity/exception/reporter_abstract.dart';
 
 class ExceptionConfig {
   bool enableLogger = true;
   bool enableDeviceParameter = true;
   bool enableApplicationParameter = true;
+  bool enableRethrow = false;
   int handlerTimeout = 5000;
 
   final Map<String, dynamic> customParameters = {};
@@ -21,24 +23,34 @@ class ExceptionConfig {
     return _instance;
   }
 
-  addReporter(ReporterAbstract reporter) {
+  ExceptionConfig addReporter(ReporterAbstract reporter) {
     this._reporters.add(reporter);
+    return this;
   }
 
-  addDialogReporter() {
+  ExceptionConfig addDialogReporter() {
     this._reporters.add(DialogReporter());
+    return this;
   }
 
-  addDeveloperDialogReporter() {
+  ExceptionConfig addDeveloperDialogReporter() {
     this._reporters.add(DeveloperDialogReporter());
+    return this;
   }
 
-  addPageReporter() {
+  ExceptionConfig addPageReporter() {
     this._reporters.add(PageReporter(showStackTrace: false));
+    return this;
   }
 
-  addDeveloperPageReporter() {
+  ExceptionConfig addPrintReporter() {
+    this._reporters.add(PrintReporter());
+    return this;
+  }
+
+  ExceptionConfig addDeveloperPageReporter() {
     this._reporters.add(PageReporter(showStackTrace: true));
+    return this;
   }
 
   setRelease() {}
