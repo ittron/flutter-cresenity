@@ -12,26 +12,21 @@ class Str {
   static Map<String, Map<String, String>> _snakeCache = {};
 
   /// Return the remainder of a string after the first occurrence of a given value.
-  ///
-  /// @param subject
-  /// @param search
-  /// @return The new string after first match
   static String after(String subject, String search) {
     return search == ''
         ? subject
         : subject.split(search).sublist(1).join(search);
   }
 
+  /// Generate a more truly "random" alpha-numeric string.
   static String random([int length = 16]) {
-    const _chars =
-        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     Random _rnd = Random.secure();
     return String.fromCharCodes(Iterable.generate(
         length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
   }
 
   ///Convert a string to snake case.
-
   static snake(String value, [String delimiter = '_']) {
     String key = value;
 
@@ -40,8 +35,7 @@ class Str {
       return _snakeCache[key][delimiter];
     }
 
-    value =
-        Str.ucwords(value).replaceAll(RegExp(r'\s+', caseSensitive: false), '');
+    value = Str.ucwords(value).replaceAll(RegExp(r'\s+', caseSensitive: false), '');
     value = Str.lower(value.replaceAllMapped(
         RegExp(r'(.)(?=[A-Z])', caseSensitive: true), (match) {
       return match.group(1) + delimiter;
@@ -153,9 +147,11 @@ class Str {
     return s;
   }
 
-  static String pregQuote(String str) {
+  static String pregQuote(String str,[String delimiter = '']) {
+
+
     return str.replaceAllMapped(
-        RegExp(r'([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!<\>\|\:])'), (match) {
+        RegExp(r'([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!<\>\|\:'+delimiter+'])'), (match) {
       return "\\${match.group(0)}";
     });
   }
@@ -259,7 +255,45 @@ class Str {
     return str.toLowerCase();
   }
 
-  static String ucfirst(String str) {
-    return "${str[0].toUpperCase()}${str.substring(1)}";
+  /// Make a string's first character uppercase.
+  static String ucfirst(String string) {
+    return Str.upper(Str.substr(string, 0, 1)) + Str.substr(string, 1);
+
   }
+
+  /// Returns the portion of string specified by the start and length parameters.
+  static String substr(String string, int start, [int length]) {
+    int end = length!=null ? length + start : null;
+    return string.substring(start, end);
+  }
+
+  /// Returns the number of substring occurrences.
+  static int substrCount(String haystack, String needle, [int offset = 0, int length = 0]) {
+    int cnt = 0;
+
+    if (needle.length == 0) {
+      return 0;
+    }
+    offset--;
+    while ((offset = haystack.indexOf(needle, offset + 1)) != -1) {
+      if (length > 0 && (offset + needle.length) > length) {
+        return 0;
+      }
+      cnt++;
+    }
+    return cnt;
+  }
+
+
+  /// Begin a string with a single instance of a given value.
+  static String start(String value, String prefix) {
+    String quoted = pregQuote(prefix, '/');
+    return prefix + value.replaceAll(RegExp(r'^(?:'+ quoted + ')+'), '');
+  }
+
+  /// Determine if a given string is 7 bit ASCII.
+  static bool isAscii(value) {
+    return RegExp(r'^[\x00-\x7F]+$').hasMatch(value);
+  }
+
 }
