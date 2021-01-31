@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AutoCloseKeyboardWidget extends StatelessWidget {
+class AutoCloseKeyboard extends StatelessWidget {
   final Widget child;
 
-  const AutoCloseKeyboardWidget({
+  const AutoCloseKeyboard({
     Key key,
     this.child,
   }) : super(key: key);
