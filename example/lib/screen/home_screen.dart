@@ -8,6 +8,8 @@ import 'package:flutter_cresenity/cf.dart';
 import 'package:flutter_cresenity/http/response.dart';
 import 'dart:developer' as logger;
 
+import 'home_screen/home_drawer.dart';
+
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
 
@@ -47,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
         // the App.build method, and use it to set our appbar title.
         title: Text('Flutter Cresenity Demo'),
       ),
+      drawer: HomeDrawer(),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
