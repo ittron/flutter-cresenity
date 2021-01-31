@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_cresenity/helper/str.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_cresenity/support/array.dart';
@@ -70,5 +72,35 @@ void main() {
     expected = ['row1cell1', 'row1,cell2', 'row1","cell3'];
     expect(actual,expected);
 */
+  });
+
+  test("Test Str.replace", () {
+    expect(Str.substr('example',0,2), 'ex');
+    expect(Str.substr('example',1,2), 'xa');
+  });
+
+  test("Test Str.isAscii", () {
+    expect(Str.isAscii('example'), true);
+    expect(Str.isAscii('.网络'), false);
+
+
+  });
+
+  test("Test Str.start", () {
+    expect(Str.start('this/string', '/'), '/this/string');
+    expect(Str.start('/this/string', '/'), '/this/string');
+  });
+
+  test("Test Str.trim", () {
+    expect(Str.trim('  string'), 'string');
+    expect(Str.trim('-string--','-'), 'string');
+    expect(Str.trim('- string --','- '), 'string');
+
+  });
+
+  test("Test Str.slug", () {
+    expect(Str.slug('Hello world'), 'hello-world');
+    expect(Str.slug(' Hello world','-'), 'hello-world');
+
   });
 }
