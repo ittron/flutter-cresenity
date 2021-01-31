@@ -114,8 +114,33 @@ class Str {
         .join(" ");
   }
 
-  static String trim(String value) {
-    return value.trim();
+  static String trim(String str , [String charlist]) {
+    String whitespace = charlist;
+    if(whitespace==null) {
+      whitespace = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';
+
+    } else {
+      whitespace = whitespace.replaceAllMapped(r'([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])', (Match match) {
+        return match.group(1);
+      });
+
+    }
+    int l = str.length;
+    for (int i = 0; i < l; i++) {
+      if (whitespace.indexOf(str[i]) == -1) {
+        str = str.substring(i);
+        break;
+      }
+    }
+
+    l = str.length;
+    for (int i = l - 1; i >= 0; i--) {
+      if (whitespace.indexOf(str[i]) == -1) {
+        str = str.substring(0, i + 1);
+        break;
+      }
+    }
+    return whitespace.indexOf(str[0]) == -1 ? str : '';
   }
 
   static List<String> explode(String delimiter, String string, [int limit]) {
@@ -155,6 +180,14 @@ class Str {
       return "\\${match.group(0)}";
     });
   }
+
+  static String pregReplace(pattern, String replacement, String subject) {
+    if(pattern is String) {
+      pattern = new RegExp(pattern);
+    }
+    return subject.replaceAll(pattern, replacement);
+  }
+
 
   static List getcsv(String input,
       [String delimiter = ",", String enclosure = '"', String escape = "\\"]) {
@@ -292,8 +325,35 @@ class Str {
   }
 
   /// Determine if a given string is 7 bit ASCII.
-  static bool isAscii(value) {
+  static bool isAscii(String value) {
     return RegExp(r'^[\x00-\x7F]+$').hasMatch(value);
   }
 
+  /// Generate a URL friendly "slug" from a given string.
+  static String slug(String title, [String separator = '-']) {
+    final _dupeSpaceRegExp = RegExp(r'\s{2,}');
+    final _punctuationRegExp = RegExp(r'[^\w\s-]');
+
+    // Convert all dashes/underscores into separator
+    String flip = separator == '-' ? '_' : '-';
+
+    title = pregReplace(r'[' + pregQuote(flip) + r']+', separator, title);
+
+    // Replace @ with the word 'at'
+    title = replace('@', separator + 'at' + separator, title);
+
+    title = lower(title)
+        // Condense whitespaces to 1 space.
+        .replaceAll(_dupeSpaceRegExp, ' ')
+        // Remove punctuation.
+        .replaceAll(_punctuationRegExp, '')
+        // Replace space with the delimiter.
+        .replaceAll(' ', separator);
+
+
+    // Replace all separator characters and whitespace by a single separator
+    title = pregReplace(r'[' + pregQuote(separator) + r'\s]+', separator, title);
+
+    return trim(title, separator);
+  }
 }
