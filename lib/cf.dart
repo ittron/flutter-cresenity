@@ -10,6 +10,7 @@ import 'package:flutter_cresenity/exception/exception_manager.dart';
 import 'package:flutter_cresenity/http/http.dart';
 import 'package:flutter_cresenity/interface/bootable.dart';
 import 'package:flutter_cresenity/router/navigator_manager.dart';
+import 'package:flutter_cresenity/router/router_manager.dart';
 import 'package:flutter_cresenity/storage/storage.dart';
 import 'package:flutter_cresenity/storage/storage_bootstrap.dart';
 import 'package:flutter_cresenity/translation/translation_manager.dart';
@@ -31,6 +32,7 @@ class CF {
   static TranslationManager get translation => TranslationManager.instance();
 
   static ModelFactory get model => ModelFactory.instance();
+  static RouterManager get router => RouterManager.instance();
   static ExceptionManager get exception => ExceptionManager.instance();
 
   static ApiManager get api => ApiManager.instance();

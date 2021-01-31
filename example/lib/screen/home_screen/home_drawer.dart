@@ -1,7 +1,7 @@
 
 
-import 'package:example/screen/docs_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cresenity/cf.dart';
 
 class HomeDrawer extends StatelessWidget {
   @override
@@ -32,10 +32,8 @@ class HomeDrawer extends StatelessWidget {
             leading: Icon(Icons.verified_user),
             title: Text('Documentation'),
             onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DocsScreen()),
-              )
+              CF.router.navigateTo(context, '/docs')
+
             },
           ),
 
