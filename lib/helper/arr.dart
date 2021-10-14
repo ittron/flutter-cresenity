@@ -1,48 +1,41 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/support/tuple.dart';
-
-import '../support/array.dart';
-import '../support/array.dart';
-import '../support/caster.dart';
-import '../support/caster.dart';
-import '../support/collection.dart';
-
+import 'package:flutter_cresenity/support/array.dart';
+import 'package:flutter_cresenity/support/caster.dart';
+import 'package:flutter_cresenity/support/collection.dart';
 import 'c.dart';
+
 class Arr {
   static bool accessible(array) {
-    return array!=null && (array is Map || array is List || array is Collection || array is Array);
+    return array != null &&
+        (array is Map ||
+            array is List ||
+            array is Collection ||
+            array is Array);
   }
 
-  static bool exists(array,key) {
-
-
-    if(array is Map) {
-
+  static bool exists(array, key) {
+    if (array is Map) {
       return array.containsKey(key);
     }
-    if(array is List) {
-      if(!key is int) {
+    if (array is List) {
+      if (!key is int) {
         key = Caster(key).toInt();
       }
-      return array.length>=key && key>=0;
+      return array.length >= key && key >= 0;
     }
 
-
     return false;
-
   }
 
   static set(array, key, value) {
-    if(key==null) {
+    if (key == null) {
       return array = value;
     }
 
-
-    if(key is String && key.indexOf('.') > 0) {
+    if (key is String && key.indexOf('.') > 0) {
       List keys = key.split(".");
-      int i=0;
 
-      while(keys.length>1) {
+      while (keys.length > 1) {
         String segment = keys[0];
         if (accessible(array) && !exists(array, segment)) {
           array[segment] = array is Map ? {} : [];
@@ -51,7 +44,6 @@ class Arr {
         key = keys[1];
         keys.removeAt(0);
       }
-
     }
 
     array[key] = value;
@@ -59,47 +51,41 @@ class Arr {
     return array;
   }
 
-  static get(array, key,[dynamic defaultValue]) {
-
-    if(array is Tuple) {
-      if(key == 0 || key == "0" || key=="item1") {
+  static get(array, key, [dynamic defaultValue]) {
+    if (array is Tuple) {
+      if (key == 0 || key == "0" || key == "item1") {
         return array.item1;
       }
-      if(key == 1 || key == "1" || key=="item2") {
+      if (key == 1 || key == "1" || key == "item2") {
         return array.item2;
       }
       array = array.toList();
-
     }
 
-    if(!accessible(array) || key==null || !C.isScalar(key)) {
+    if (!accessible(array) || key == null || !C.isScalar(key)) {
       return defaultValue;
     }
 
-    if(array is Map) {
-      if(array.containsKey(key)) {
+    if (array is Map) {
+      if (array.containsKey(key)) {
         return array[key];
       }
     }
-    if(array is Collection) {
-      if(array.containsKey(key)) {
+    if (array is Collection) {
+      if (array.containsKey(key)) {
         return array[key];
       }
     }
 
-    if(array is List) {
+    if (array is List) {
       int keyInt = Caster(key).toInt();
-      if(keyInt>=0 && keyInt<=array.length) {
+      if (keyInt >= 0 && keyInt <= array.length) {
         return array[keyInt];
       }
     }
-    if(key is String && key.indexOf('.')>0) {
-
-      for(var segment in key.split(".")) {
-
-
-        if(accessible(array) && exists(array, segment)) {
-
+    if (key is String && key.indexOf('.') > 0) {
+      for (var segment in key.split(".")) {
+        if (accessible(array) && exists(array, segment)) {
           array = array[segment];
         } else {
           return defaultValue;
@@ -109,61 +95,53 @@ class Arr {
       return defaultValue;
     }
     return array;
-
   }
 
-  static String getString(map, key,[String defaultValue]) {
-
-    var value = get(map,key,defaultValue);
+  static String getString(map, key, [String defaultValue]) {
+    var value = get(map, key, defaultValue);
 
     return Caster(value).toString();
-
   }
 
-
-  static int getInt(map, key,[int defaultValue]) {
-    var value = get(map,key,defaultValue);
+  static int getInt(map, key, [int defaultValue]) {
+    var value = get(map, key, defaultValue);
     return Caster(value).toInt();
   }
 
+  static Collection getCollection(map, key, [Collection defaultValue]) {
+    var value = get(map, key, defaultValue);
 
-  static Collection getCollection(map, key,[Collection defaultValue]) {
-    var value = get(map,key,defaultValue);
-
-    if(value!=null && (!(value is Collection))) {
+    if (value != null && (!(value is Collection))) {
       return Collection(value);
     }
     return value;
   }
 
-  static Array getArray<T>(map, key,[Array defaultValue]) {
-    var value = get(map,key,defaultValue);
+  static Array getArray<T>(map, key, [Array defaultValue]) {
+    var value = get(map, key, defaultValue);
 
-    if(value!=null && (!(value is Array))) {
+    if (value != null && (!(value is Array))) {
       return Array<T>(value);
     }
     return value;
   }
 
-  static Map getMap(map, key,[Map defaultValue]) {
-    var value = get(map,key,defaultValue);
-
+  static Map getMap(map, key, [Map defaultValue]) {
+    var value = get(map, key, defaultValue);
 
     return value;
   }
 
-
   static Array wrap(value) {
-    if(!C.isArray(value)) {
+    if (!C.isArray(value)) {
       value = [value];
     }
 
     return Array(value);
   }
 
-
   static Collection wrapCollection(value) {
-    if(!C.isCollection(value)) {
+    if (!C.isCollection(value)) {
       value = wrap(value);
     }
     return Collection(value);
@@ -173,7 +151,7 @@ class Arr {
     return Array(arr.toSet());
   }
 
-  static Collection<T> filter<T>(arr, [bool Function(String,T) callback]) {
+  static Collection<T> filter<T>(arr, [bool Function(String, T) callback]) {
     //        note: Takes a function as an argument, not a function's name
     //   example 1: var odd = (num) {return (num & 1);};
     //   example 1: Arr.filter({"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}, odd);
@@ -188,39 +166,35 @@ class Arr {
 
     Collection items = Collection(arr);
 
-    if(callback==null) {
-      callback = ( k,v) {
+    if (callback == null) {
+      callback = (k, v) {
         return Caster(v).toBool();
       };
     }
 
     items.forEach((key, value) {
-      if(callback(key,value)) {
+      if (callback(key, value)) {
         result[key] = value;
       }
     });
     return result;
-
-
   }
 
   ///alias of filter, but callback is required
-  static Collection<T> where<T>(arr, bool Function(String,T) callback) {
-    return filter(arr,callback);
+  static Collection<T> where<T>(arr, bool Function(String, T) callback) {
+    return filter(arr, callback);
   }
 
-
   static first(arr, [Function callback, defaultValue]) {
-
     Array array = Array(arr);
-    if(array.length==0) {
+    if (array.length == 0) {
       return C.value(defaultValue);
     }
-    if(callback==null) {
+    if (callback == null) {
       return array[0];
     }
-    for(int i=0; i<array.length; i++) {
-      if(callback(i,array[i])) {
+    for (int i = 0; i < array.length; i++) {
+      if (callback(i, array[i])) {
         return array[i];
       }
     }

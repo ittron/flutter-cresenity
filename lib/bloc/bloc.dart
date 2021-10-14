@@ -1,51 +1,51 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/bloc/bloc_builder.dart';
 import 'package:flutter_cresenity/bloc/bloc_result.dart';
-import 'package:flutter_cresenity/bloc/bloc_state.dart';
 
-
-class Bloc<E> {
+class Bloc<T> {
   // ignore: close_sinks
-  StreamController<BlocState> actionController = StreamController.broadcast();
+  StreamController<BlocResult<T>> actionController =
+      StreamController.broadcast();
 
-  Stream<BlocState> get stream => actionController.stream;
+  Stream<BlocResult<T>> get stream => actionController.stream;
 
-  BlocResult<E> result = BlocResult<E>();
+  BlocResult<T> result;
   bool _isDispatching = false;
-  BlocState<E> state;
   bool asyncDispatching = false;
 
   get isDispatching => _isDispatching;
 
-  void setValue(E t, {String state}) {
-    result.setValue(t);
-    BlocState<E> blocState = BlocState<E>(state, result, this);
-    this.state = blocState;
+  void setValue(T t, {String state}) {
+    BlocResult<T> blocResult = BlocResult<T>(t, state);
 
-    actionController.sink.add(blocState);
+    actionController.sink.add(blocResult);
   }
 
-  bool dispatch(Function callback) {
+  bool dispatch([Function callback]) {
     if (!asyncDispatching && isDispatching) {
       return false;
     }
-
+    if (callback == null) {
+      actionController.sink.add(null);
+      return true;
+    }
     _isDispatching = true;
     Stream stateString = callback(result);
 
     stateString.listen((item) {
-      BlocState<E> state = BlocState<E>(item, result, this);
-      this.state = state;
-      actionController.sink.add(state);
+      BlocResult<T> result = BlocResult<T>.fromDynamic(item);
+      actionController.sink.add(result);
     }, onDone: () {
       _isDispatching = false;
     });
     return true;
   }
 
-  BlocBuilder createBuilder(Function callback) {
-    return BlocBuilder(
+  BlocBuilder<T> createBuilder(
+      Function(BuildContext, AsyncSnapshot<BlocResult<T>>) callback) {
+    return BlocBuilder<T>(
       stream: actionController.stream,
       builder: callback,
       bloc: this,

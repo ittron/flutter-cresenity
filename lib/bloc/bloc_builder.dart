@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cresenity/bloc/bloc_result.dart';
 
 import 'bloc.dart';
-import 'bloc_builder_result.dart';
-import 'bloc_state.dart';
 
-class BlocBuilder extends StatefulWidget {
-  Function builder;
-  Stream stream;
-  Function init;
-  Bloc bloc;
+class BlocBuilder<T> extends StatefulWidget {
+  final Function builder;
+  final Stream stream;
+  final Function init;
+  final Bloc bloc;
 
   BlocBuilder({
     Key key,
-    Function builder,
-    Stream stream,
-    Function init,
-    Bloc bloc,
-  }) : super(key: key) {
-    this.builder = builder;
-    this.init = init;
-    this.stream = stream;
-    this.bloc = bloc;
-  }
+    this.builder,
+    this.stream,
+    this.init,
+    this.bloc,
+  }) : super(key: key);
 
   @override
-  _BlocBuilderState createState() => _BlocBuilderState();
+  _BlocBuilderState<T> createState() => _BlocBuilderState<T>();
 }
 
-class _BlocBuilderState extends State<BlocBuilder> {
+class _BlocBuilderState<T> extends State<BlocBuilder<T>> {
   @override
   void dispose() {
     super.dispose();
@@ -35,16 +29,10 @@ class _BlocBuilderState extends State<BlocBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<BlocResult<T>>(
         stream: widget.stream,
-        builder: (context, snapshot) {
-          BlocState blocState = widget.bloc != null ? widget.bloc.state : null;
-          if (snapshot.data != null) {
-            blocState = snapshot.data;
-          }
-
-          BlocBuilderResult builderResult = BlocBuilderResult(context, blocState);
-          return widget.builder(builderResult);
+        builder: (BuildContext context, AsyncSnapshot<BlocResult<T>> snapshot) {
+          return widget.builder(context, snapshot);
         });
   }
 }

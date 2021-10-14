@@ -1,27 +1,12 @@
-
-
-
-
 import 'package:flutter_cresenity/helper/str.dart';
-import 'package:flutter_cresenity/support/tuple.dart';
+import 'package:flutter_cresenity/helper/c.dart';
+import 'package:flutter_cresenity/helper/arr.dart';
 import 'package:flutter_cresenity/validation/closure_rule.dart';
 import 'package:flutter_cresenity/validation/rule_interface.dart';
-
-import '../helper/arr.dart';
-import '../helper/c.dart';
-import '../support/array.dart';
-import '../support/array.dart';
-import '../support/array.dart';
-import '../support/array.dart';
-import '../support/caster.dart';
-import '../support/collection.dart';
-import '../support/collection.dart';
-import '../support/collection.dart';
-import '../support/collection.dart';
+import 'package:flutter_cresenity/support/array.dart';
+import 'package:flutter_cresenity/support/collection.dart';
 
 class ValidationRuleParser {
-
-
   ///The data being validated.
   Collection data;
 
@@ -29,18 +14,13 @@ class ValidationRuleParser {
 
   var implicitAttributes;
 
-
   Collection<Array> _explodeRules(Collection rules) {
     Collection<Array> result = Collection<Array>();
     rules.forEach((key, rule) {
-
       result[key] = Array(_explodeExplicitRule(rule));
-
     });
     return result;
   }
-
-
 
   _explodeExplicitRule(rule) {
     if (rule is String) {
@@ -52,20 +32,17 @@ class ValidationRuleParser {
     return Array(rule).map((e) => _prepareRule(e)).toList();
   }
 
-
   _prepareRule(rule) {
-    if(rule is Function) {
+    if (rule is Function) {
       return ClosureRule(rule);
     }
 
-    if(C.isScalar(rule) ||    rule is RuleInterface ) {
+    if (C.isScalar(rule) || rule is RuleInterface) {
       return rule;
     }
 
     return rule.toString();
   }
-
-
 
   Collection<Array> explode(Collection rules) {
     this.implicitAttributes = [];
@@ -88,11 +65,11 @@ class ValidationRuleParser {
   }
 
   ///Parse an array based rule.
-  static List parseArrayRule(Array rules)   {
+  static List parseArrayRule(Array rules) {
     return [Str.studly(Str.trim(Arr.get(rules, 0))), rules.sublist(1)];
   }
 
-   ///Parse a string based rule.
+  ///Parse a string based rule.
 
   static List parseStringRule(rules) {
     List parameters = [];
@@ -105,26 +82,24 @@ class ValidationRuleParser {
       rules = exploded[0];
       String parameter = exploded[1];
       parameters = parseParameters(rules, parameter);
-  }
+    }
 
     return [Str.studly(Str.trim(rules)), parameters];
   }
 
   ///Parse a parameter list.
-
-   static List parseParameters(String rule, String parameter) {
+  static List parseParameters(String rule, String parameter) {
     rule = rule.toLowerCase();
 
-    if(['regex', 'not_regex', 'notregex'].contains(rule)) {
+    if (['regex', 'not_regex', 'notregex'].contains(rule)) {
       return [parameter];
     }
-
 
     return Str.getcsv(parameter);
   }
 
   ///Normalizes a rule so that we can accept short types.
-   static normalizeRule(rule){
+  static normalizeRule(rule) {
     switch (rule) {
       case 'Int':
         return 'Integer';

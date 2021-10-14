@@ -1,8 +1,5 @@
-
-
-
 import 'package:flutter_cresenity/support/array.dart';
 
-class Arrayable {
-  Array toArray(){}
+abstract class Arrayable {
+  Array toArray();
 }

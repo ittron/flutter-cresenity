@@ -1,8 +1,3 @@
-
-
-
-
-import '../support/collection.dart';
 import '../support/collection.dart';
 
 class Repository {
@@ -11,7 +6,6 @@ class Repository {
   Repository([Collection data]) {
     _data = Collection(data);
   }
-
 
   Collection get data => _data;
 

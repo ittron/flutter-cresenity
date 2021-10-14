@@ -1,39 +1,35 @@
-
-
-
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
+import 'package:flutter_cresenity/app/model/model_factory.dart';
 import 'package:flutter_cresenity/helper/arr.dart';
 import 'package:flutter_cresenity/support/array.dart';
-import 'package:flutter_cresenity/support/collection.dart';
 
-class PaginationDataModel<T extends AbstractDataModel> extends AbstractDataModel {
-  int total =0;
-  int lastPage =0;
-  int perPage =10;
-  int currentPage =1;
+class PaginationDataModel<T extends AbstractDataModel>
+    extends AbstractDataModel {
+  int total = 0;
+  int lastPage = 0;
+  int perPage = 10;
+  int currentPage = 1;
   Array<T> items;
 
   PaginationDataModel() {
     reset();
   }
 
-  PaginationDataModel.fromJson(Map map, Function(Map) factoryBuilder) {
+  PaginationDataModel.fromJson(Map map, [Function(Map) factoryBuilder]) {
     total = Arr.getInt(map, "total");
     lastPage = Arr.getInt(map, "lastPage");
     perPage = Arr.getInt(map, "perPage");
     currentPage = Arr.getInt(map, "currentPage");
 
     items = new Array<T>();
+    factoryBuilder = ModelFactory.instance().resolveBuilder(T, factoryBuilder);
     Arr.getArray<Map>(map, "items").forEach((element) {
       items.add(factoryBuilder(element));
     });
-
   }
 
-
-
   void reset() {
-    currentPage=0;
+    currentPage = 0;
     items = Array();
   }
 
@@ -53,17 +49,16 @@ class PaginationDataModel<T extends AbstractDataModel> extends AbstractDataModel
     items.merge(Arr.getArray(map, "items"));
   }
 
-
   int remainPage() {
-    return lastPage-currentPage;
+    return lastPage - currentPage;
   }
 
   @override
-  Map<String, dynamic > toJson() => {
-    "total":total,
-    "lastPage":lastPage,
-    "perPage":perPage,
-    "currentPage":currentPage,
-    "items":items.map((e) => e.toJson()).toList()
-  };
+  Map<String, dynamic> toJson() => {
+        "total": total,
+        "lastPage": lastPage,
+        "perPage": perPage,
+        "currentPage": currentPage,
+        "items": items.map((e) => e.toJson()).toList()
+      };
 }
