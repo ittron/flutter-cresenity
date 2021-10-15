@@ -4,7 +4,6 @@
 * Clean Code Warning
 
 
-
 ## \[0.0.18\] - 2020-12-17
 
 * Add example http request with model
@@ -16,3 +15,7 @@
 * Modify example with theme
 * add md documentation (coming soon)
 * improve Str helper
+
+## \[0.0.21\] - 2021-10-15
+
+* Migrate to flutter 2.0
