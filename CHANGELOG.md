@@ -19,3 +19,7 @@
 ## \[0.0.21\] - 2021-10-15
 
 * Migrate to flutter 2.0
+
+## \[0.0.22\] - 2022-02-22
+
+* add toast helper class
