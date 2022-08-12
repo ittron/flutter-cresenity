@@ -28,7 +28,7 @@ class CollectionDataModel<T> extends AbstractDataModel {
     return this;
   }
 
-  CollectionDataModel setItems(Map map) {
+  CollectionDataModel setItems(Map<String, T> map) {
     _items.setItems(map);
     return this;
   }
@@ -113,7 +113,7 @@ class CollectionDataModel<T> extends AbstractDataModel {
     return _items.putIfAbsent(key, ifAbsent);
   }
 
-  T remove(Object key) {
+  T? remove(Object key) {
     return _items.remove(key);
   }
 
