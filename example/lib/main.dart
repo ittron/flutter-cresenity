@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:example/app.dart';
 import 'package:example/module/base.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/cf.dart';
 

@@ -1,7 +1,6 @@
 // ignore: must_be_immutable
 import 'package:example/model/get_info_model.dart';
 import 'package:example/module/base.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/bloc/bloc.dart';
 import 'package:flutter_cresenity/cf.dart';

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/cf.dart';
 import 'package:flutter_cresenity/config/config.dart';
 import 'package:flutter_cresenity/helper/utils.dart';
-import 'package:flutter_cresenity/support/collection.dart';
 import 'package:flutter_cresenity/type.dart';
 
 class Base {
@@ -22,11 +21,10 @@ class Base {
       GetInfoModel: (json) => GetInfoModel.fromJson(json),
     });
 
-
-    CF.router.registerHandler('/docs', (BuildContext context, Map<String, List<String>> params) {
-        return DocsScreen();
+    CF.router.registerHandler('/docs',
+        (BuildContext context, Map<String, List<String>> params) {
+      return DocsScreen();
     });
-
   }
 
   static ApiService get api => ApiService.instance();
