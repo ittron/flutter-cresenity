@@ -287,7 +287,7 @@ class EmailValidator {
   /// will use the newer International Email standards for validating the email address.
   ///
   /// Throws an [ArgumentError] if the email is null.
-  static bool validate(String email,
+  static bool validate(String? email,
       [bool allowTopLevelDomains = false, bool allowInternational = true]) {
     _index = 0;
 

@@ -45,11 +45,7 @@ class RouteTree {
         }
       }
       if (i == pathComponents.length - 1) {
-        if (node.routes == null) {
-          node.routes = [route];
-        } else {
-          node.routes.add(route);
-        }
+        node.routes.add(route);
       }
       parent = node;
     }
@@ -94,9 +90,8 @@ class RouteTree {
           }
 //          print("matched: ${node.part}, isParam: ${node.isParameter()}, params: ${match.parameters}");
           currentMatches[node] = match;
-          if (node.nodes != null) {
-            nextNodes.addAll(node.nodes);
-          }
+
+          nextNodes.addAll(node.nodes);
         }
       }
       nodeMatches = currentMatches;
@@ -110,9 +105,7 @@ class RouteTree {
       RouteTreeNodeMatch match = matches.first;
       RouteTreeNode nodeToUse = match.node;
 //			print("using match: ${match}, ${nodeToUse?.part}, ${match?.parameters}");
-      if (nodeToUse != null &&
-          nodeToUse.routes != null &&
-          nodeToUse.routes.length > 0) {
+      if (nodeToUse.routes.length > 0) {
         List<RouteRecord> routes = nodeToUse.routes;
         RouteRecordMatch routeMatch = RouteRecordMatch(routes[0]);
         routeMatch.parameters = match.parameters;
@@ -134,7 +127,7 @@ class RouteTree {
         indent += "    ";
       }
       print("$indent${node.part}: total routes=${node.routes.length}");
-      if (node.nodes != null && node.nodes.length > 0) {
+      if (node.nodes.length > 0) {
         _printSubTree(parent: node, level: level + 1);
       }
     }

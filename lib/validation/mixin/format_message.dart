@@ -10,7 +10,7 @@ mixin FormatMessage on ValidatorAbstract {
   ///Get the validation message for an attribute and rule.
 
   getMessage(attribute, rule) {
-    String inlineMessage = _getInlineMessage(attribute, rule);
+    String? inlineMessage = _getInlineMessage(attribute, rule);
 
     // First we will retrieve the custom message for the validation rule if one
     // exists. If a custom validation message is being used we'll return the
@@ -53,8 +53,8 @@ mixin FormatMessage on ValidatorAbstract {
 
   ///Get the proper inline error message for standard and size rules.
 
-  String _getInlineMessage(String attribute, String rule) {
-    String inlineEntry = _getFromLocalArray(attribute, Str.snake(rule));
+  String? _getInlineMessage(String attribute, String rule) {
+    String? inlineEntry = _getFromLocalArray(attribute, Str.snake(rule));
 
     return inlineEntry;
   }
@@ -131,7 +131,7 @@ mixin FormatMessage on ValidatorAbstract {
       // We allow for a developer to specify language lines for any attribute in this
       // application, which allows flexibility for displaying a unique displayable
       // version of the attribute name instead of the name used in an HTTP POST.
-      String line = this._getAttributeFromTranslations(name);
+      String? line = this._getAttributeFromTranslations(name);
       if (line != null && line != name) {
         return line;
       }
@@ -152,7 +152,7 @@ mixin FormatMessage on ValidatorAbstract {
     return Str.replace('_', ' ', Str.snake(attribute));
   }
 
-  String _getAttributeFromTranslations(name) {
+  String? _getAttributeFromTranslations(name) {
     return Arr.get(this.translator.get('validation.attributes'), name);
   }
 
