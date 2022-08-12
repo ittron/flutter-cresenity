@@ -2,7 +2,7 @@ import '../support/caster.dart';
 import '../support/collection.dart';
 
 class ParamCollection extends Collection {
-  ParamCollection({Object items}) : super(items);
+  ParamCollection({dynamic items}) : super(items);
 
   String asPostString() {
     String result = '';
@@ -19,9 +19,8 @@ class ParamCollection extends Collection {
     return result;
   }
 
-  Map<String, String> asPostStringMap({String prefix}) {
+  Map<String, String> asPostStringMap({String prefix = ''}) {
     Map<String, String> map = {};
-    prefix = prefix ?? '';
 
     all().forEach((key, value) {
       Caster casterValue = Caster(value);

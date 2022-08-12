@@ -25,7 +25,7 @@ class Http {
   }
 
   Future<Response> waitRequest({
-    String url,
+    required String url,
     dynamic data,
     dynamic files,
     String method = 'GET',
@@ -38,14 +38,14 @@ class Http {
   }
 
   void request({
-    String url,
+    required String url,
     dynamic data,
     dynamic files,
     String method = 'GET',
     String dataType = 'text',
-    Function onSuccess,
-    Function onError,
-    Function onCompleted,
+    Function? onSuccess,
+    Function? onError,
+    Function? onCompleted,
   }) async {
     Response response = await this.waitRequest(
         url: url, method: method, data: data, files: files, dataType: dataType);
