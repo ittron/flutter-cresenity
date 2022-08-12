@@ -33,7 +33,8 @@ void main() {
 
   test("Test C.isArray", () {
     expect(C.isArray([]), true);
-    expect(C.isArray(List()), true);
+    const List list = [];
+    expect(C.isArray(list), true);
 
     expect(C.isArray(Array()), true);
   });

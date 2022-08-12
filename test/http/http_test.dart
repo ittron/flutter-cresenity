@@ -1,8 +1,4 @@
-
-
 library flutter_cresenity;
-
-
 
 import 'dart:convert';
 
@@ -13,10 +9,8 @@ import 'package:flutter_cresenity/cf.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
-
 void main() async {
   test('One Record test', () async {
-
     Collection files = Collection();
     Collection params = Collection();
     String url = 'https://jsonplaceholder.typicode.com/todos/1';
@@ -26,13 +20,9 @@ void main() async {
       data: params,
       files: files,
     );
-
-    print(response);
   });
 
-
   test('List Record test', () async {
-
     Collection files = Collection();
     Collection params = Collection();
     String url = 'https://jsonplaceholder.typicode.com/users';
@@ -49,12 +39,5 @@ void main() async {
     expect(users[0] is Map, true);
 
     expect(users[11] == null, true);
-
-
-
   });
-
-
-
 }
-

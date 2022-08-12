@@ -24,16 +24,16 @@ class SessionModel extends AbstractDataModel {
 }
 
 void main() async {
-  await CF.init((Config config) {
-    config.disableForConsole();
-  });
-  CF.model.registerBuilder(SessionModel, (map) {
-    return SessionModel.fromJson(map);
-  });
-  String authId = 'a678803588713b45ae8baf50adefb813';
-  String url = 'http://tribelio.app.ittron.co.id/api/member/Login';
-  Map params = {'authId': authId};
-  ApiRequest sessionRequest = CF.api.createRequest(url, params);
+  // await CF.init((Config config) {
+  //   config.disableForConsole();
+  // });
+  // CF.model.registerBuilder(SessionModel, (map) {
+  //   return SessionModel.fromJson(map);
+  // });
+  // String authId = 'a678803588713b45ae8baf50adefb813';
+  // String url = 'http://tribelio.app.ittron.co.id/api/member/Login';
+  // Map params = {'authId': authId};
+  // ApiRequest sessionRequest = CF.api.createRequest(url, params);
 
 /*
   test('Test response', () async {
@@ -56,17 +56,17 @@ void main() async {
     expect(sessionModel.sessionId != null, true);
   });
 */
-  test('Test value notifier model', () async {
-    SessionModel sessionModel = SessionModel.fromJson({});
+  // test('Test value notifier model', () async {
+  //   SessionModel sessionModel = SessionModel.fromJson({});
 
-    ValueNotifier<SessionModel> value = ValueNotifier(null);
-    value.addListener(() {
-      sessionModel = value.value;
-    });
-    await sessionRequest
-        .bindTo<SessionModel>(value)
-        .getDataModel<SessionModel>();
-    expect(sessionModel != null, true);
-    expect(sessionModel.sessionId != null, true);
-  });
+  //   ValueNotifier<SessionModel> value = ValueNotifier(null);
+  //   value.addListener(() {
+  //     sessionModel = value.value;
+  //   });
+  //   await sessionRequest
+  //       .bindTo<SessionModel>(value)
+  //       .getDataModel<SessionModel>();
+  //   expect(sessionModel != null, true);
+  //   expect(sessionModel.sessionId != null, true);
+  // });
 }
