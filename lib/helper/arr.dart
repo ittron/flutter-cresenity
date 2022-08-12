@@ -97,18 +97,18 @@ class Arr {
     return array;
   }
 
-  static String getString(map, key, [String defaultValue]) {
+  static String getString(map, key, [String? defaultValue]) {
     var value = get(map, key, defaultValue);
 
     return Caster(value).toString();
   }
 
-  static int getInt(map, key, [int defaultValue]) {
+  static int getInt(map, key, [int? defaultValue]) {
     var value = get(map, key, defaultValue);
     return Caster(value).toInt();
   }
 
-  static Collection getCollection(map, key, [Collection defaultValue]) {
+  static Collection getCollection(map, key, [Collection? defaultValue]) {
     var value = get(map, key, defaultValue);
 
     if (value != null && (!(value is Collection))) {
@@ -117,7 +117,7 @@ class Arr {
     return value;
   }
 
-  static Array<T> getArray<T>(map, key, [Array defaultValue]) {
+  static Array<T> getArray<T>(map, key, [Array? defaultValue]) {
     var value = get(map, key, defaultValue);
 
     if (value != null && (!(value is Array))) {
@@ -126,7 +126,7 @@ class Arr {
     return value;
   }
 
-  static Map getMap(map, key, [Map defaultValue]) {
+  static Map? getMap(map, key, [Map? defaultValue]) {
     var value = get(map, key, defaultValue);
 
     return value;
@@ -151,7 +151,7 @@ class Arr {
     return Array(arr.toSet());
   }
 
-  static Collection<T> filter<T>(arr, [bool Function(String, T) callback]) {
+  static Collection<T> filter<T>(arr, [bool Function(String, T)? callback]) {
     //        note: Takes a function as an argument, not a function's name
     //   example 1: var odd = (num) {return (num & 1);};
     //   example 1: Arr.filter({"a": 1, "b": 2, "c": 3, "d": 4, "e": 5}, odd);

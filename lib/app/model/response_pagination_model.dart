@@ -7,15 +7,15 @@ import 'abstract_model.dart';
 
 class ResponsePaginationModel<T extends AbstractDataModel>
     extends AbstractModel {
-  int errCode;
-  String errMessage;
+  int errCode = 0;
+  String errMessage = '';
 
-  PaginationDataModel<T> data;
+  PaginationDataModel<T>? data;
 
   ResponsePaginationModel();
 
   ResponsePaginationModel.fromJson(Map<String, dynamic> json,
-      [Function(Map) factoryBuilder]) {
+      [Function? factoryBuilder]) {
     errCode = Arr.getInt(json, 'errCode');
     errMessage = Arr.getString(json, 'errMessage');
 
@@ -32,6 +32,6 @@ class ResponsePaginationModel<T extends AbstractDataModel>
   Map<String, dynamic> toJson() => {
         'errCode': errCode,
         'errMessage': errMessage,
-        'data': data.toJson(),
+        'data': data?.toJson(),
       };
 }

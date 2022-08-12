@@ -6,15 +6,15 @@ import 'abstract_data_model.dart';
 import 'abstract_model.dart';
 
 class ResponseListModel<T extends AbstractDataModel> implements AbstractModel {
-  int errCode;
-  String errMessage;
+  int errCode = 0;
+  String errMessage = '';
 
-  Array<T> data;
+  Array<T> data = Array<T>();
 
   ResponseListModel();
 
   ResponseListModel.fromJson(Map<String, dynamic> json,
-      [Function(Map) factoryBuilder]) {
+      [Function? factoryBuilder]) {
     errCode = Arr.getInt(json, 'errCode');
     errMessage = Arr.getString(json, 'errMessage');
     factoryBuilder = ModelFactory.instance().resolveBuilder(T, factoryBuilder);
@@ -22,7 +22,7 @@ class ResponseListModel<T extends AbstractDataModel> implements AbstractModel {
     //data = factoryBuilder(Arr.getMap(json, 'data'));
     data = Array();
     Arr.getArray<Map>(json, "data").forEach((element) {
-      data.add(factoryBuilder(element));
+      data.add(factoryBuilder!(element));
     });
   }
 

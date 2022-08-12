@@ -56,13 +56,13 @@ class ApiRequest {
     return responseModel;
   }
 
-  Future<T> getDataModel<T extends AbstractDataModel>() async {
+  Future<T?> getDataModel<T extends AbstractDataModel>() async {
     ResponseModel<T>? responseModel = await getResponseModel<T>();
 
     if (_value != null && _getType<T>() == _valueType) {
       _value.value = responseModel?.data;
     }
-    return responseModel!.data;
+    return responseModel?.data;
   }
 
   ApiRequest bindTo<T>(value) {

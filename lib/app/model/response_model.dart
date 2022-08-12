@@ -5,15 +5,15 @@ import 'abstract_data_model.dart';
 import 'abstract_model.dart';
 
 class ResponseModel<T extends AbstractDataModel> extends AbstractModel {
-  int errCode;
-  String errMessage;
+  int errCode = 0;
+  String errMessage = '';
 
-  T data;
+  T? data;
 
   ResponseModel();
 
   ResponseModel.fromJson(Map<String, dynamic> json,
-      [Function(Map) factoryBuilder]) {
+      [Function? factoryBuilder]) {
     errCode = Arr.getInt(json, 'errCode');
     errMessage = Arr.getString(json, 'errMessage');
     factoryBuilder = ModelFactory.instance().resolveBuilder(T, factoryBuilder);
@@ -31,6 +31,6 @@ class ResponseModel<T extends AbstractDataModel> extends AbstractModel {
   Map<String, dynamic> toJson() => {
         'errCode': errCode,
         'errMessage': errMessage,
-        'data': data != null ? data.toJson() : {},
+        'data': data?.toJson() ?? {},
       };
 }
