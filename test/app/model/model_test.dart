@@ -8,9 +8,9 @@ import 'package:flutter_cresenity/config/config.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class PostModel extends AbstractDataModel {
-  int postId;
-  String title;
-  String content;
+  int? postId;
+  String? title;
+  String? content;
 
   PostModel.fromJson(Map map) {
     postId = map['postId'];

@@ -33,6 +33,6 @@ class TranslationManager {
       _translators[locale] = new Translator(locale, Repository());
     }
 
-    return _translators[locale];
+    return _translators[locale]!;
   }
 }

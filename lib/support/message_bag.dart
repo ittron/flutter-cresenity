@@ -16,10 +16,10 @@ class MessageBag implements Arrayable {
 
   MessageBag([Collection? messages]) {
     if (messages == null) {
-      messages = Collection();
+      messages = Collection<Array<String>>();
     }
     messages.forEach((key, value) {
-      this._messages[key] = Arr.wrap(value);
+      this._messages[key] = Arr.wrap(value ?? '') as Array<String>;
     });
   }
 
@@ -34,7 +34,7 @@ class MessageBag implements Arrayable {
       if (this._messages[key] == null) {
         this._messages[key] = Array();
       }
-      this._messages[key].add(message);
+      this._messages[key]!.add(message);
     }
 
     return this;
@@ -42,17 +42,17 @@ class MessageBag implements Arrayable {
 
   ///Determine if a key and message combination already exists.
   bool _isUnique(String key, String message) {
-    return !_messages.containsKey(key) || !_messages[key].contains(message);
+    return !_messages.containsKey(key) || !_messages[key]!.contains(message);
   }
 
   ///Merge a new array of messages into the message bag.
-  MessageBag merge(Collection<Array> messages) {
+  MessageBag merge(Collection<Array<String>> messages) {
     this._messages.merge(messages);
     return this;
   }
 
   /// Determine if messages exist for all of the given keys.
-  bool has(String key) {
+  bool has(String? key) {
     if (isEmpty()) {
       return false;
     }
@@ -90,7 +90,7 @@ class MessageBag implements Arrayable {
   }
 
   ///Get the first message from the message bag for a given key.
-  String first([String key, String format]) {
+  String first([String? key, String? format]) {
     Array messages = key == null ? all(format) : get(key, format);
     String firstMessage = Arr.first(messages, null, '');
     return firstMessage;
@@ -111,17 +111,17 @@ class MessageBag implements Arrayable {
   }
 
   ///Get the appropriate format based on the given format.
-  String _checkFormat(String format) {
+  String _checkFormat(String? format) {
     return format ?? this._format;
   }
 
   ///Get all of the messages for every key in the message bag.
-  Array all([String format]) {
-    format = _checkFormat(format);
+  Array all([String? format]) {
+    String formatNotNull = _checkFormat(format);
     Array all = Array();
 
     _messages.forEach((key, value) {
-      all.merge(_transform(value, format, key));
+      all.merge(_transform(value, formatNotNull, key));
     });
 
     return all;
@@ -134,13 +134,13 @@ class MessageBag implements Arrayable {
   }
 
   ///Get all of the unique messages for every key in the message bag.
-  Array unique([String format]) {
+  Array unique([String? format]) {
     return Arr.unique(all(format));
   }
 
-  Array get(String key, [String format]) {
+  Array get(String key, [String? format]) {
     if (_messages.containsKey(key)) {
-      return _transform(_messages[key], _checkFormat(format), key);
+      return _transform(_messages[key]!, _checkFormat(format), key);
     }
 
     if (Str.contains(key, '*')) {
@@ -149,7 +149,7 @@ class MessageBag implements Arrayable {
     return Array();
   }
 
-  Array _getMessagesForWildcardKey(String key, [String format]) {
+  Array _getMessagesForWildcardKey(String key, [String? format]) {
     Collection filtered = _messages.filter((String messageKey, Array value) {
       return Str.match(key, value);
     }).map((messageKey, messages) {

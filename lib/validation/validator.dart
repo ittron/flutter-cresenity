@@ -2,7 +2,6 @@ import 'package:flutter_cresenity/helper/str.dart';
 import 'package:flutter_cresenity/support/message_bag.dart';
 import 'package:flutter_cresenity/support/collection.dart';
 import 'package:flutter_cresenity/support/array.dart';
-import 'package:flutter_cresenity/translation/translation_manager.dart';
 import 'package:flutter_cresenity/validation/mixin/format_message.dart';
 import 'package:flutter_cresenity/validation/mixin/validate_attribute.dart';
 import 'package:flutter_cresenity/validation/validation_rule_parser.dart';
@@ -10,29 +9,28 @@ import 'package:flutter_cresenity/validation/validator_abstract.dart';
 
 class Validator extends ValidatorAbstract
     with ValidateAttribute, FormatMessage {
-  Collection initialRules;
+  Collection initialRules = Collection();
 
-  MessageBag _messages;
+  MessageBag? _messages;
 
-  Collection<Collection> _failedRules;
+  Collection<Collection> _failedRules = Collection<Collection>();
 
-  String dotPlaceholder;
+  String dotPlaceholder = Str.random();
 
-  Validator(Collection data, Collection rules, [Collection? messages]) {
+  Validator(Collection data, Collection<Array<dynamic>> rules,
+      [Collection? messages]) {
     if (messages == null) {
       messages = Collection();
     }
     this.customMessages = messages;
     this.data = data;
     this.initialRules = rules;
-    this.dotPlaceholder = Str.random();
     this.fallbackMessages = Collection();
 
-    this.translator = TranslationManager.instance().translator;
     setRules(rules);
   }
 
-  Validator setRules(Collection rules) {
+  Validator setRules(Collection<Array<dynamic>> rules) {
     rules = rules.map(
         (key, value) => MapEntry(key.replaceAll(".", dotPlaceholder), value));
 
@@ -44,7 +42,7 @@ class Validator extends ValidatorAbstract
     return this;
   }
 
-  void addRules(Collection rules) {
+  void addRules(Collection<Array<dynamic>> rules) {
     // The primary purpose of this parser is to expand any "*" rules to the all
     // of the explicit rules needed for the given data. For example the rule
     // names.* would get expanded to names.0, names.1, etc. for this data.
@@ -62,7 +60,7 @@ class Validator extends ValidatorAbstract
     if (this._messages == null) {
       this.passes();
     }
-    return this._messages;
+    return this._messages!;
   }
 
   Collection failed() {
@@ -80,7 +78,7 @@ class Validator extends ValidatorAbstract
       });
     });
 
-    return this._messages.isEmpty();
+    return this._messages!.isEmpty();
   }
 
   _validateFunction() {
@@ -88,13 +86,10 @@ class Validator extends ValidatorAbstract
       switch (rule) {
         case 'Required':
           return this.validateRequired(attribute, value);
-          break;
         case 'Email':
           return this.validateEmail(attribute, value, parameters);
-          break;
         case 'Max':
           return this.validateMax(attribute, value, parameters);
-          break;
       }
       return false;
     };
@@ -129,14 +124,14 @@ class Validator extends ValidatorAbstract
   /// Add a failed rule and error message to the collection.
 
   addFailure(attribute, rule, [List parameters = const []]) {
-    if (this.messages == null) {
+    if (this._messages == null) {
       this.passes();
     }
 
     attribute = Str.replace(
         [this.dotPlaceholder, '__asterisk__'], ['.', '*'], attribute);
 
-    this._messages.add(
+    this._messages!.add(
         attribute,
         this.makeReplacements(
             this.getMessage(attribute, rule), attribute, rule, parameters));
@@ -148,6 +143,6 @@ class Validator extends ValidatorAbstract
     if (!this._failedRules.containsKey(attribute)) {
       this._failedRules[attribute] = Collection();
     }
-    this._failedRules[attribute][rule] = parameters;
+    this._failedRules[attribute]![rule] = parameters;
   }
 }

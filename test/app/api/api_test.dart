@@ -1,8 +1,8 @@
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
 
 class SessionModel extends AbstractDataModel {
-  String sessionId;
-  String expiredTime;
+  String? sessionId;
+  String? expiredTime;
 
   SessionModel.fromJson(Map map) {
     sessionId = map['sessionId'];

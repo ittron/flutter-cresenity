@@ -1,9 +1,9 @@
 import '../support/collection.dart';
 
 class Repository {
-  Collection _data;
+  Collection _data = Collection();
 
-  Repository([Collection data]) {
+  Repository([Collection? data]) {
     _data = Collection(data);
   }
 

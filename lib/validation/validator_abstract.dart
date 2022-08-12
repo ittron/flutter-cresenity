@@ -1,19 +1,20 @@
 import 'package:flutter_cresenity/support/collection.dart';
 import 'package:flutter_cresenity/support/array.dart';
+import 'package:flutter_cresenity/translation/translation_manager.dart';
 import 'package:flutter_cresenity/translation/translator.dart';
 import 'package:flutter_cresenity/helper/arr.dart';
 import 'package:flutter_cresenity/validation/validation_rule_parser.dart';
 
 abstract class ValidatorAbstract {
-  Collection customMessages;
+  Collection customMessages = Collection();
 
   Collection data = Collection();
-  Translator translator;
+  Translator translator = TranslationManager.instance().translator;
 
   Collection<Array> rules = Collection<Array>();
 
   ///The array of fallback error messages.
-  Collection fallbackMessages;
+  Collection fallbackMessages = Collection();
 
   Collection implicitAttributes = Collection();
 
@@ -21,7 +22,7 @@ abstract class ValidatorAbstract {
 
   Collection distinctValues = Collection();
 
-  String currentRule;
+  String? currentRule;
   List<String> sizeRules = [
     'Size',
     'Between',
@@ -64,14 +65,14 @@ abstract class ValidatorAbstract {
 
   ///Get a rule and its parameters for a given attribute.
 
-  List getRule(attribute, rules) {
+  List? getRule(attribute, rules) {
     if (!this.rules.containsKey(attribute)) {
       return null;
     }
 
     Array rulesToFind = Array(rules);
 
-    Array ruleArray = this.rules[attribute];
+    Array ruleArray = this.rules[attribute] ?? Array();
     for (String rule in ruleArray.all()) {
       List tuple = ValidationRuleParser.parse(rule);
       rule = tuple[0];
