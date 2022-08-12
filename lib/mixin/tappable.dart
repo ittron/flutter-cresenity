@@ -1,7 +1,3 @@
-
-
-
-
 import '../helper/c.dart';
 
 mixin Tappable {
@@ -9,7 +5,10 @@ mixin Tappable {
   ///
   /// @param  Function|null  $callback
   /// @return mixed
-  tap([Function callback ])  {
+  tap([Function? callback]) {
+    if (callback == null) {
+      return this;
+    }
     return C.tap(this, callback);
   }
 }
