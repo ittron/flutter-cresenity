@@ -1,10 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_cresenity/app/api/api_request.dart';
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
-import 'package:flutter_cresenity/config/config.dart';
-import 'package:flutter_cresenity/cf.dart';
-
-import 'package:flutter_test/flutter_test.dart';
 
 class SessionModel extends AbstractDataModel {
   String sessionId;

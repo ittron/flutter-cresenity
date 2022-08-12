@@ -14,7 +14,7 @@ void main() async {
     Collection files = Collection();
     Collection params = Collection();
     String url = 'https://jsonplaceholder.typicode.com/todos/1';
-    Response response = await CF.http.waitRequest(
+    await CF.http.waitRequest(
       url: url,
       method: 'get',
       data: params,
