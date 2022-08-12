@@ -3,7 +3,7 @@ import 'package:flutter_cresenity/helper/c.dart';
 ///this function to cast variable in dart like php
 
 class Caster {
-  Object value;
+  Object? value;
   Caster(Object value) {
     this.value = value;
   }
@@ -18,10 +18,10 @@ class Caster {
       return "";
     }
     if (value is String) {
-      return value;
+      return (value as String);
     }
     if (value is bool) {
-      return value ? "1" : "";
+      return (value as bool) ? "1" : "";
     }
     if (value is int) {
       return value.toString();
@@ -35,7 +35,7 @@ class Caster {
       return false;
     }
     if (value is int) {
-      return (int.parse(value)) > 0 ? true : false;
+      return (value as int) > 0 ? true : false;
     }
     if (value is String) {
       return value.toString().length > 0;
@@ -49,15 +49,15 @@ class Caster {
       return 0;
     }
     if (value is int) {
-      return value;
+      return (value as int);
     }
     if (value is bool) {
-      return value ? 1 : 0;
+      return (value as bool) ? 1 : 0;
     }
     if (value is String) {
-      return int.parse(value);
+      return int.parse((value as String));
     }
-    return int.parse(value);
+    return int.parse((value as String));
   }
 
   double toDouble() {
@@ -65,14 +65,14 @@ class Caster {
       return 0;
     }
     if (value is double) {
-      return value;
+      return (value as double);
     }
     if (value is bool) {
-      return value ? 1 : 0;
+      return (value as bool) ? 1 : 0;
     }
     if (value is String) {
-      return double.parse(value);
+      return double.parse((value as String));
     }
-    return double.parse(value);
+    return double.parse((value as String));
   }
 }
