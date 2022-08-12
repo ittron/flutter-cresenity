@@ -5,13 +5,13 @@ import 'bloc.dart';
 
 class BlocBuilder<T> extends StatefulWidget {
   final Function builder;
-  final Stream stream;
-  final Function init;
-  final Bloc bloc;
+  final Stream<BlocResult<T>?>? stream;
+  final Function? init;
+  final Bloc? bloc;
 
   BlocBuilder({
-    Key key,
-    this.builder,
+    Key? key,
+    required this.builder,
     this.stream,
     this.init,
     this.bloc,
@@ -29,9 +29,10 @@ class _BlocBuilderState<T> extends State<BlocBuilder<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<BlocResult<T>>(
+    return StreamBuilder<BlocResult<T>?>(
         stream: widget.stream,
-        builder: (BuildContext context, AsyncSnapshot<BlocResult<T>> snapshot) {
+        builder:
+            (BuildContext context, AsyncSnapshot<BlocResult<T>?> snapshot) {
           return widget.builder(context, snapshot);
         });
   }

@@ -6,24 +6,24 @@ import 'package:flutter_cresenity/bloc/bloc_result.dart';
 
 class Bloc<T> {
   // ignore: close_sinks
-  StreamController<BlocResult<T>> actionController =
+  StreamController<BlocResult<T>?> actionController =
       StreamController.broadcast();
 
-  Stream<BlocResult<T>> get stream => actionController.stream;
+  Stream<BlocResult<T>?> get stream => actionController.stream;
 
-  BlocResult<T> result;
+  BlocResult<T>? result;
   bool _isDispatching = false;
   bool asyncDispatching = false;
 
   get isDispatching => _isDispatching;
 
-  void setValue(T t, {String state}) {
+  void setValue(T t, {String? state}) {
     BlocResult<T> blocResult = BlocResult<T>(t, state);
 
     actionController.sink.add(blocResult);
   }
 
-  bool dispatch([Function callback]) {
+  bool dispatch([Function? callback]) {
     if (!asyncDispatching && isDispatching) {
       return false;
     }

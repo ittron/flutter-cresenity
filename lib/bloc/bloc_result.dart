@@ -1,7 +1,7 @@
 class BlocResult<T> {
-  T _value;
+  T? _value;
 
-  String _state;
+  String? _state;
 
   BlocResult(this._value, [this._state]);
 
@@ -14,8 +14,8 @@ class BlocResult<T> {
     }
   }
 
-  T get value => _value;
-  String get state => _state;
+  T? get value => _value;
+  String? get state => _state;
 
   BlocResult<T> setValue(T value) {
     this._value = value;
