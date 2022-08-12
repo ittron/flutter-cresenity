@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/cf.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_cresenity/exception/reporter_abstract.dart';
 import 'package:flutter_cresenity/helper/utils.dart';
 
 class DeveloperDialogReporter extends ReporterAbstract {
-
   @override
   void requestAction(Report report, BuildContext context) {
     _showDialog(report, context);
@@ -27,13 +25,12 @@ class DeveloperDialogReporter extends ReporterAbstract {
     }
   }
 
-
-
   Widget _buildCupertinoDialog(Report report, BuildContext context) {
     return CupertinoAlertDialog(
       title: Text(CF.translator.get('exception.dialog_title')),
       content: SingleChildScrollView(
-        child: Text( report.error.toString() + "\n\n" + report.stackTrace.toString() ),
+        child: Text(
+            report.error.toString() + "\n\n" + report.stackTrace.toString()),
       ),
       actions: <Widget>[
         CupertinoDialogAction(
@@ -52,21 +49,21 @@ class DeveloperDialogReporter extends ReporterAbstract {
     return AlertDialog(
       title: Text(CF.translator.get('exception.dialog_title')),
       content: SingleChildScrollView(
-        child: Text( report.error.toString() + "\n\n" + report.stackTrace.toString() ),
+        child: Text(
+            report.error.toString() + "\n\n" + report.stackTrace.toString()),
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(CF.translator.get('exception.accept')),
           onPressed: () => _onAcceptReportClicked(context, report),
         ),
-        FlatButton(
+        TextButton(
           child: Text(CF.translator.get('exception.cancel')),
           onPressed: () => _onCancelReportClicked(context, report),
         ),
       ],
     );
   }
-
 
   void _onAcceptReportClicked(BuildContext context, Report report) {
     super.onActionConfirmed(report);
@@ -77,6 +74,4 @@ class DeveloperDialogReporter extends ReporterAbstract {
     super.onActionRejected(report);
     Navigator.pop(context);
   }
-
-
 }

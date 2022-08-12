@@ -86,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () async {
                 //CF.navigator.navigateTo("/ui/card");
                 //NavigationService nav = new NavigationService();
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: Text("Get Ip Address"),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () async {
                 await Base.api.toDataModel<GetInfoModel>().run("NotFound");
               },

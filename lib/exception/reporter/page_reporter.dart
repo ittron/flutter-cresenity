@@ -111,11 +111,11 @@ class PageWidgetState extends State<PageWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text(CF.translator.get('exception.accept')),
                 onPressed: () => _onAcceptClicked(),
               ),
-              FlatButton(
+              TextButton(
                 child: Text(CF.translator.get('exception.cancel')),
                 onPressed: () => _onCancelClicked(),
               ),

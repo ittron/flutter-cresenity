@@ -19,13 +19,13 @@ class Array<E> {
   }
 
   Array clear() {
-    _items = List<E>();
+    _items = <E>[];
     return this;
   }
 
   _getListableItems(Object items) {
     if (items == null) {
-      return List<E>();
+      return <E>[];
     }
     if (items is Array) {
       return items.all();
@@ -43,7 +43,7 @@ class Array<E> {
       return newItems;
     }
 
-    return List<E>();
+    return <E>[];
   }
 
   first() {

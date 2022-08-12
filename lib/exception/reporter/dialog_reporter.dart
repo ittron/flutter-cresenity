@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cresenity/cf.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_cresenity/exception/reporter_abstract.dart';
 import 'package:flutter_cresenity/helper/utils.dart';
 
 class DialogReporter extends ReporterAbstract {
-
   @override
   void requestAction(Report report, BuildContext context) {
     _showDialog(report, context);
@@ -26,8 +24,6 @@ class DialogReporter extends ReporterAbstract {
           builder: (context) => _buildMaterialDialog(report, context));
     }
   }
-
-
 
   Widget _buildCupertinoDialog(Report report, BuildContext context) {
     return CupertinoAlertDialog(
@@ -51,18 +47,17 @@ class DialogReporter extends ReporterAbstract {
       title: Text(CF.translator.get('exception.dialog_title')),
       content: Text(CF.translator.get('exception.dialog_description')),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(CF.translator.get('exception.accept')),
           onPressed: () => _onAcceptReportClicked(context, report),
         ),
-        FlatButton(
+        TextButton(
           child: Text(CF.translator.get('exception.cancel')),
           onPressed: () => _onCancelReportClicked(context, report),
         ),
       ],
     );
   }
-
 
   void _onAcceptReportClicked(BuildContext context, Report report) {
     super.onActionConfirmed(report);
@@ -73,6 +68,4 @@ class DialogReporter extends ReporterAbstract {
     super.onActionRejected(report);
     Navigator.pop(context);
   }
-
-
 }
