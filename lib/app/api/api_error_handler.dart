@@ -1,5 +1,5 @@
 class ApiErrorHandler {
-  Function _handler;
+  Function? _handler;
 
   ApiErrorHandler(handler) {
     _handler = _resolveHandler(handler);
@@ -15,6 +15,6 @@ class ApiErrorHandler {
   }
 
   handle() {
-    _handler();
+    _handler!();
   }
 }

@@ -7,7 +7,7 @@ import 'package:flutter_cresenity/support/caster.dart';
 import 'package:flutter_cresenity/support/collection.dart';
 
 class CollectionDataModel<T> extends AbstractDataModel {
-  Collection<T> _items;
+  Collection<T> _items = Collection<T>();
   CollectionDataModel.fromJson(Map<String, dynamic> map) {
     this._items = Collection<T>(map);
   }
@@ -46,12 +46,12 @@ class CollectionDataModel<T> extends AbstractDataModel {
     return jsonEncode(_items);
   }
 
-  CollectionDataModel merge(Collection other) {
+  CollectionDataModel merge(Collection<T> other) {
     _items.addAll(other.all());
     return this;
   }
 
-  Collection filter([Function(String, T) f]) {
+  Collection filter([bool Function(String, T)? f]) {
     if (f != null) {
       return new Collection(Arr.where(_items, f));
     }
@@ -121,7 +121,7 @@ class CollectionDataModel<T> extends AbstractDataModel {
     _items.removeWhere(predicate);
   }
 
-  T update(String key, T Function(T value) update, {T Function() ifAbsent}) {
+  T update(String key, T Function(T value) update, {T Function()? ifAbsent}) {
     return _items.update(key, update);
   }
 
