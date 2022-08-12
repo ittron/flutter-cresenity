@@ -1,11 +1,9 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_cresenity/exception/model/report.dart';
 import 'package:flutter_cresenity/exception/report_action.dart';
 
 abstract class ReporterAbstract {
-  ReportAction _reportAction;
+  ReportAction? _reportAction;
 
   /// Set report mode action.
   void setReportModeAction(ReportAction reportAction) {
@@ -18,15 +16,15 @@ abstract class ReporterAbstract {
 
   /// On user has accepted report
   void onActionConfirmed(Report report) {
-    if(_reportAction!=null) {
-      _reportAction.onActionConfirmed(report);
+    if (_reportAction != null) {
+      _reportAction!.onActionConfirmed(report);
     }
   }
 
   /// On user has rejected report
   void onActionRejected(Report report) {
-    if(_reportAction!=null) {
-      _reportAction.onActionRejected(report);
+    if (_reportAction != null) {
+      _reportAction!.onActionRejected(report);
     }
   }
 
@@ -34,5 +32,4 @@ abstract class ReporterAbstract {
   bool isContextRequired() {
     return false;
   }
-
 }

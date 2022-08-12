@@ -39,7 +39,7 @@ class ExceptionManager {
   }
 
   void reportError(dynamic error, dynamic stackTrace,
-      {FlutterErrorDetails errorDetails}) async {
+      {FlutterErrorDetails? errorDetails}) async {
     ExceptionReporter(error, stackTrace, errorDetails: errorDetails).report();
   }
 }
