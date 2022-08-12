@@ -14,7 +14,7 @@ class Storage {
   static Map<String, Storage> _instance;
 
   String _adapterType = DEFAULT_ADAPTER;
-  factory Storage.instance({String adapter}) {
+  factory Storage.instance({String? adapter}) {
     if (adapter == null) {
       adapter = DEFAULT_ADAPTER;
     }

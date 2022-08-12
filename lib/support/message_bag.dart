@@ -14,7 +14,7 @@ class MessageBag implements Arrayable {
   ///Default format for message output.
   String _format = ':message';
 
-  MessageBag([Collection messages]) {
+  MessageBag([Collection? messages]) {
     if (messages == null) {
       messages = Collection();
     }

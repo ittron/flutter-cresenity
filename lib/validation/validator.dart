@@ -18,7 +18,7 @@ class Validator extends ValidatorAbstract
 
   String dotPlaceholder;
 
-  Validator(Collection data, Collection rules, [Collection messages]) {
+  Validator(Collection data, Collection rules, [Collection? messages]) {
     if (messages == null) {
       messages = Collection();
     }
