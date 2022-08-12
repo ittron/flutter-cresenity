@@ -117,7 +117,7 @@ class Arr {
     return value;
   }
 
-  static Array getArray<T>(map, key, [Array defaultValue]) {
+  static Array<T> getArray<T>(map, key, [Array defaultValue]) {
     var value = get(map, key, defaultValue);
 
     if (value != null && (!(value is Array))) {

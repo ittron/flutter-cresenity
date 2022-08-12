@@ -24,7 +24,7 @@ class ModelFactory {
   }
 
   Function resolveBuilder(Type t, [f]) {
-    Function builder = f;
+    Function? builder = f;
     if (builder != null) {
       return builder;
     }

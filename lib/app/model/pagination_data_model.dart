@@ -9,13 +9,13 @@ class PaginationDataModel<T extends AbstractDataModel>
   int lastPage = 0;
   int perPage = 10;
   int currentPage = 1;
-  Array<T> items;
+  Array<T> items = Array<T>();
 
   PaginationDataModel() {
     reset();
   }
 
-  PaginationDataModel.fromJson(Map map, [Function(Map) factoryBuilder]) {
+  PaginationDataModel.fromJson(Map map, [Function? factoryBuilder]) {
     total = Arr.getInt(map, "total");
     lastPage = Arr.getInt(map, "lastPage");
     perPage = Arr.getInt(map, "perPage");
@@ -24,7 +24,7 @@ class PaginationDataModel<T extends AbstractDataModel>
     items = new Array<T>();
     factoryBuilder = ModelFactory.instance().resolveBuilder(T, factoryBuilder);
     Arr.getArray<Map>(map, "items").forEach((element) {
-      items.add(factoryBuilder(element));
+      items.add(factoryBuilder!(element));
     });
   }
 
@@ -33,7 +33,7 @@ class PaginationDataModel<T extends AbstractDataModel>
     items = Array();
   }
 
-  updateFromModel(PaginationDataModel model) {
+  updateFromModel(PaginationDataModel<T> model) {
     total = model.total;
     lastPage = model.lastPage;
     perPage = model.perPage;
