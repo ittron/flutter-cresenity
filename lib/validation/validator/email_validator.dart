@@ -1,13 +1,9 @@
-
-
-
-
-enum type { None, Alphabetic, Numeric, AlphaNumeric }
+enum Type { None, Alphabetic, Numeric, AlphaNumeric }
 
 class EmailValidator {
   static int _index = 0;
   static const String _atomCharacters = "!#\$%&'*+-/=?^_`{|}~";
-  static type _domainType = type.None;
+  static Type _domainType = Type.None;
 
   static bool _isDigit(String c) {
     return c.codeUnitAt(0) >= 48 && c.codeUnitAt(0) <= 57;
@@ -31,12 +27,12 @@ class EmailValidator {
   static bool _isDomain(String c, bool allowInternational) {
     if (c.codeUnitAt(0) < 128) {
       if (_isLetter(c) || c == '-') {
-        _domainType = type.Alphabetic;
+        _domainType = Type.Alphabetic;
         return true;
       }
 
       if (_isDigit(c)) {
-        _domainType = type.Numeric;
+        _domainType = Type.Numeric;
         return true;
       }
 
@@ -44,7 +40,7 @@ class EmailValidator {
     }
 
     if (allowInternational) {
-      _domainType = type.Alphabetic;
+      _domainType = Type.Alphabetic;
       return true;
     }
 
@@ -54,26 +50,26 @@ class EmailValidator {
   static bool _isDomainStart(String c, bool allowInternational) {
     if (c.codeUnitAt(0) < 128) {
       if (_isLetter(c)) {
-        _domainType = type.Alphabetic;
+        _domainType = Type.Alphabetic;
         return true;
       }
 
       if (_isDigit(c)) {
-        _domainType = type.Numeric;
+        _domainType = Type.Numeric;
         return true;
       }
 
-      _domainType = type.None;
+      _domainType = Type.None;
 
       return false;
     }
 
     if (allowInternational) {
-      _domainType = type.Alphabetic;
+      _domainType = Type.Alphabetic;
       return true;
     }
 
-    _domainType = type.None;
+    _domainType = Type.None;
 
     return false;
   }
@@ -98,7 +94,7 @@ class EmailValidator {
     _index++;
 
     while (
-    _index < text.length && _isDomain(text[_index], allowInternational)) {
+        _index < text.length && _isDomain(text[_index], allowInternational)) {
       _index++;
     }
 
@@ -128,7 +124,7 @@ class EmailValidator {
     }
 
     // Note: by allowing AlphaNumeric, we get away with not having to support punycode.
-    if (_domainType == type.Numeric) {
+    if (_domainType == Type.Numeric) {
       return false;
     }
 

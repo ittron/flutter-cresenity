@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_cresenity/helper/c.dart';
 
@@ -15,18 +13,14 @@ class DummyObject {
   int getCounter() {
     return _counter;
   }
-
 }
 
 void main() {
-
-
-
   test("Test C.tap", () {
     int value = C.tap(DummyObject(), (item) {
       item.setCounter(2);
     }).getCounter();
-    expect(value,2);
+    expect(value, 2);
   });
 
   test("Test C.using", () {
@@ -34,15 +28,13 @@ void main() {
       item.setCounter(3);
       return item.getCounter();
     });
-    expect(value,3);
+    expect(value, 3);
   });
 
   test("Test C.isArray", () {
+    expect(C.isArray([]), true);
+    expect(C.isArray(List()), true);
 
-    expect(C.isArray([]),true);
-    expect(C.isArray(List()),true);
-
-    expect(C.isArray(Array()),true);
-
+    expect(C.isArray(Array()), true);
   });
 }
