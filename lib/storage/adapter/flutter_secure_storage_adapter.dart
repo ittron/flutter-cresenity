@@ -1,13 +1,17 @@
 import '../storage_adapter.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class HiveStorageAdapter extends StorageAdapter {
+class FlutterSecureStorageAdapter extends StorageAdapter {
   final String boxKey = 'CFHive';
+  FlutterSecureStorage flutterSecureStorage;
 
-  Future<void> setup() async {
-    await Hive.initFlutter();
-    await Hive.openBox(boxKey);
+  FlutterSecureStorageAdapter() {
+    flutterSecureStorage = FlutterSecureStorage(
+        aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ));
   }
+  Future<void> setup() async {}
 
   String get(String key, {String defaultValue}) {
     var box = Hive.box(boxKey);
@@ -15,8 +19,7 @@ class HiveStorageAdapter extends StorageAdapter {
   }
 
   Future<bool> put(String key, String value) {
-    var box = Hive.box(boxKey);
-    return box.put(key, value);
+    flutterSecureStorage.write(key: key, value: value);
   }
 
   Future<bool> unset(String key) async {
