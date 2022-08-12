@@ -39,7 +39,7 @@ class CF {
 
   static UIManager get ui => UIManager.instance();
 
-  static Future<void> init([Function(Config) setupCallback]) async {
+  static Future<void> init([Function(Config)? setupCallback]) async {
     if (_inited) {
       return;
     }
@@ -48,7 +48,7 @@ class CF {
       setupCallback(Config.instance());
     }
     _inited = true;
-    List<Bootable> bootstrapper = List();
+    List<Bootable> bootstrapper = [];
 
     bootstrapper.add(ValidatorBootstrap());
     bootstrapper.add(StorageBootstrap());
