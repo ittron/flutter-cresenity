@@ -9,11 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.13.4
+  http: ^0.13.5
   logging: ^1.0.2
-  device_info: ^2.0.2
-  package_info_plus : ^1.4.0
-  fluttertoast: ^8.0.8
+  device_info: ^2.0.3
+  package_info_plus : ^1.4.3+1
+  fluttertoast: ^8.0.9
   flutter_secure_storage: ^5.1.0
 
 dev_dependencies:
