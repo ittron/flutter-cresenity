@@ -6,17 +6,14 @@ import 'package:flutter_cresenity/helper/c.dart';
 import 'package:flutter_cresenity/helper/arr.dart';
 
 class Collection<T> {
-  Map<String, T> _items;
+  Map<String, T> _items = Map<String, T>();
 
   Map<String, T> all() {
     return _items;
   }
 
-  Collection([Object items]) {
+  Collection([dynamic items]) {
     _items = _getMapableItems(items);
-    if (_items == null) {
-      clear();
-    }
   }
 
   factory Collection.from(Collection other) {
@@ -40,7 +37,7 @@ class Collection<T> {
     _items = jsonDecode(json);
   }
 
-  _getMapableItems(Object items) {
+  _getMapableItems(dynamic items) {
     if (items == null) {
       return Map<String, T>();
     }
@@ -114,7 +111,7 @@ class Collection<T> {
     return this;
   }
 
-  Collection setItems(Map map) {
+  Collection setItems(Map<String, T> map) {
     _items = map;
     return this;
   }
@@ -132,7 +129,7 @@ class Collection<T> {
     return jsonEncode(_items);
   }
 
-  Collection merge(Collection other) {
+  Collection merge(Collection<T> other) {
     _items.addAll(other.all());
     return this;
   }
@@ -149,7 +146,7 @@ class Collection<T> {
     return result;
   }
 
-  Collection filter([Function(String, T) f]) {
+  Collection filter([bool Function(String, T)? f]) {
     if (f != null) {
       return new Collection(Arr.where(_items, f));
     }
@@ -210,7 +207,7 @@ class Collection<T> {
     return _items.putIfAbsent(key, ifAbsent);
   }
 
-  T remove(Object key) {
+  T? remove(Object? key) {
     return _items.remove(key);
   }
 
@@ -218,7 +215,7 @@ class Collection<T> {
     _items.removeWhere(predicate);
   }
 
-  T update(String key, T Function(T value) update, {T Function() ifAbsent}) {
+  T update(String key, T Function(T value) update, {T Function()? ifAbsent}) {
     return _items.update(key, update);
   }
 
@@ -226,7 +223,7 @@ class Collection<T> {
     _items.updateAll(update);
   }
 
-  T operator [](Object key) {
+  T? operator [](Object key) {
     String keyString = Caster(key).toString();
     return _items[keyString];
   }
