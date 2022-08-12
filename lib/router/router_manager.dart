@@ -257,6 +257,9 @@ class RouterManager {
   /// property as callback to create routes that can be used with the [Navigator] class.
   Route<dynamic>? generator(RouteSettings routeSettings) {
     return null;
+    // RouteMatch match =
+    //     matchRoute(null, routeSettings.name, routeSettings: routeSettings);
+    // return match.route;
   }
 
   /// Prints the route tree so you can analyze it.
