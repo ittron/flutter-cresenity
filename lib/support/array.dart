@@ -5,17 +5,14 @@ import '../helper/c.dart';
 import 'collection.dart';
 
 class Array<E> {
-  List<E> _items;
+  List<E> _items = <E>[];
 
   List<E> all() {
     return _items;
   }
 
-  Array([Object items]) {
+  Array([dynamic items]) {
     _items = _getListableItems(items);
-    if (_items == null) {
-      clear();
-    }
   }
 
   Array clear() {
@@ -23,7 +20,7 @@ class Array<E> {
     return this;
   }
 
-  _getListableItems(Object items) {
+  _getListableItems(dynamic items) {
     if (items == null) {
       return <E>[];
     }
@@ -53,10 +50,11 @@ class Array<E> {
     return null;
   }
 
-  factory Array.fromList(List list) {
+  static Array fromList(List list) {
     return Array(list);
   }
-  factory Array.fromCollection(Collection collection) {
+
+  static Array fromCollection(Collection collection) {
     return collection.toArray();
   }
 
@@ -72,14 +70,14 @@ class Array<E> {
     return _items.length;
   }
 
-  get length => count();
+  int get length => count();
 
   Array merge(Array<E> other) {
     _items.addAll(other.all());
     return this;
   }
 
-  Array operator +(Array other) {
+  Array operator +(Array<E> other) {
     return merge(other);
   }
 
@@ -91,7 +89,7 @@ class Array<E> {
     _items.add(value);
   }
 
-  void addAll(Iterable iterable) {
+  void addAll(Iterable<E> iterable) {
     _items.addAll(iterable);
   }
 
@@ -127,7 +125,7 @@ class Array<E> {
     _items.fillRange(start, end, fillValue);
   }
 
-  firstWhere(bool Function(E element) test, {Function() orElse}) {
+  firstWhere(bool Function(E element) test, {E Function()? orElse}) {
     _items.firstWhere(test, orElse: orElse);
   }
 
@@ -135,7 +133,7 @@ class Array<E> {
     return _items.fold(initialValue, combine);
   }
 
-  Iterable followedBy(Iterable other) {
+  Iterable followedBy(Iterable<E> other) {
     return _items.followedBy(other);
   }
 
@@ -159,7 +157,7 @@ class Array<E> {
     _items.insert(index, element);
   }
 
-  void insertAll(int index, Iterable iterable) {
+  void insertAll(int index, Iterable<E> iterable) {
     _items.insertAll(index, iterable);
   }
 
@@ -173,15 +171,15 @@ class Array<E> {
     return _items.join(separator);
   }
 
-  int lastIndexOf(element, [int start]) {
+  int lastIndexOf(element, [int? start]) {
     return _items.lastIndexOf(element, start);
   }
 
-  int lastIndexWhere(bool Function(E element) test, [int start]) {
+  int lastIndexWhere(bool Function(E element) test, [int? start]) {
     return _items.lastIndexWhere(test, start);
   }
 
-  lastWhere(bool Function(E element) test, {Function() orElse}) {
+  lastWhere(bool Function(E element) test, {E Function()? orElse}) {
     _items.lastWhere(test, orElse: orElse);
   }
 
@@ -193,7 +191,7 @@ class Array<E> {
     return Array(_items.map<T>(f));
   }
 
-  reduce(Function(E value, E element) combine) {
+  reduce(E Function(E value, E element) combine) {
     return _items.reduce(combine);
   }
 
@@ -217,7 +215,7 @@ class Array<E> {
     _items.removeWhere(test);
   }
 
-  void replaceRange(int start, int end, Iterable replacement) {
+  void replaceRange(int start, int end, Iterable<E> replacement) {
     _items.replaceRange(start, end, replacement);
   }
 
@@ -227,21 +225,21 @@ class Array<E> {
 
   Iterable get reversed => _items.reversed;
 
-  void setAll(int index, Iterable iterable) {
+  void setAll(int index, Iterable<E> iterable) {
     _items.setAll(index, iterable);
   }
 
-  void setRange(int start, int end, Iterable iterable, [int skipCount = 0]) {
+  void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0]) {
     _items.setRange(start, end, iterable, skipCount);
   }
 
-  void shuffle([Random random]) {
+  void shuffle([Random? random]) {
     _items.shuffle(random);
   }
 
   get single => _items.single;
 
-  singleWhere(bool Function(E element) test, {Function() orElse}) {
+  singleWhere(bool Function(E element) test, {Function()? orElse}) {
     return _items.singleWhere(test);
   }
 
@@ -253,15 +251,15 @@ class Array<E> {
     return _items.skipWhile(test);
   }
 
-  void sort([int Function(E a, E b) compare]) {
+  void sort([int Function(E a, E b)? compare]) {
     _items.sort(compare);
   }
 
-  List sublist(int start, [int end]) {
+  List sublist(int start, [int? end]) {
     return _items.sublist(start, end);
   }
 
-  Array subarray(int start, [int end]) {
+  Array subarray(int start, [int? end]) {
     List newList = sublist(start, end);
     return Array.fromList(newList);
   }
