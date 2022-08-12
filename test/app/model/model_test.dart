@@ -59,7 +59,7 @@ void main() async {
         ResponseModel.fromJson(json);
 
     expect(responseModel.errCode, 0);
-    expect(responseModel.data['sessionId'], 'ABCDEF');
+    expect(responseModel.data?['sessionId'], 'ABCDEF');
   });
 
   test('CollectionDataModel', () {
@@ -76,7 +76,7 @@ void main() async {
     ResponseModel<PostModel> responseModel = ResponseModel.fromJson(json);
 
     expect(responseModel.errCode, 0);
-    expect(responseModel.data.postId, 1);
+    expect(responseModel.data?.postId, 1);
   });
 
   test('ResponseListModel', () {
@@ -144,7 +144,7 @@ void main() async {
     });
 
     expect(responseModel.errCode, 0);
-    expect(responseModel.data.perPage, 10);
-    expect(responseModel.data.items[1].content, 'Body 2');
+    expect(responseModel.data?.perPage, 10);
+    expect(responseModel.data?.items[1].content, 'Body 2');
   });
 }

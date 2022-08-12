@@ -10,7 +10,7 @@ class C {
     return value;
   }
 
-  static dynamic using<T>(T value, Function(T)? callback) {
+  static dynamic using(value, Function? callback) {
     return callback == null ? value : callback(value);
   }
 

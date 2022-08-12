@@ -1,4 +1,3 @@
-
 import 'package:flutter_cresenity/helper/str.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_cresenity/support/array.dart';
@@ -47,8 +46,7 @@ void main() {
     actual = Str.getcsv('"abc","def","ghi"');
     expected = ['abc', 'def', 'ghi'];
     expect(actual, expected);
-    actual =
-        Str.getcsv('"row2""cell1","row2cell2","row2cell3"', null, null, '"');
+    actual = Str.getcsv('"row2""cell1","row2cell2","row2cell3"', ",", '"', '"');
     expected = ['row2"cell1', 'row2cell2', 'row2cell3'];
     expect(actual, expected);
 
@@ -74,15 +72,13 @@ void main() {
   });
 
   test("Test Str.replace", () {
-    expect(Str.substr('example',0,2), 'ex');
-    expect(Str.substr('example',1,2), 'xa');
+    expect(Str.substr('example', 0, 2), 'ex');
+    expect(Str.substr('example', 1, 2), 'xa');
   });
 
   test("Test Str.isAscii", () {
     expect(Str.isAscii('example'), true);
     expect(Str.isAscii('.网络'), false);
-
-
   });
 
   test("Test Str.start", () {
@@ -92,14 +88,12 @@ void main() {
 
   test("Test Str.trim", () {
     expect(Str.trim('  string'), 'string');
-    expect(Str.trim('-string--','-'), 'string');
-    expect(Str.trim('- string --','- '), 'string');
-
+    expect(Str.trim('-string--', '-'), 'string');
+    expect(Str.trim('- string --', '- '), 'string');
   });
 
   test("Test Str.slug", () {
     expect(Str.slug('Hello world'), 'hello-world');
-    expect(Str.slug(' Hello world','-'), 'hello-world');
-
+    expect(Str.slug(' Hello world', '-'), 'hello-world');
   });
 }

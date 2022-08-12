@@ -4,7 +4,7 @@ import 'package:flutter_cresenity/helper/c.dart';
 import 'package:flutter_cresenity/support/array.dart';
 
 class DummyObject {
-  int _counter;
+  int _counter = 0;
 
   void setCounter(int value) {
     _counter = value;

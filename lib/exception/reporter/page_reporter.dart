@@ -10,7 +10,7 @@ class PageReporter extends ReporterAbstract {
 
   PageReporter({
     this.showStackTrace = true,
-  }) : assert(showStackTrace != null, "showStackTrace can't be null");
+  });
 
   @override
   void requestAction(Report report, BuildContext context) {
