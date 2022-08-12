@@ -3,23 +3,30 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class FlutterSecureStorageAdapter extends StorageAdapter {
   final String boxKey = 'CFHive';
-  FlutterSecureStorage flutterSecureStorage;
+  FlutterSecureStorage storage;
+  Map<String, String> storageCache;
 
   FlutterSecureStorageAdapter() {
-    flutterSecureStorage = FlutterSecureStorage(
+    storage = FlutterSecureStorage(
         aOptions: AndroidOptions(
       encryptedSharedPreferences: true,
     ));
   }
-  Future<void> setup() async {}
+  Future<void> setup() async {
+    storageCache = await storage.readAll();
+  }
 
   String get(String key, {String defaultValue}) {
-    return box.get(key, defaultValue: defaultValue);
+    if (!storageCache.containsKey(key)) {
+      return defaultValue;
+    }
+    return storageCache[key];
   }
 
   Future<bool> put(String key, String value) async {
     try {
-      await flutterSecureStorage.write(key: key, value: value);
+      await storage.write(key: key, value: value);
+      storageCache[key] = value;
     } catch (ex) {
       return false;
     }
@@ -27,9 +34,9 @@ class FlutterSecureStorageAdapter extends StorageAdapter {
   }
 
   Future<bool> unset(String key) async {
-    var box = Hive.box(boxKey);
-    if (box.containsKey(key)) {
-      await box.delete(key);
+    if (await storage.containsKey(key: key)) {
+      await storage.delete(key: key);
+      storageCache.remove(key);
       return true;
     }
     return false;
