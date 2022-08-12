@@ -7,19 +7,19 @@ import 'package:flutter_cresenity/http/response.dart';
 import 'package:flutter_cresenity/support/collection.dart';
 
 class ApiRequest {
-  String _url;
-  Collection _params;
+  String _url = '';
+  Collection _params = Collection();
   //dynamic _errorHandler;
   dynamic _value;
-  Type _valueType;
+  Type? _valueType;
 
   ApiRequest(url, [params]) {
     this._url = url;
     this._params = Collection(params);
   }
 
-  Future<Response> getResponse() async {
-    Response response;
+  Future<Response?> getResponse() async {
+    Response? response;
     try {
       response = await CF.http.waitRequest(
         url: _url,
@@ -30,10 +30,10 @@ class ApiRequest {
     return response;
   }
 
-  Future<ResponseModel<T>>
+  Future<ResponseModel<T>?>
       getResponseModel<T extends AbstractDataModel>() async {
-    String responseBody;
-    Response response = await getResponse();
+    String? responseBody;
+    Response? response = await getResponse();
     if (response != null) {
       responseBody = response.body;
     }
@@ -57,12 +57,12 @@ class ApiRequest {
   }
 
   Future<T> getDataModel<T extends AbstractDataModel>() async {
-    ResponseModel<T> responseModel = await getResponseModel<T>();
+    ResponseModel<T>? responseModel = await getResponseModel<T>();
 
     if (_value != null && _getType<T>() == _valueType) {
-      _value.value = responseModel.data;
+      _value.value = responseModel?.data;
     }
-    return responseModel.data;
+    return responseModel!.data;
   }
 
   ApiRequest bindTo<T>(value) {
