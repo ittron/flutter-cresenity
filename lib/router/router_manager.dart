@@ -1,9 +1,4 @@
-
-
-
-
 import 'dart:async';
-
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +11,6 @@ import 'package:flutter_cresenity/router/tree/route_tree.dart';
 import 'package:flutter_cresenity/router/type.dart';
 
 class RouterManager {
-
   RouterManager._();
 
   static final RouterManager _instance = new RouterManager._();
@@ -24,21 +18,18 @@ class RouterManager {
   final RouteTree _routeTree = RouteTree();
 
   /// Generic handler for when a route has not been defined
-  RouteHandler notFoundHandler;
+  RouteHandler? notFoundHandler;
 
   factory RouterManager.instance() {
     return _instance;
   }
 
-
-
-  registerHandler(String routePath, handler, {
-      TransitionType transitionType,
+  registerHandler(String routePath, handler,
+      {TransitionType? transitionType,
       Duration transitionDuration = const Duration(milliseconds: 250),
-      RouteTransitionsBuilder transitionBuilder
-  }) {
-    if(!(handler is RouteHandler)) {
-      if(handler is Function) {
+      RouteTransitionsBuilder? transitionBuilder}) {
+    if (!(handler is RouteHandler)) {
+      if (handler is HandlerFunc) {
         handler = new RouteHandler(handlerFunc: handler);
       }
     }
@@ -51,28 +42,26 @@ class RouterManager {
   }
 
   /// Similar to [Navigator.pop]
-  void pop<T>(BuildContext context, [T result]) =>
+  void pop<T>(BuildContext context, [T? result]) =>
       Navigator.of(context).pop(result);
-
 
   /// Similar to [Navigator.push] but with a few extra features.
   Future navigateTo(BuildContext context, String path,
       {bool replace = false,
-        bool clearStack = false,
-        bool maintainState = true,
-        bool rootNavigator = false,
-        TransitionType transition,
-        Duration transitionDuration,
-        RouteTransitionsBuilder transitionBuilder,
-        RouteSettings routeSettings
-  }) {
+      bool clearStack = false,
+      bool maintainState = true,
+      bool rootNavigator = false,
+      TransitionType? transition,
+      Duration? transitionDuration,
+      RouteTransitionsBuilder? transitionBuilder,
+      RouteSettings? routeSettings}) {
     RouteMatch routeMatch = matchRoute(context, path,
         transitionType: transition,
         transitionsBuilder: transitionBuilder,
         transitionDuration: transitionDuration,
         maintainState: maintainState,
         routeSettings: routeSettings);
-    Route<dynamic> route = routeMatch.route;
+    Route<dynamic>? route = routeMatch.route;
     Completer completer = Completer();
     Future future = completer.future;
     if (routeMatch.matchType == RouteMatchType.nonVisual) {
@@ -82,8 +71,7 @@ class RouterManager {
         route = _notFoundRoute(context, path, maintainState: maintainState);
       }
       if (route != null) {
-        final navigator =
-        Navigator.of(context, rootNavigator: rootNavigator);
+        final navigator = Navigator.of(context, rootNavigator: rootNavigator);
         if (clearStack) {
           future = navigator.pushAndRemoveUntil(route, (check) => false);
         } else {
@@ -103,14 +91,14 @@ class RouterManager {
   }
 
   Route<Null> _notFoundRoute(BuildContext context, String path,
-      {bool maintainState}) {
+      {bool maintainState = true}) {
     RouteCreator<Null> creator =
-        (RouteSettings routeSettings, Map<String, List<String>> parameters) {
+        (RouteSettings routeSettings, Map<String, List<String>>? parameters) {
       return MaterialPageRoute<Null>(
           settings: routeSettings,
           maintainState: maintainState,
           builder: (BuildContext context) {
-            return notFoundHandler.handlerFunc(context, parameters);
+            return notFoundHandler!.handlerFunc(context, parameters);
           });
     };
     return creator(RouteSettings(name: path), null);
@@ -118,30 +106,27 @@ class RouterManager {
 
   /// Attempt to match a route to the provided [path].
   RouteMatch matchRoute(BuildContext buildContext, String path,
-      {RouteSettings routeSettings,
-        TransitionType transitionType,
-        Duration transitionDuration,
-        RouteTransitionsBuilder transitionsBuilder,
-        bool maintainState = true}) {
-    RouteSettings settingsToUse = routeSettings;
-    if (routeSettings == null) {
-      settingsToUse = RouteSettings(name: path);
-    }
+      {RouteSettings? routeSettings,
+      TransitionType? transitionType,
+      Duration? transitionDuration,
+      RouteTransitionsBuilder? transitionsBuilder,
+      bool maintainState = true}) {
+    RouteSettings settingsToUse = routeSettings ?? RouteSettings(name: path);
     if (settingsToUse.name == null) {
       settingsToUse = settingsToUse.copyWith(name: path);
     }
-    RouteRecordMatch match = _routeTree.matchRoute(path);
-    RouteRecord route = match?.route;
+    RouteRecordMatch? match = _routeTree.matchRoute(path);
+    RouteRecord? route = match?.route;
 
     if (route?.transitionDuration != null) {
       transitionDuration = route?.transitionDuration;
     }
 
-    RouteHandler handler = (route != null ? route?.handler : notFoundHandler);
+    RouteHandler handler = route?.handler ?? notFoundHandler;
     var transition = transitionType;
     if (transitionType == null) {
       transition =
-      route != null ? route?.transitionType : TransitionType.inFromRight;
+          route != null ? route.transitionType : TransitionType.inFromRight;
     }
 
     transition = transition ?? TransitionType.inFromRight;
@@ -158,7 +143,7 @@ class RouterManager {
     }
 
     RouteCreator creator =
-        (RouteSettings routeSettings, Map<String, List<String>> parameters) {
+        (RouteSettings routeSettings, Map<String, List<String>>? parameters) {
       bool isNativeTransition = (transition == TransitionType.native ||
           transition == TransitionType.nativeModal);
       if (isNativeTransition) {
@@ -174,7 +159,7 @@ class RouterManager {
         return MaterialPageRoute<dynamic>(
             settings: routeSettings,
             fullscreenDialog:
-            transition == TransitionType.materialFullScreenDialog,
+                transition == TransitionType.materialFullScreenDialog,
             maintainState: maintainState,
             builder: (BuildContext context) {
               return handler.handlerFunc(context, parameters);
@@ -184,7 +169,7 @@ class RouterManager {
         return CupertinoPageRoute<dynamic>(
             settings: routeSettings,
             fullscreenDialog:
-            transition == TransitionType.cupertinoFullScreenDialog,
+                transition == TransitionType.cupertinoFullScreenDialog,
             maintainState: maintainState,
             builder: (BuildContext context) {
               return handler.handlerFunc(context, parameters);
@@ -208,7 +193,9 @@ class RouterManager {
           },
           transitionDuration: transition == TransitionType.none
               ? Duration.zero
-              : transitionDuration ?? route?.transitionDuration,
+              : transitionDuration ??
+                  route?.transitionDuration ??
+                  Duration.zero,
           /*
           reverseTransitionDuration: transition == TransitionType.none
               ? Duration.zero
@@ -228,7 +215,7 @@ class RouterManager {
   }
 
   RouteTransitionsBuilder _standardTransitionsBuilder(
-      TransitionType transitionType) {
+      TransitionType? transitionType) {
     return (BuildContext context, Animation<double> animation,
         Animation<double> secondaryAnimation, Widget child) {
       if (transitionType == TransitionType.fadeIn) {
@@ -268,10 +255,8 @@ class RouterManager {
   /// Route generation method. This function can be used as a way to create routes on-the-fly
   /// if any defined handler is found. It can also be used with the [MaterialApp.onGenerateRoute]
   /// property as callback to create routes that can be used with the [Navigator] class.
-  Route<dynamic> generator(RouteSettings routeSettings) {
-    RouteMatch match =
-    matchRoute(null, routeSettings.name, routeSettings: routeSettings);
-    return match.route;
+  Route<dynamic>? generator(RouteSettings routeSettings) {
+    return null;
   }
 
   /// Prints the route tree so you can analyze it.

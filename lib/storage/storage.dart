@@ -11,8 +11,8 @@ class Storage {
     _adapter = StorageFactory.createAdapter(adapter);
   }
 
-  static Map<String, Storage> _instance;
-
+  static Map<String, Storage>? _instance;
+  StorageAdapter? _adapter;
   String _adapterType = DEFAULT_ADAPTER;
   factory Storage.instance({String? adapter}) {
     if (adapter == null) {
@@ -22,14 +22,13 @@ class Storage {
     if (_instance == null) {
       _instance = Map<String, Storage>();
     }
-    if (!_instance.containsKey(adapter)) {
-      _instance[adapter] = Storage._();
+    if (!_instance!.containsKey(adapter)) {
+      _instance![adapter] = Storage._();
     }
 
-    return _instance[adapter];
+    return _instance![adapter]!;
   }
 
-  StorageAdapter _adapter;
   get adapterType => _adapterType;
 
   void setAdapterType(String type) {
@@ -38,19 +37,19 @@ class Storage {
 
   Future<void> setup() async {
     if (StorageConfig.instance().enable) {
-      await _adapter.setup();
+      await _adapter!.setup();
     }
   }
 
-  String get(String key, {String defaultValue}) {
-    return _adapter.get(key, defaultValue: defaultValue);
+  String? get(String key, {String? defaultValue}) {
+    return _adapter!.get(key, defaultValue: defaultValue);
   }
 
-  Future<bool> put(String key, String value) async {
-    return await _adapter.put(key, value);
+  Future<bool> put(String key, String? value) async {
+    return await _adapter!.put(key, value);
   }
 
   void unset(String key) async {
-    await _adapter.unset(key);
+    await _adapter!.unset(key);
   }
 }

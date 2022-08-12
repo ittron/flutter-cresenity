@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 /// A [RouteTreeNode] type
@@ -45,9 +43,8 @@ enum HandlerType {
 ///
 /// Note: you can access [RouteSettings] with the [context.settings] extension
 typedef Widget HandlerFunc(
-    BuildContext context, Map<String, List<String>> parameters);
-
+    BuildContext context, Map<String, List<String>>? parameters);
 
 /// A function that creates new routes.
 typedef Route<T> RouteCreator<T>(
-    RouteSettings route, Map<String, List<String>> parameters);
+    RouteSettings route, Map<String, List<String>>? parameters);

@@ -10,7 +10,7 @@ class NavigatorManager {
     return _instance;
   }
 
-  BuildContext get context => _navigatorKey.currentState?.overlay?.context;
+  BuildContext? get context => _navigatorKey.currentState?.overlay?.context;
 
   bool hasValidContext() {
     return context != null;
@@ -18,11 +18,11 @@ class NavigatorManager {
 
   GlobalKey<NavigatorState> get navigatorKey => _navigatorKey;
 
-  Future<dynamic> navigateTo(String routeName) {
-    return _navigatorKey.currentState.pushNamed(routeName);
+  Future<dynamic>? navigateTo(String routeName) {
+    return _navigatorKey.currentState?.pushNamed(routeName);
   }
 
-  Future<dynamic> replaceTo(String routeName) {
-    return _navigatorKey.currentState.pushReplacementNamed(routeName);
+  Future<dynamic>? replaceTo(String routeName) {
+    return _navigatorKey.currentState?.pushReplacementNamed(routeName);
   }
 }

@@ -21,7 +21,7 @@ class Report {
   final Map<String, dynamic> customParameters;
 
   /// FlutterErrorDetails data if present
-  final FlutterErrorDetails errorDetails;
+  final FlutterErrorDetails? errorDetails;
 
   /// Type of platform used
   final PlatformType platformType;
