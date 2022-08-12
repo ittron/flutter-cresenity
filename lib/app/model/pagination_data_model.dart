@@ -15,7 +15,7 @@ class PaginationDataModel<T extends AbstractDataModel>
     reset();
   }
 
-  PaginationDataModel.fromJson(Map map, [Function? factoryBuilder]) {
+  PaginationDataModel.fromJson(Map? map, [Function? factoryBuilder]) {
     total = Arr.getInt(map, "total");
     lastPage = Arr.getInt(map, "lastPage");
     perPage = Arr.getInt(map, "perPage");

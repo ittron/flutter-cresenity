@@ -3,8 +3,8 @@ import 'package:flutter_cresenity/helper/c.dart';
 ///this function to cast variable in dart like php
 
 class Caster {
-  Object? value;
-  Caster(Object value) {
+  dynamic value;
+  Caster(value) {
     this.value = value;
   }
 
