@@ -181,11 +181,11 @@ class Arr {
   }
 
   ///alias of filter, but callback is required
-  static Collection<T> where<T>(arr, bool Function(String, T) callback) {
+  static Collection<T> where<T>(arr, bool Function(String, T)? callback) {
     return filter(arr, callback);
   }
 
-  static first(arr, [Function callback, defaultValue]) {
+  static first(arr, [Function? callback, defaultValue]) {
     Array array = Array(arr);
     if (array.length == 0) {
       return C.value(defaultValue);
