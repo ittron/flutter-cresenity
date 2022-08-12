@@ -20,14 +20,15 @@ class Str {
 
   /// Generate a more truly "random" alpha-numeric string.
   static String random([int length = 16]) {
-    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    const _chars =
+        'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     Random _rnd = Random.secure();
     return String.fromCharCodes(Iterable.generate(
         length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
   }
 
   ///Convert a string to snake case.
-  static snake(String value, [String delimiter = '_']) {
+  static snake(String value, [String? delimiter = '_']) {
     String key = value;
 
     if (_snakeCache.containsKey(key) &&
@@ -35,7 +36,8 @@ class Str {
       return _snakeCache[key][delimiter];
     }
 
-    value = Str.ucwords(value).replaceAll(RegExp(r'\s+', caseSensitive: false), '');
+    value =
+        Str.ucwords(value).replaceAll(RegExp(r'\s+', caseSensitive: false), '');
     value = Str.lower(value.replaceAllMapped(
         RegExp(r'(.)(?=[A-Z])', caseSensitive: true), (match) {
       return match.group(1) + delimiter;
@@ -114,16 +116,16 @@ class Str {
         .join(" ");
   }
 
-  static String trim(String str , [String charlist]) {
+  static String trim(String str, [String charlist]) {
     String whitespace = charlist;
-    if(whitespace==null) {
-      whitespace = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';
-
+    if (whitespace == null) {
+      whitespace =
+          ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';
     } else {
-      whitespace = whitespace.replaceAllMapped(r'([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])', (Match match) {
+      whitespace = whitespace
+          .replaceAllMapped(r'([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])', (Match match) {
         return match.group(1);
       });
-
     }
     int l = str.length;
     for (int i = 0; i < l; i++) {
@@ -172,22 +174,20 @@ class Str {
     return s;
   }
 
-  static String pregQuote(String str,[String delimiter = '']) {
-
-
+  static String pregQuote(String str, [String delimiter = '']) {
     return str.replaceAllMapped(
-        RegExp(r'([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!<\>\|\:'+delimiter+'])'), (match) {
+        RegExp(r'([\\\.\+\*\?\[\^\]\$\(\)\{\}\=\!<\>\|\:' + delimiter + '])'),
+        (match) {
       return "\\${match.group(0)}";
     });
   }
 
   static String pregReplace(pattern, String replacement, String subject) {
-    if(pattern is String) {
+    if (pattern is String) {
       pattern = new RegExp(pattern);
     }
     return subject.replaceAll(pattern, replacement);
   }
-
 
   static List getcsv(String input,
       [String delimiter = ",", String enclosure = '"', String escape = "\\"]) {
@@ -291,17 +291,17 @@ class Str {
   /// Make a string's first character uppercase.
   static String ucfirst(String string) {
     return Str.upper(Str.substr(string, 0, 1)) + Str.substr(string, 1);
-
   }
 
   /// Returns the portion of string specified by the start and length parameters.
   static String substr(String string, int start, [int length]) {
-    int end = length!=null ? length + start : null;
+    int end = length != null ? length + start : null;
     return string.substring(start, end);
   }
 
   /// Returns the number of substring occurrences.
-  static int substrCount(String haystack, String needle, [int offset = 0, int length = 0]) {
+  static int substrCount(String haystack, String needle,
+      [int offset = 0, int length = 0]) {
     int cnt = 0;
 
     if (needle.length == 0) {
@@ -317,11 +317,10 @@ class Str {
     return cnt;
   }
 
-
   /// Begin a string with a single instance of a given value.
   static String start(String value, String prefix) {
     String quoted = pregQuote(prefix, '/');
-    return prefix + value.replaceAll(RegExp(r'^(?:'+ quoted + ')+'), '');
+    return prefix + value.replaceAll(RegExp(r'^(?:' + quoted + ')+'), '');
   }
 
   /// Determine if a given string is 7 bit ASCII.
@@ -350,9 +349,9 @@ class Str {
         // Replace space with the delimiter.
         .replaceAll(' ', separator);
 
-
     // Replace all separator characters and whitespace by a single separator
-    title = pregReplace(r'[' + pregQuote(separator) + r'\s]+', separator, title);
+    title =
+        pregReplace(r'[' + pregQuote(separator) + r'\s]+', separator, title);
 
     return trim(title, separator);
   }

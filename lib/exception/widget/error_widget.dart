@@ -8,7 +8,7 @@ class ErrorWidget extends StatelessWidget {
   final double maxWidthForSmallMode;
 
   const ErrorWidget({
-    Key key,
+    Key? key,
     this.details,
     this.showStacktrace,
     this.title,

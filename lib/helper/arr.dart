@@ -162,9 +162,9 @@ class Arr {
     //   example 3: Arr.filter({"a": 1, "b": false, "c": -1, "d": 0, "e": null, "f":'', "g":undefined});
     //   returns 3: {"a":1, "c":-1};
 
-    Collection result = Collection();
+    Collection<T> result = Collection<T>();
 
-    Collection items = Collection(arr);
+    Collection<T> items = Collection<T>(arr);
 
     if (callback == null) {
       callback = (k, v) {
@@ -173,7 +173,7 @@ class Arr {
     }
 
     items.forEach((key, value) {
-      if (callback(key, value)) {
+      if (callback!(key, value)) {
         result[key] = value;
       }
     });
