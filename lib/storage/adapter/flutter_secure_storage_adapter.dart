@@ -14,12 +14,16 @@ class FlutterSecureStorageAdapter extends StorageAdapter {
   Future<void> setup() async {}
 
   String get(String key, {String defaultValue}) {
-    var box = Hive.box(boxKey);
     return box.get(key, defaultValue: defaultValue);
   }
 
-  Future<bool> put(String key, String value) {
-    flutterSecureStorage.write(key: key, value: value);
+  Future<bool> put(String key, String value) async {
+    try {
+      await flutterSecureStorage.write(key: key, value: value);
+    } catch (ex) {
+      return false;
+    }
+    return true;
   }
 
   Future<bool> unset(String key) async {
