@@ -28,35 +28,35 @@ class Str {
   }
 
   ///Convert a string to snake case.
-  static snake(String value, [String? delimiter = '_']) {
+  static snake(String value, [String delimiter = '_']) {
     String key = value;
 
     if (_snakeCache.containsKey(key) &&
-        _snakeCache[key].containsKey(delimiter)) {
-      return _snakeCache[key][delimiter];
+        _snakeCache[key]!.containsKey(delimiter)) {
+      return _snakeCache[key]![delimiter];
     }
 
     value =
         Str.ucwords(value).replaceAll(RegExp(r'\s+', caseSensitive: false), '');
     value = Str.lower(value.replaceAllMapped(
         RegExp(r'(.)(?=[A-Z])', caseSensitive: true), (match) {
-      return match.group(1) + delimiter;
+      return match.group(1)! + delimiter;
     }));
 
     if (!_snakeCache.containsKey(key)) {
       _snakeCache[key] = Map<String, String>();
     }
 
-    _snakeCache[key][delimiter] = value;
+    _snakeCache[key]![delimiter] = value;
 
-    return (_snakeCache[key][delimiter]);
+    return (_snakeCache[key]![delimiter]);
   }
 
   ///Convert a value to studly caps case.
   static String studly(String value) {
     String key = value;
     if (_studlyCache.containsKey(key)) {
-      return _studlyCache[key];
+      return _studlyCache[key]!;
     }
 
     value = value.replaceAll('-', ' ');
@@ -116,15 +116,15 @@ class Str {
         .join(" ");
   }
 
-  static String trim(String str, [String charlist]) {
-    String whitespace = charlist;
+  static String trim(String str, [String? charlist]) {
+    String? whitespace = charlist;
     if (whitespace == null) {
       whitespace =
           ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';
     } else {
       whitespace = whitespace
           .replaceAllMapped(r'([\[\]\(\)\.\?\/\*\{\}\+\$\^\:])', (Match match) {
-        return match.group(1);
+        return match.group(1) ?? '';
       });
     }
     int l = str.length;
@@ -145,7 +145,7 @@ class Str {
     return whitespace.indexOf(str[0]) == -1 ? str : '';
   }
 
-  static List<String> explode(String delimiter, String string, [int limit]) {
+  static List<String> explode(String delimiter, String string, [int? limit]) {
     if (delimiter == '') return [string];
 
     var s = string.split(delimiter);
@@ -162,7 +162,7 @@ class Str {
       if (limit >= s.length) {
         return s;
       }
-      List result = s.sublist(0, limit - 1);
+      List<String> result = s.sublist(0, limit - 1);
       result.addAll([s.sublist(limit - 1).join(delimiter)]);
       return result;
     }
@@ -207,9 +207,6 @@ class Str {
       return Str.pregQuote(str);
     };
 
-    delimiter = delimiter ?? ',';
-    enclosure = enclosure ?? '"';
-    escape = escape ?? "\\";
     var pqEnc = pq(enclosure);
     var pqEsc = pq(escape);
 
@@ -240,7 +237,7 @@ class Str {
 
   ///Find the position of the first occurrence of a substring in a string
   ///return false when not found
-  static dynamic strpos(String haystack, String needle, [int offset]) {
+  static dynamic strpos(String haystack, String needle, [int? offset]) {
     //   example 1: strpos('Kevin van Zonneveld', 'e', 5);
     //   returns 1: 14
 
@@ -294,8 +291,8 @@ class Str {
   }
 
   /// Returns the portion of string specified by the start and length parameters.
-  static String substr(String string, int start, [int length]) {
-    int end = length != null ? length + start : null;
+  static String substr(String string, int start, [int? length]) {
+    int? end = length != null ? length + start : null;
     return string.substring(start, end);
   }
 

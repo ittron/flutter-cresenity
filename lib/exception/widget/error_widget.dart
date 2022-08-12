@@ -9,15 +9,12 @@ class ErrorWidget extends StatelessWidget {
 
   const ErrorWidget({
     Key? key,
-    this.details,
-    this.showStacktrace,
-    this.title,
-    this.description,
-    this.maxWidthForSmallMode,
-  })  : assert(showStacktrace != null),
-        assert(title != null),
-        assert(description != null),
-        assert(maxWidthForSmallMode != null && maxWidthForSmallMode > 0),
+    required this.details,
+    required this.showStacktrace,
+    required this.title,
+    required this.description,
+    required this.maxWidthForSmallMode,
+  })  : assert(maxWidthForSmallMode > 0),
         super(key: key);
 
   @override
@@ -84,7 +81,7 @@ class ErrorWidget extends StatelessWidget {
         itemCount: stackTrace.length,
         itemBuilder: (BuildContext context, int index) {
           String line = stackTrace[index];
-          if (line?.isNotEmpty == true) {
+          if (line.isNotEmpty == true) {
             return Text(line);
           } else {
             return const SizedBox();
