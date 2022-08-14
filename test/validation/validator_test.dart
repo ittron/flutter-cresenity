@@ -17,8 +17,6 @@ void main() {
       "name": "required|max:255"
     });
 
-    expect(validator != null, true);
-
     var errors = validator.errors();
 
     expect(errors.get("name").all(), []);

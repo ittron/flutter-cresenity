@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
 import 'package:flutter_cresenity/app/model/response_model.dart';
+import 'package:flutter_cresenity/app/model/response_pagination_model.dart';
 
 class Response {
   final String body;
@@ -35,5 +36,11 @@ class Response {
   T? toDataModel<T extends AbstractDataModel>() {
     ResponseModel<T>? responseModel = toResponseModel<T>();
     return responseModel?.data ?? null;
+  }
+
+  ResponsePaginationModel<T> toPaginationModel<T extends AbstractDataModel>() {
+    ResponsePaginationModel<T>? responseModel =
+        ResponsePaginationModel.fromJson(jsonDecode(body));
+    return responseModel;
   }
 }

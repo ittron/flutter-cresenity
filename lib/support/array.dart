@@ -26,14 +26,14 @@ class Array<E> {
     }
     if (items is Array) {
       return items.all();
-    } else if (items is Set) {
-      return items.toList();
-    } else if (items is Iterable) {
-      return items.toList();
     } else if (items is List) {
       return items;
+    } else if (items is Set) {
+      return items.toList();
     } else if (items is Map) {
       return items.values;
+    } else if (items is Iterable) {
+      return items.toList();
     } else if (C.isScalar(items)) {
       List<E> newItems = [];
       newItems.add(items);

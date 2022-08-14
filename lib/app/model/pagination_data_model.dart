@@ -23,7 +23,7 @@ class PaginationDataModel<T extends AbstractDataModel>
 
     items = new Array<T>();
     factoryBuilder = ModelFactory.instance().resolveBuilder(T, factoryBuilder);
-    Arr.getArray<Map>(map, "items").forEach((element) {
+    Arr.getArray(map, "items").forEach((element) {
       items.add(factoryBuilder!(element));
     });
   }

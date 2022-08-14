@@ -1,3 +1,6 @@
+import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
+import 'package:flutter_cresenity/app/model/collection_data_model.dart';
+
 class ModelFactory {
   Map<Type, Function> _factories = {};
 
@@ -23,12 +26,18 @@ class ModelFactory {
     return this;
   }
 
+  Function noopBuilder() {
+    return (json) => CollectionDataModel.fromJson(json);
+  }
+
   Function resolveBuilder(Type t, [f]) {
     Function? builder = f;
     if (builder != null) {
       return builder;
     }
-
+    if (t == AbstractDataModel) {
+      return noopBuilder();
+    }
     builder = _factories[t];
 
     if (builder == null) {

@@ -18,7 +18,6 @@ class ResponsePaginationModel<T extends AbstractDataModel>
       [Function? factoryBuilder]) {
     errCode = Arr.getInt(json, 'errCode');
     errMessage = Arr.getString(json, 'errMessage');
-
     factoryBuilder = ModelFactory.instance().resolveBuilder(T, factoryBuilder);
     data = PaginationDataModel<T>.fromJson(
         Arr.getMap(json, 'data'), factoryBuilder);
