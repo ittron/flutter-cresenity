@@ -9,7 +9,6 @@ class ResponseModel<T extends AbstractModel> {
   String errMessage = '';
 
   late AbstractModel model;
-  PaginationDataModel? paginationDataModel;
 
   dynamic data;
 
@@ -28,9 +27,9 @@ class ResponseModel<T extends AbstractModel> {
   ResponseModel.paginationJson(Map<String, dynamic> json) {
     _getCode(json);
 
-    paginationDataModel ??= PaginationDataModel<T>(model);
+    data ??= PaginationDataModel<T>(model);
 
-    data = paginationDataModel?.fromJson(json['data']);
+    data?.fromJson(json['data']);
   }
 
   _getCode(Map<String, dynamic> json) {
