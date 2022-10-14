@@ -11,6 +11,12 @@ class PostModel extends AbstractDataModel {
   PostModel.fromJson(Map map) {
     postId = map['postId'];
   }
+
+  @override
+  fromJson(Map<String, dynamic> json) {
+    // TODO: implement fromJson
+    throw UnimplementedError();
+  }
 }
 
 void main() {

@@ -1,33 +1,47 @@
-import 'package:flutter_cresenity/app/model/model_factory.dart';
-import 'package:flutter_cresenity/helper/arr.dart';
+import 'package:flutter_cresenity/app/model/pagination_data_model.dart';
+import 'package:flutter_cresenity/support/caster.dart';
 
-import 'abstract_data_model.dart';
 import 'abstract_model.dart';
 
-class ResponseModel<T extends AbstractDataModel> extends AbstractModel {
+class ResponseModel<T extends AbstractModel> {
+
   int errCode = 0;
   String errMessage = '';
 
-  T? data;
+  late AbstractModel model;
+  PaginationDataModel? paginationDataModel;
 
-  ResponseModel();
+  dynamic data;
 
-  ResponseModel.fromJson(Map<String, dynamic> json,
-      [Function? factoryBuilder]) {
-    errCode = Arr.getInt(json, 'errCode');
-    errMessage = Arr.getString(json, 'errMessage');
-    factoryBuilder = ModelFactory.instance().resolveBuilder(T, factoryBuilder);
+  ResponseModel(this.model);
 
-    data = Arr.getMap(json, 'data') != null
-        ? factoryBuilder(Arr.getMap(json, 'data'))
-        : null;
+  ResponseModel.fromJson(Map<String, dynamic> json) {
+    _getCode(json);
+
+    if (json['data'] is Map<String, dynamic>) {
+      data = model.fromJson(json['data']);
+    } else {
+      data = List<T>.from(json['data'].map((e) => model.fromJson(e)));
+    }
+  }
+
+  ResponseModel.paginationJson(Map<String, dynamic> json) {
+    _getCode(json);
+
+    paginationDataModel ??= PaginationDataModel<T>(model);
+
+    data = paginationDataModel?.fromJson(json['data']);
+  }
+
+  _getCode(Map<String, dynamic> json) {
+    errCode = Caster(json['errCode']).toInt();
+    errMessage = Caster(json['errMessage']).toString();
   }
 
   bool isError() {
     return errCode > 0 ? true : false;
   }
 
-  @override
   Map<String, dynamic> toJson() => {
         'errCode': errCode,
         'errMessage': errMessage,

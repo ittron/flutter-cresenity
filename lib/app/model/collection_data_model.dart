@@ -138,4 +138,10 @@ class CollectionDataModel<T> extends AbstractDataModel {
     String keyString = Caster(key).toString();
     _items[keyString] = value;
   }
+
+  @override
+  fromJson(Map<String, dynamic> json) {
+    // TODO: implement fromJson
+    throw UnimplementedError();
+  }
 }

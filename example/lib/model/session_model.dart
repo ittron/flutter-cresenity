@@ -12,4 +12,10 @@ class SessionModel extends AbstractDataModel {
       'sessionId': sessionId,
     };
   }
+
+  @override
+  fromJson(Map<String, dynamic> json) {
+    // TODO: implement fromJson
+    throw UnimplementedError();
+  }
 }

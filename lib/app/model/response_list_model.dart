@@ -36,4 +36,10 @@ class ResponseListModel<T extends AbstractDataModel> implements AbstractModel {
         'errMessage': errMessage,
         'data': data.map((e) => e.toJson()).toList(),
       };
+
+  @override
+  fromJson(Map<String, dynamic> json) {
+    // TODO: implement fromJson
+    throw UnimplementedError();
+  }
 }

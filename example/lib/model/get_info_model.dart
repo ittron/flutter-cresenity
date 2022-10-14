@@ -15,4 +15,10 @@ class GetInfoModel extends AbstractDataModel {
       'ipAddress': ipAddress,
     };
   }
+
+  @override
+  fromJson(Map<String, dynamic> json) {
+    // TODO: implement fromJson
+    throw UnimplementedError();
+  }
 }

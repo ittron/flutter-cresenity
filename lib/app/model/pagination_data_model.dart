@@ -1,36 +1,47 @@
-import 'package:flutter_cresenity/app/model/abstract_data_model.dart';
-import 'package:flutter_cresenity/app/model/model_factory.dart';
-import 'package:flutter_cresenity/helper/arr.dart';
-import 'package:flutter_cresenity/support/array.dart';
+import 'package:flutter_cresenity/support/caster.dart';
 
-class PaginationDataModel<T extends AbstractDataModel>
-    extends AbstractDataModel {
+import 'abstract_model.dart';
+
+class PaginationDataModel<T extends AbstractModel> {
   int total = 0;
   int lastPage = 0;
   int perPage = 10;
   int currentPage = 1;
-  Array<T> items = Array<T>();
 
-  PaginationDataModel() {
+  late AbstractModel model;
+
+  List<T> items = List<T>.empty(growable: true);
+
+  PaginationDataModel(this.model) {
     reset();
   }
 
-  PaginationDataModel.fromJson(Map? map, [Function? factoryBuilder]) {
-    total = Arr.getInt(map, "total");
-    lastPage = Arr.getInt(map, "lastPage");
-    perPage = Arr.getInt(map, "perPage");
-    currentPage = Arr.getInt(map, "currentPage");
+  fromJson(Map<String, dynamic> map) {
+    _getPagination(map);
 
-    items = new Array<T>();
-    factoryBuilder = ModelFactory.instance().resolveBuilder(T, factoryBuilder);
-    Arr.getArray(map, "items").forEach((element) {
-      items.add(factoryBuilder!(element));
-    });
+    if (currentPage > 1) {
+      merge(map);
+    } else {
+      items = List<T>.from(map['items'].map((e) => model.fromJson(e)));
+    }
+  }
+
+  merge(Map<String, dynamic> map) {
+    _getPagination(map);
+
+    items.addAll(List<T>.from(map['items'].map((e) => model.fromJson(e))));
+  }
+
+  _getPagination(Map<String, dynamic> map) {
+    total = Caster(map['total']).toInt();
+    lastPage = Caster(map['lastPage']).toInt();
+    perPage = Caster(map['perPage']).toInt();
+    currentPage = Caster(map['currentPage']).toInt();
   }
 
   void reset() {
-    currentPage = 0;
-    items = Array();
+    currentPage = 1;
+    items = List<T>.empty(growable: true);
   }
 
   updateFromModel(PaginationDataModel<T> model) {
@@ -38,27 +49,12 @@ class PaginationDataModel<T extends AbstractDataModel>
     lastPage = model.lastPage;
     perPage = model.perPage;
     currentPage = model.currentPage;
-    items.merge(model.items);
-  }
-
-  updateFromJson(Map map) {
-    total = Arr.getInt(map, "total");
-    lastPage = Arr.getInt(map, "lastPage");
-    perPage = Arr.getInt(map, "perPage");
-    currentPage = Arr.getInt(map, "currentPage");
-    items.merge(Arr.getArray(map, "items"));
+    items.addAll(model.items);
   }
 
   int remainPage() {
     return lastPage - currentPage;
   }
 
-  @override
-  Map<String, dynamic> toJson() => {
-        "total": total,
-        "lastPage": lastPage,
-        "perPage": perPage,
-        "currentPage": currentPage,
-        "items": items.map((e) => e.toJson()).toList()
-      };
+  Map<String, dynamic> toJson() => {"total": total, "lastPage": lastPage, "perPage": perPage, "currentPage": currentPage, "items": items.map((e) => e.toJson()).toList()};
 }

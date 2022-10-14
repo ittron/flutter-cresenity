@@ -19,8 +19,8 @@ class ResponsePaginationModel<T extends AbstractDataModel>
     errCode = Arr.getInt(json, 'errCode');
     errMessage = Arr.getString(json, 'errMessage');
     factoryBuilder = ModelFactory.instance().resolveBuilder(T, factoryBuilder);
-    data = PaginationDataModel<T>.fromJson(
-        Arr.getMap(json, 'data'), factoryBuilder);
+    // data = PaginationDataModel<T>.fromJson(
+    //     Arr.getMap(json, 'data'), factoryBuilder);
   }
 
   bool isError() {
@@ -33,4 +33,10 @@ class ResponsePaginationModel<T extends AbstractDataModel>
         'errMessage': errMessage,
         'data': data?.toJson(),
       };
+
+  @override
+  fromJson(Map<String, dynamic> json) {
+    // TODO: implement fromJson
+    throw UnimplementedError();
+  }
 }
